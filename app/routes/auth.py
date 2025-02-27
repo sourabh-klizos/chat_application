@@ -1,10 +1,10 @@
 from fastapi import APIRouter, HTTPException, status, Depends, Query, Request
-from app.models.user import UserRequestModel ,UserLoginModel ,UserResponseModel
+from app.models.user import UserRequestModel, UserLoginModel, UserResponseModel
 from pymongo.collection import Collection
-from app.utils.hashing import  get_hashed_password , verify_password
-from app.utils.convert_bson_id_str import convert_objectids_list ,convert_objectid
+from app.utils.hashing import get_hashed_password, verify_password
+from app.utils.convert_bson_id_str import convert_objectids_list, convert_objectid
 from datetime import datetime
-from app.utils.jwt_handler import create_access_token , create_refresh_token
+from app.utils.jwt_handler import create_access_token, create_refresh_token
 from app.database.db import get_db
 from typing import List
 
@@ -39,12 +39,12 @@ async def create_user(
             )
 
         if username_already_exists:
-    
+
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,
                 detail={
                     "message": "User already exists with this username",
-                }
+                },
             )
 
         user_dict["created_at"] = datetime.now()
@@ -65,16 +65,11 @@ async def create_user(
         )
 
 
-
-
-
-
-
-
 @auth_routes.post(
-    "/login", status_code=status.HTTP_200_OK,
+    "/login",
+    status_code=status.HTTP_200_OK,
 )
-async def user_login(user_credential:UserLoginModel, db=Depends(get_db)):
+async def user_login(user_credential: UserLoginModel, db=Depends(get_db)):
 
     try:
         user_collection: Collection = db["users"]
@@ -103,7 +98,11 @@ async def user_login(user_credential:UserLoginModel, db=Depends(get_db)):
 
         access_token = await create_access_token(user_id)
         refresh_token = await create_refresh_token(user_id=user_id, db=db)
-        response = {"access_token": access_token, "refresh_token": refresh_token, "user_id" :user_id}
+        response = {
+            "access_token": access_token,
+            "refresh_token": refresh_token,
+            "user_id": user_id,
+        }
         return response
 
     except HTTPException as http_error:
@@ -117,11 +116,6 @@ async def user_login(user_credential:UserLoginModel, db=Depends(get_db)):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"An unexpected error occurred: {str(e)}",
         )
-    
-
-
-
-
 
 
 @auth_routes.get(
@@ -134,7 +128,7 @@ async def retrive_active_users(db=Depends(get_db)):
     try:
         user_collection: Collection = db["users"]
         users_cursor = user_collection.find({}, {"password": 0})
-        users_list = await  users_cursor.to_list()
+        users_list = await users_cursor.to_list()
         users = await convert_objectids_list(users_list)
         return users
 
@@ -150,4 +144,3 @@ async def retrive_active_users(db=Depends(get_db)):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"An unexpected error occurred: {str(e)}",
         )
-
