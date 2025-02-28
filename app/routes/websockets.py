@@ -142,14 +142,24 @@ async def message_handler(message_data):
     print(f"Received message: {message_data.decode('utf-8')}")
 
     
+# from fastapi import WebSocket, WebSocketDisconnect, Depends
+# import asyncio
+# import json
+# from datetime import datetime
+# from pymongo.collection import Collection
+# from pymongo.errors import PyMongoError
 
+# active_connections = {}
 
 @ws_routes.websocket("/{i}/{other}")
 async def websocket_endpoint(
     websocket: WebSocket, i: str, other: str, db=Depends(get_db)
 ):
-
+    print("======================================================")
+    
     chat_collection: Collection = db["chats"]
+    
+    # Determine the group from the provided parameters
     group = None
     if (i and other) and (other != "null"):
         group: str = i + other
@@ -157,37 +167,48 @@ async def websocket_endpoint(
 
     await websocket.accept()
 
-
-
-    # await get_redis_client_pubsub(group)
+    # Get Redis Pub/Sub client
     client = await get_redis_client_pubsub()
     pubsub = client.pubsub()
+    channel = f"chat:{group}"
+    
+    # Subscribe to the channel
+    await pubsub.subscribe(channel)
 
-    await pubsub.subscribe(group)
+    # This function listens for messages from Redis and sends them to all connected clients in the group
+    async def listen_for_messages(pubsub, group):
+        async for message in pubsub.listen():
+            if message["type"] == "message":
+                # Decode the Redis message data
+                redis_data = message["data"].decode()  # Redis message is in bytes, decode it
+                print(f"Received Redis message: {redis_data}")
+                print("="*50)
 
-    # async def listen_for_messages():
-    #     async for message in pubsub.listen():
-    #         if message["type"] == "message":
-    #             await message_handler(message["data"])
+                # Ensure the group exists in active_connections
+                if group in active_connections:
+                    # Forward the Redis message to all WebSocket clients in the group
+                    await asyncio.gather(
+                        *[conn.send_text(redis_data) for conn in active_connections[group]]
+                    )
+                else:
+                    print(f"Group '{group}' does not have any active connections.")
+        # Run the Redis message listener in the background
 
-    # # Run the listener in the background
-    # listen_task = asyncio.create_task(listen_for_messages())
+    listener_task = asyncio.create_task(listen_for_messages(pubsub, group))
 
-
-
-    if not active_connections.get(group):
-        active_connections[group] = list()
-        active_connections[group].append(websocket)
-    else:
-        active_connections[group].append(websocket)
+    # Track WebSocket connections per group
+    if group not in active_connections:
+        active_connections[group] = []
+    active_connections[group].append(websocket)
 
     try:
         while True:
-
+            # Wait for a new message from the WebSocket client
             data = await websocket.receive_text()
             json_data = json.loads(data)
+            
+            # Insert the message into the MongoDB collection
             try:
-
                 await chat_collection.insert_one(
                     {
                         "sender_id": json_data["sender_id"],
@@ -198,12 +219,27 @@ async def websocket_endpoint(
                 )
             except PyMongoError as e:
                 print(f"An error occurred while inserting the document: {e}")
+
+            # Publish the message to the Redis channel
+            await client.publish(channel, json.dumps(data))
+
+            # Send the message to all other WebSocket clients in the group
             await asyncio.gather(
-                *[conn.send_text(f"{data}") for conn in active_connections[group]]
+                *[conn.send_text(data) for conn in active_connections[group]]
             )
 
     except WebSocketDisconnect:
+        # Handle WebSocket disconnection: remove the client and unsubscribe from Redis if necessary
         active_connections[group].remove(websocket)
+        if not active_connections[group]:  # Unsubscribe from Redis if no active connections left
+            await pubsub.unsubscribe(channel)
 
     except Exception as e:
-        print(str(e))
+        # General error handling
+        print(f"Unexpected error: {str(e)}")
+
+    finally:
+        # Cleanup: ensure the listener task is canceled and Redis unsubscribe is called
+        listener_task.cancel()
+        await pubsub.unsubscribe(channel)
+        print(f"Unsubscribed from Redis channel: {channel}")
