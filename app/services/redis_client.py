@@ -11,6 +11,8 @@ REDIS_CHANNEL = "chat"
 
 redis_pool: Optional[redis.ConnectionPool] = None
 
+redis_client_pubsub: Optional[redis.Redis] = None
+
 
 async def get_redis_client():
     global redis_pool
@@ -22,40 +24,33 @@ async def get_redis_client():
     return redis.Redis(connection_pool=redis_pool)
 
 
-async def publish_message(channel: str, message: str):
-    client = await get_redis_client()
-    await client.publish(channel, message)
+async def get_redis_client_pubsub():
+    global redis_client_pubsub
+    if redis_client_pubsub is None:
+        redis_client_pubsub = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)
+    return redis_client_pubsub
 
 
-async def subscribe_to_channel(channel: str, message_handler):
-    client = await get_redis_client()
-
-    pubsub = client.pubsub()
-
-    await pubsub.subscribe(channel)
-
-    async for message in pubsub.listen():
-        if message["type"] == "message":
-            await message_handler(message["data"])
+# async def get_redis_pubsub_client():
+#     return redis.from_url(f"redis://{REDIS_HOST}:{REDIS_PORT}", decode_responses=True)
 
 
-async def add_connection_to_group(group: str, connection_id: str):
-    client = await get_redis_client()
-    await client.sadd(f"group:{group}:connections", connection_id)
+# async def subscribe_to_channel(channel: str):
+#     client = await get_redis_client()
 
+#     pubsub = client.pubsub()
 
-async def remove_connection_from_group(group: str, connection_id: str):
-    client = await get_redis_client()
-    await client.srem(f"group:{group}:connections", connection_id)
+#     await pubsub.subscribe(channel)
 
-
-async def get_active_connections(group: str):
-    client = await get_redis_client()
-    return await client.smembers(f"group:{group}:connections")
+#     async for message in pubsub.listen():
+#         if message["type"] == "message":
+#             # await message_handler(message["data"])
+#             await print(message)
 
 
 async def set_online_users(user_id: str, websocket_id, user_data: dict):
     client = await get_redis_client()
+
     online_users = await client.get("online_users")
 
     if online_users is None:
@@ -71,6 +66,7 @@ async def set_online_users(user_id: str, websocket_id, user_data: dict):
 
 async def get_all_online_users():
     client = await get_redis_client()
+
     online_users = await client.get("online_users")
     online_users_list = json.loads(online_users)
     return online_users_list

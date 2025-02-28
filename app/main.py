@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from contextlib import asynccontextmanager
 from app.services.redis_client import get_redis_client
 from app.routes.websockets import ws_routes
+from app.routes.chats import chat_routes
 
 load_dotenv(".env")
 
@@ -32,6 +33,7 @@ app.add_middleware(
 
 app.include_router(ws_routes)
 app.include_router(auth_routes)
+app.include_router(chat_routes)
 
 
 @app.get("/")
