@@ -5,6 +5,9 @@ from uuid import uuid4
 
 from pymongo.collection import Collection
 import os
+from dotenv import load_dotenv
+
+load_dotenv(".env")
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM")

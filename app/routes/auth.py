@@ -71,12 +71,16 @@ async def create_user(
 )
 async def user_login(user_credential: UserLoginModel, db=Depends(get_db)):
 
+
     try:
+        print(user_credential)
         user_collection: Collection = db["users"]
 
         user_dict = user_credential.model_dump()
         email = user_dict["email"].lower()
         password = user_dict.get("password")
+
+  
 
         user_instance = await user_collection.find_one({"email": email})
         if not user_instance:
@@ -85,8 +89,12 @@ async def user_login(user_credential: UserLoginModel, db=Depends(get_db)):
                 detail="Incorrect email or password",
             )
 
+        
+
         hashed_password = user_instance.get("password")
         check_password = await verify_password(password, hashed_password)
+
+
 
         if not check_password:
             raise HTTPException(
@@ -96,13 +104,18 @@ async def user_login(user_credential: UserLoginModel, db=Depends(get_db)):
 
         user_id = str(user_instance.get("_id"))
 
+        
+
         access_token = await create_access_token(user_id)
         refresh_token = await create_refresh_token(user_id=user_id, db=db)
+
+    
         response = {
             "access_token": access_token,
             "refresh_token": refresh_token,
             "user_id": user_id,
         }
+     
         return response
 
     except HTTPException as http_error:

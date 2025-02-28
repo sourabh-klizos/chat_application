@@ -13,12 +13,13 @@ load_dotenv(".env")
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    load_dotenv(".env")
     client = await get_redis_client()
 
     await get_redis_client_pubsub()
 
     yield
-    client.close()
+    await client.close()
 
 
 app = FastAPI(lifespan=lifespan)
