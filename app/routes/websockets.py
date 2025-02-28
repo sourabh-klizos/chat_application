@@ -105,7 +105,6 @@ async def user_status(websocket: WebSocket, user_id: str, db=Depends(get_db)):
                 print("No active websocket connections to send data.")
 
     except WebSocketDisconnect:
-        print("user left ======================")
         await remove_user_online_status(user_id)
         if websocket_id in websocket_connections:
             del websocket_connections[websocket_id]
