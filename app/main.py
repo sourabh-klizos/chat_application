@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.routes.auth import auth_routes
 from dotenv import load_dotenv
 from contextlib import asynccontextmanager
-from app.services.redis_client import get_redis_client
+from app.services.redis_client import get_redis_client , get_redis_client_pubsub
 from app.routes.websockets import ws_routes
 from app.routes.chats import chat_routes
 
@@ -14,6 +14,8 @@ load_dotenv(".env")
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     client = await get_redis_client()
+
+    await get_redis_client_pubsub()
 
     yield
     client.close()

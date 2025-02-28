@@ -137,7 +137,9 @@ async def user_status(websocket: WebSocket, user_id: str, db=Depends(get_db)):
         
 
 
-
+async def message_handler(message_data):
+    # Process the message data
+    print(f"Received message: {message_data.decode('utf-8')}")
 
     
 
@@ -158,18 +160,18 @@ async def websocket_endpoint(
 
 
     # await get_redis_client_pubsub(group)
+    client = await get_redis_client_pubsub()
+    pubsub = client.pubsub()
 
-    # client = await  get_redis_client_pubsub()
+    await pubsub.subscribe(group)
 
-    # pubsub = client.pubsub()
+    # async def listen_for_messages():
+    #     async for message in pubsub.listen():
+    #         if message["type"] == "message":
+    #             await message_handler(message["data"])
 
-    # await pubsub.subscribe(group)
-
-    # async for message in pubsub.listen():
-    #     if message["type"] == "message":
-    #         # await message_handler(message["data"])
-    #         await print(message)
-
+    # # Run the listener in the background
+    # listen_task = asyncio.create_task(listen_for_messages())
 
 
 
@@ -186,7 +188,7 @@ async def websocket_endpoint(
             json_data = json.loads(data)
             try:
 
-                chat_collection.insert_one(
+                await chat_collection.insert_one(
                     {
                         "sender_id": json_data["sender_id"],
                         "receiver_id": json_data["receiver_id"],
