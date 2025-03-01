@@ -4,19 +4,23 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.routes.auth import auth_routes
 from dotenv import load_dotenv
 from contextlib import asynccontextmanager
-from app.services.redis_client import get_redis_client , get_redis_client_pubsub
+from app.services.redis_client import   RedisManager
 from app.routes.websockets import ws_routes
 from app.routes.chats import chat_routes
 
+
 load_dotenv(".env")
+# load_dotenv()
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    load_dotenv(".env")
-    client = await get_redis_client()
 
-    await get_redis_client_pubsub()
+    # client = await get_redis_client()
+
+    # await get_redis_client_pubsub()
+
+    client = await RedisManager.get_redis_client()
 
     yield
     await client.close()
@@ -43,28 +47,3 @@ app.include_router(chat_routes)
 async def main():
     return {"message": "Hello World"}
 
-
-# @app.websocket("/ws/{i}/{other}")
-# async def websocket_endpoint(websocket: WebSocket,i: str, other: str):
-#     gropu = None
-#     if (i and other) and (other != "null"):
-#         gropu:str = i + other
-#         gropu = "".join(sorted(gropu))
-#         print(gropu)
-
-
-#     await websocket.accept()
-
-#     active_connections.append(websocket)
-
-#     try:
-#         while True:
-#             data = await websocket.receive_text()
-#             print(f"Received message: {data}")
-
-#             await asyncio.gather(
-#                 *[connection.send_text(f"{data}") for connection in active_connections]
-#             )
-
-#     except WebSocketDisconnect:
-#         active_connections.remove(websocket)
