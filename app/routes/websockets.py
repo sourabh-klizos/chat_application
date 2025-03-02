@@ -30,6 +30,9 @@ from app.utils.users_status.set_users_online import set_users_status_online
 from app.utils.users_status.broadcast_online_status import update_online_status
 from app.utils.create_unique_group import ChatGroup
 from app.utils.chat_conversations import Conversation
+from app.utils.get_current_logged_in_user import get_current_user_id
+
+
 ws_routes = APIRouter(prefix="/ws")
 
 
@@ -46,10 +49,14 @@ async def handle_incoming_message(group: str, message: str):
 websocket_connections = {}
 
 
-@ws_routes.websocket("/status/{user_id}")
-async def user_status(websocket: WebSocket, user_id: str, db=Depends(get_db)):
+@ws_routes.websocket("/status/")
+async def user_status(websocket: WebSocket,token: str = Query(...)):
     # bson_id = ObjectId(user_id)
     # user_collection: Collection = db["users"]
+
+
+    user_id =  await get_current_user_id(token)
+
     await websocket.accept()
     websocket_id = str(id(websocket))
     websocket_connections[websocket_id] = websocket
@@ -165,13 +172,15 @@ async def message_handler(message_data):
 
 
 
-@ws_routes.websocket("/{i}/{other}")
+@ws_routes.websocket("/{other}/")
 async def websocket_endpoint(
-    websocket: WebSocket, i: str, other: str, db=Depends(get_db)
+    websocket: WebSocket, other: str, 
+    token: str = Query(...)
 ):
 
-    
-    chat_collection: Collection = db["chats"]
+    current_user = await get_current_user_id(token)
+    # print(new_user_id, i, "current and i========================================")
+    # chat_collection: Collection = db["chats"]
     
     # Determine the group from the provided parameters
     # group = None
@@ -180,7 +189,7 @@ async def websocket_endpoint(
     #     group = "".join(sorted(group))
 
 
-    group = await ChatGroup.create_unique_group(i,other)
+    group = await ChatGroup.create_unique_group(current_user,other)
     await websocket.accept()
 
  

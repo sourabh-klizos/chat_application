@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, status, Depends
 
 from pymongo.collection import Collection
 from app.utils.convert_bson_id_str import convert_objectids_list, convert_objectid
-
+from app.utils.get_current_logged_in_user import get_current_user_id
 from app.database.db import get_db
 from app.utils.chat_conversations import Conversation
 
@@ -11,18 +11,19 @@ chat_routes = APIRouter(prefix="/api/v1/chat", tags=["chat"])
 
 
 @chat_routes.get(
-    "/history/{user_1}/{user_2}",
+    "/history/{other_user_id}",
     status_code=status.HTTP_200_OK,
 )
 async def get_chat_history(
-    user_1: str,
-    user_2: str,
-    db=Depends(get_db),
+    other_user_id: str,
+    current_user = Depends(get_current_user_id)
 ):
+    # # current_user = 
+    # print(current_user, "==============================", other_user_id)
 
     try:
 
-        chat_history = await Conversation.get_chat_history(user_1, user_2)
+        chat_history = await Conversation.get_chat_history(current_user, other_user_id)
 
         # chat_collection: Collection = db["chats"]
 
