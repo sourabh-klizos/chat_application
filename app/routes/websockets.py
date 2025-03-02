@@ -17,7 +17,7 @@ from pymongo.collection import Collection
 from bson import ObjectId
 import json
 
-from app.services.redis_client import subscribe_and_listen, publish_message
+
 
 
 from app.utils.users_status.set_user_offline import set_user_offline
@@ -103,20 +103,22 @@ async def websocket_endpoint(websocket: WebSocket, other: str, token: str = Quer
 
     if group not in active_connections:
         active_connections[group] = []
+        listener_task = asyncio.create_task(RedisWebSocketManager.subscribe_and_listen(group, active_connections[group]))
+    else:
+        listener_task = None  # No need to start a new listener
+
     active_connections[group].append(websocket)
 
-    listener_task = asyncio.create_task(RedisWebSocketManager.subscribe_and_listen(group, active_connections[group]))
+    # listener_task = asyncio.create_task(RedisWebSocketManager.subscribe_and_listen(group, active_connections[group]))
 
     # asyncio.run(asyncio.gather(RedisWebSocketManager.subscribe_and_listen(group, active_connections[group])))
     
 
     try:
         while True:
-            try:
-                data = await websocket.receive_text()
-            except WebSocketDisconnect:
-                print(f"WebSocket disconnected for group {group}")
-                break  # Exit loop
+     
+            data = await websocket.receive_text()
+           
 
             # data = await websocket.receive_text()
 
@@ -137,21 +139,40 @@ async def websocket_endpoint(websocket: WebSocket, other: str, token: str = Quer
     except WebSocketDisconnect:
         # active_connections[group].remove(websocket)
         print(f"Unexpected error: 1111============== ")
+        print(active_connections[group],"======================")
         pass
 
     except Exception as e:
         print(f"Unexpected error: {str(e)}")
+        
     
     finally:
-        
+        print("------------------------------------after unexpected")
+
+        # if websocket in active_connections[group]:  
+        #     active_connections[group].remove(websocket)
+
         # if not active_connections[group]:
-        #     listener_task.cancel()
+        #     if listener_task:  
+        #         listener_task.cancel()
+        #         try:
+        #             await listener_task
+        #         except asyncio.CancelledError:
+        #             print(f"Listener task for {group} was cancelled.")
+
+
         #     del active_connections[group]
-        # pass
-        
-        if websocket in active_connections[group]:  # Ensure removal
+        if websocket in active_connections[group]:
             active_connections[group].remove(websocket)
 
-        if not active_connections[group]:  # If no active connections remain
-            listener_task.cancel()  # Stop the Redis listener
+
+        if not active_connections[group] and listener_task:
+            listener_task.cancel()
+            try:
+                await listener_task  
+            except asyncio.CancelledError:
+                print(f"Listener task for {group} was cancelled.")
+
+
+        if not active_connections[group]:
             del active_connections[group]

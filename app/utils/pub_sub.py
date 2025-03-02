@@ -15,10 +15,12 @@ class RedisWebSocketManager:
 
         try:
             async for message in pubsub.listen():
+
+
+                if not connected_websockets: # if no user in connected list break
+                    break
+
                 if message["type"] == "message":
-                    print(f"Received: {message['data']}")
-                    print("=======================================")
-                    print(connected_websockets)
                     data = message['data']
 
                     await Conversation.insert_chat(data)
