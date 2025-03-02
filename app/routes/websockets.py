@@ -17,6 +17,8 @@ from pymongo.collection import Collection
 from bson import ObjectId
 import json
 
+from app.services.redis_client import subscribe_and_listen, publish_message
+
 
 from app.utils.users_status.set_user_offline import set_user_offline
 from app.utils.users_status.set_users_online import set_users_status_online
@@ -24,7 +26,8 @@ from app.utils.users_status.broadcast_online_status import update_online_status
 from app.utils.create_unique_group import ChatGroup
 from app.utils.chat_conversations import Conversation
 from app.utils.get_current_logged_in_user import get_current_user_id
-
+from app.services.redis_client import RedisManager
+from app.utils.pub_sub import RedisWebSocketManager
 
 ws_routes = APIRouter(prefix="/ws")
 
@@ -102,23 +105,53 @@ async def websocket_endpoint(websocket: WebSocket, other: str, token: str = Quer
         active_connections[group] = []
     active_connections[group].append(websocket)
 
+    listener_task = asyncio.create_task(RedisWebSocketManager.subscribe_and_listen(group, active_connections[group]))
+
+    # asyncio.run(asyncio.gather(RedisWebSocketManager.subscribe_and_listen(group, active_connections[group])))
+    
+
     try:
         while True:
-
-            data = await websocket.receive_text()
             try:
+                data = await websocket.receive_text()
+            except WebSocketDisconnect:
+                print(f"WebSocket disconnected for group {group}")
+                break  # Exit loop
 
-                await Conversation.insert_chat(data)
+            # data = await websocket.receive_text()
 
-            except PyMongoError as e:
-                print(f"An error occurred while inserting the document: {e}")
+            await RedisWebSocketManager.publish_message(group, data)
 
-            await asyncio.gather(
-                *[conn.send_text(data) for conn in active_connections[group]]
-            )
+
+            # try:
+
+            #     await Conversation.insert_chat(data)
+
+            # except PyMongoError as e:
+            #     print(f"An error occurred while inserting the document: {e}")
+
+            # await asyncio.gather(
+            #     *[conn.send_text(data) for conn in active_connections[group]]
+            # )
 
     except WebSocketDisconnect:
-        active_connections[group].remove(websocket)
+        # active_connections[group].remove(websocket)
+        print(f"Unexpected error: 1111============== ")
+        pass
 
     except Exception as e:
         print(f"Unexpected error: {str(e)}")
+    
+    finally:
+        
+        # if not active_connections[group]:
+        #     listener_task.cancel()
+        #     del active_connections[group]
+        # pass
+        
+        if websocket in active_connections[group]:  # Ensure removal
+            active_connections[group].remove(websocket)
+
+        if not active_connections[group]:  # If no active connections remain
+            listener_task.cancel()  # Stop the Redis listener
+            del active_connections[group]

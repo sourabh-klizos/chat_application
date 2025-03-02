@@ -21,9 +21,12 @@ async def lifespan(app: FastAPI):
     # await get_redis_client_pubsub()
 
     client = await RedisManager.get_redis_client()
+    redis_pubsub = await RedisManager.get_pubsub_client()
+
 
     yield
     await client.close()
+    await redis_pubsub.close()
 
 
 app = FastAPI(lifespan=lifespan)
