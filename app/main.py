@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.routes.auth import auth_routes
 from dotenv import load_dotenv
 from contextlib import asynccontextmanager
-from app.services.redis_client import   RedisManager
+from app.services.redis_client import RedisManager
 from app.routes.websockets import ws_routes
 from app.routes.chats import chat_routes
 
@@ -46,4 +46,3 @@ app.include_router(chat_routes)
 @app.get("/")
 async def main():
     return {"message": "Hello World"}
-

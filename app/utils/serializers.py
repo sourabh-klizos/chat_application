@@ -1,4 +1,3 @@
-
 from bson import ObjectId
 
 
@@ -21,4 +20,6 @@ class Serializers:
         :param documents: List of MongoDB documents (dicts)
         :return: List of documents with string id
         """
-        return [await Serializers.convert_id_to_string(document) for document in documents]
+        return [
+            await Serializers.convert_id_to_string(document) for document in documents
+        ]

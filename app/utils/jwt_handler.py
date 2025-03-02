@@ -12,8 +12,6 @@ from dotenv import load_dotenv
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM")
 
-print(f"jwt ================= {SECRET_KEY} {ALGORITHM}")
-
 
 async def create_access_token(user_id: str, minutes: int = None) -> dict:
 

@@ -1,12 +1,15 @@
 from fastapi import APIRouter, HTTPException, status, Depends, Query, Request
 from app.models.user import UserRequestModel, UserLoginModel, UserResponseModel
 from pymongo.collection import Collection
-from app.utils.hashing import get_hashed_password, verify_password
-from app.utils.convert_bson_id_str import convert_objectids_list, convert_objectid
+
+# from app.utils.hashing import get_hashed_password, verify_password
+from app.utils.hashing import PasswordUtils
 from datetime import datetime
 from app.utils.jwt_handler import create_access_token, create_refresh_token
 from app.database.db import get_db
 from typing import List
+
+from app.utils.serializers import Serializers
 
 auth_routes = APIRouter(prefix="/api/v1/auth", tags=["user"])
 
@@ -48,7 +51,10 @@ async def create_user(
             )
 
         user_dict["created_at"] = datetime.now()
-        user_dict["password"] = await get_hashed_password(user_dict["password"])
+        # user_dict["password"] = await get_hashed_password(user_dict["password"])
+        user_dict["password"] = await PasswordUtils.get_hashed_password(
+            user_dict["password"]
+        )
 
         await user_collection.insert_one(user_dict)
         return {"message": "User account created successfully."}
@@ -71,7 +77,6 @@ async def create_user(
 )
 async def user_login(user_credential: UserLoginModel, db=Depends(get_db)):
 
-
     try:
         print(user_credential)
         user_collection: Collection = db["users"]
@@ -80,8 +85,6 @@ async def user_login(user_credential: UserLoginModel, db=Depends(get_db)):
         email = user_dict["email"].lower()
         password = user_dict.get("password")
 
-  
-
         user_instance = await user_collection.find_one({"email": email})
         if not user_instance:
             raise HTTPException(
@@ -89,12 +92,8 @@ async def user_login(user_credential: UserLoginModel, db=Depends(get_db)):
                 detail="Incorrect email or password",
             )
 
-        
-
         hashed_password = user_instance.get("password")
-        check_password = await verify_password(password, hashed_password)
-
-
+        check_password = await PasswordUtils.verify_password(password, hashed_password)
 
         if not check_password:
             raise HTTPException(
@@ -104,18 +103,15 @@ async def user_login(user_credential: UserLoginModel, db=Depends(get_db)):
 
         user_id = str(user_instance.get("_id"))
 
-        
-
         access_token = await create_access_token(user_id)
         refresh_token = await create_refresh_token(user_id=user_id, db=db)
 
-    
         response = {
             "access_token": access_token,
             "refresh_token": refresh_token,
             "user_id": user_id,
         }
-     
+
         return response
 
     except HTTPException as http_error:
@@ -142,7 +138,8 @@ async def retrive_active_users(db=Depends(get_db)):
         user_collection: Collection = db["users"]
         users_cursor = user_collection.find({}, {"password": 0})
         users_list = await users_cursor.to_list()
-        users = await convert_objectids_list(users_list)
+        users = await Serializers.convert_ids_to_strings(users_list)
+
         return users
 
     except HTTPException as http_error:

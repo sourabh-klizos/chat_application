@@ -1,6 +1,3 @@
-
-
-
 class ChatGroup:
 
     @staticmethod
@@ -11,8 +8,6 @@ class ChatGroup:
             group = "".join(sorted(group))
             return group
         return None
-
-
 
 
 # async def create_unique_group(user_a:str, user_b:str):

@@ -3,10 +3,10 @@ from app.services.redis_client import get_all_online_users
 import asyncio
 import json
 
-async def update_online_status(websocket_connections:dict) -> None:
+
+async def update_online_status(websocket_connections: dict) -> None:
 
     try:
-
 
         online_users = await get_all_online_users()
 

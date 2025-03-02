@@ -4,6 +4,7 @@ from datetime import datetime
 from app.database.db import get_db
 import json
 
+
 class Conversation:
     @staticmethod
     async def get_chat_history(user_1, user_2):
@@ -26,7 +27,6 @@ class Conversation:
             chats_list = await cursor.to_list(length=100)
             chats_history = await Serializers.convert_ids_to_strings(chats_list)
             return chats_history
-        
 
     @staticmethod
     async def insert_chat(data: str):
@@ -35,7 +35,7 @@ class Conversation:
 
         async for db in get_db():
             chat_collection: Collection = db["chats"]
-            
+
             chat_message = {
                 "sender_id": json_data["sender_id"],
                 "receiver_id": json_data["receiver_id"],
@@ -43,4 +43,3 @@ class Conversation:
                 "created_at": datetime.now(),
             }
             await chat_collection.insert_one(chat_message)
-
