@@ -1,4 +1,4 @@
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Query, Request, Response
+from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes.auth import auth_routes
 from dotenv import load_dotenv
@@ -10,8 +10,7 @@ from app.services.metrics import HTTP_REQUESTS, get_metrics
 from prometheus_client.exposition import CONTENT_TYPE_LATEST
 from app.config import Settings
 
-
-
+settings = Settings()
 load_dotenv(".env")
 
 
@@ -20,6 +19,7 @@ async def lifespan(app: FastAPI):
     client = await RedisManager.get_redis_client()
     yield
     await client.close()
+
 
 app = FastAPI(lifespan=lifespan)
 
@@ -35,6 +35,7 @@ app.include_router(ws_routes)
 app.include_router(auth_routes)
 app.include_router(chat_routes)
 
+
 @app.middleware("http")
 async def add_metrics(request: Request, call_next):
     try:
@@ -42,15 +43,19 @@ async def add_metrics(request: Request, call_next):
         endpoint = request.url.path
         response = await call_next(request)
         status_code = response.status_code
-        HTTP_REQUESTS.labels(method=method, endpoint=endpoint, status_code=str(status_code)).inc()
+        HTTP_REQUESTS.labels(
+            method=method, endpoint=endpoint, status_code=str(status_code)
+        ).inc()
         return response
     except Exception as e:
         print(f"Error in middleware: {e}")
         pass
 
+
 @app.get("/")
 async def main():
     return {"message": "Hello World"}
+
 
 @app.get("/metrics")
 async def metrics():

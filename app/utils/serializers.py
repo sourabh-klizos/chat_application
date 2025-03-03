@@ -16,7 +16,7 @@ class Serializers:
     @staticmethod
     async def convert_ids_to_strings(documents):
         """
-        Convert MongoDB ObjectIds to strings in a list of documents and rename _id to id.
+        Convert MongoDB ObjectIds to strings in a list of documents and rename _id to id.   # noqa
         :param documents: List of MongoDB documents (dicts)
         :return: List of documents with string id
         """

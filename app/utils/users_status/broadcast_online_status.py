@@ -30,5 +30,5 @@ async def update_online_status(websocket_connections: dict) -> None:
                 await asyncio.gather(*tasks)
             else:
                 print("No active websocket connections to send data.")
-    except Exception as e:
+    except Exception as e: # noqa
         pass

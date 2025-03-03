@@ -1,7 +1,5 @@
-
 import asyncio
 from app.services.redis_client import RedisManager
-from app.utils.chat_conversations import Conversation
 
 
 class RedisWebSocketManager:
@@ -16,16 +14,15 @@ class RedisWebSocketManager:
         redis_client = await RedisManager.get_pubsub_client()
         pubsub = redis_client.pubsub()
         await pubsub.subscribe(group)
-        RedisWebSocketManager.active_listeners[group] = pubsub 
+        RedisWebSocketManager.active_listeners[group] = pubsub
         print(f"Subscribed to {group}")
 
         try:
             async for message in pubsub.listen():
                 if message["type"] == "message":
-                    data = message['data']
+                    data = message["data"]
                     print(f"Received: {message} to {group}")
 
-                   
                     await asyncio.gather(
                         *[conn.send_text(data) for conn in connected_websockets]
                     )
@@ -37,7 +34,6 @@ class RedisWebSocketManager:
         finally:
             await pubsub.unsubscribe(group)
             RedisWebSocketManager.active_listeners.pop(group, None)
-  
 
     @staticmethod
     async def publish_message(group: str, message: str):

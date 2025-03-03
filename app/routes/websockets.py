@@ -1,24 +1,14 @@
 from fastapi import (
     APIRouter,
-    HTTPException,
-    status,
-    Depends,
     Query,
-    Request,
     WebSocket,
     WebSocketDisconnect,
 )
 from typing import List, Dict
 import asyncio
-from pymongo.errors import PyMongoError
-from datetime import datetime
-from app.database.db import get_db
-from pymongo.collection import Collection
-from bson import ObjectId
+
 import json
-
-
-
+import traceback
 
 from app.utils.users_status.set_user_offline import set_user_offline
 from app.utils.users_status.set_users_online import set_users_status_online
@@ -26,11 +16,12 @@ from app.utils.users_status.broadcast_online_status import update_online_status
 from app.utils.create_unique_group import ChatGroup
 from app.utils.chat_conversations import Conversation
 from app.utils.get_current_logged_in_user import get_current_user_id
-from app.services.redis_client import RedisManager
 from app.utils.pub_sub import RedisWebSocketManager
-from app.services.metrics import WS_CONNECTIONS_ACTIVE, WS_CONNECTIONS_TOTAL, WS_MESSAGES, WS_MESSAGE_LATENCY
-
-
+from app.services.metrics import (
+    WS_CONNECTIONS_ACTIVE,
+    WS_CONNECTIONS_TOTAL,
+    WS_MESSAGES,
+)
 
 
 ws_routes = APIRouter(prefix="/ws")
@@ -57,7 +48,6 @@ async def user_status(websocket: WebSocket, token: str = Query(...)):
 
     WS_CONNECTIONS_ACTIVE.inc()
     WS_CONNECTIONS_TOTAL.inc()
-
 
     websocket_id = str(id(websocket))
     websocket_connections[websocket_id] = websocket
@@ -98,12 +88,6 @@ async def user_status(websocket: WebSocket, token: str = Query(...)):
         await update_online_status(websocket_connections=websocket_connections)
 
 
-
-
-
-
-import traceback
-
 @ws_routes.websocket("/{other}/")
 async def websocket_endpoint(websocket: WebSocket, other: str, token: str = Query(...)):
     current_user = await get_current_user_id(token)
@@ -114,25 +98,18 @@ async def websocket_endpoint(websocket: WebSocket, other: str, token: str = Quer
     WS_CONNECTIONS_ACTIVE.inc()
     WS_CONNECTIONS_TOTAL.inc()
 
-
     if group not in active_connections:
         active_connections[group] = []
-        listener_task = asyncio.create_task(RedisWebSocketManager.subscribe_and_listen(group, active_connections[group]))
-
+        listener_task = asyncio.create_task(
+            RedisWebSocketManager.subscribe_and_listen(group, active_connections[group])
+        )
 
     active_connections[group].append(websocket)
-
-
-    # if len(active_connections[group]) == 1:
-    #     print(f"{current_user} subscribed to {group}")
-    #     listener_task = asyncio.create_task(RedisWebSocketManager.subscribe_and_listen(group, active_connections[group]))
-
-
-
 
     try:
         while True:
             data = await websocket.receive_text()
+            WS_MESSAGES.inc()
 
             await Conversation.insert_chat(data)
 
@@ -140,7 +117,7 @@ async def websocket_endpoint(websocket: WebSocket, other: str, token: str = Quer
 
     except WebSocketDisconnect:
         WS_CONNECTIONS_ACTIVE.dec()
-        
+
         if websocket in active_connections[group]:
             active_connections[group].remove(websocket)
 
@@ -149,28 +126,15 @@ async def websocket_endpoint(websocket: WebSocket, other: str, token: str = Quer
                 listener_task.cancel()
                 del active_connections[group]
 
-        
-
     except Exception as e:
         print(f"Unexpected error: {str(e)}")
         traceback.format_exc()
 
     finally:
 
-        # if websocket in active_connections[group]:
-        #     active_connections[group].remove(websocket)
-
-        # if websocket in active_connections[group]:
-        #     if len(active_connections[group]) == 0:
-        #         listener_task.cancel()
-
-        # Ensure cleanup even if there's an unexpected error
-
-
         if websocket in active_connections[group]:
             active_connections[group].remove(websocket)
 
-
-        if len(active_connections[group]) == 0 and 'listener_task' in locals():
+        if len(active_connections[group]) == 0 and "listener_task" in locals():
             listener_task.cancel()
-            del active_connections[group] 
+            del active_connections[group]

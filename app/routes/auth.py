@@ -1,8 +1,7 @@
-from fastapi import APIRouter, HTTPException, status, Depends, Query, Request
+from fastapi import APIRouter, HTTPException, status, Depends, Request
 from app.models.user import UserRequestModel, UserLoginModel, UserResponseModel
 from pymongo.collection import Collection
 
-# from app.utils.hashing import get_hashed_password, verify_password
 from app.utils.hashing import PasswordUtils
 from datetime import datetime
 from app.utils.jwt_handler import create_access_token, create_refresh_token
@@ -51,7 +50,6 @@ async def create_user(
             )
 
         user_dict["created_at"] = datetime.now()
-        # user_dict["password"] = await get_hashed_password(user_dict["password"])
         user_dict["password"] = await PasswordUtils.get_hashed_password(
             user_dict["password"]
         )

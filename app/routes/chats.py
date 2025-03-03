@@ -1,9 +1,7 @@
 from fastapi import APIRouter, HTTPException, status, Depends
 
-from pymongo.collection import Collection
-
 from app.utils.get_current_logged_in_user import get_current_user_id
-from app.database.db import get_db
+
 from app.utils.chat_conversations import Conversation
 
 
