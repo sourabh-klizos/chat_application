@@ -4,12 +4,15 @@ from typing import Optional
 import json
 import asyncio
 from dotenv import load_dotenv
+from app.config import Settings
 
+# load_dotenv(".env")
 
-load_dotenv(".env")
+# REDIS_HOST = os.getenv("REDIS_HOST")
+# REDIS_PORT = os.getenv("REDIS_PORT")
 
-REDIS_HOST = os.getenv("REDIS_HOST")
-REDIS_PORT = os.getenv("REDIS_PORT")
+REDIS_HOST = Settings.REDIS_HOST
+REDIS_PORT = Settings.REDIS_PORT
 
 
 print("redis env========================================",REDIS_HOST ,REDIS_PORT )

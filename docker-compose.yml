@@ -73,7 +73,7 @@ services:
     build: .
     container_name: fastapi_app
     ports:
-      - "8000:8000"  # Expose FastAPI on port 8000
+      - "8000:8000"
     volumes:
       - .:/app
     environment:
@@ -128,7 +128,8 @@ services:
     ports:
       - "3000:3000"  # Expose Grafana on port 3000
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin  # Default admin password for Grafana
+      # - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
     depends_on:
       - prometheus
     networks:

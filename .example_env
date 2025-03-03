@@ -1,17 +1,15 @@
+DATABASE_URL = mongodb://localhost:27017/
+DB_NAME = chat_app
 
-DATABASE_URL=mongodb://localhost:27017/
-DB_NAME=chat_app
-
-SECRET_KEY="testsecret"
-ALGORITHM="HS256"
+SECRET_KEY = "bGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+ALGORITHM = "HS256"
 
 
 
 REDIS_HOST="localhost"
 REDIS_PORT=6379
 
-
-
+GF_SECURITY_ADMIN_PASSWORD=admin
 
 
 DATABASE_URL_DOCKER=mongodb://mongo:27017/
@@ -21,7 +19,3 @@ DB_NAME_DOCKER=chat_app
 
 REDIS_HOST_DOCKER=redis_service
 REDIS_PORT_DOCKER=6379
-
-
-
-

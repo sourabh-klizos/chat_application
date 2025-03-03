@@ -8,9 +8,12 @@ from app.routes.websockets import ws_routes
 from app.routes.chats import chat_routes
 from app.services.metrics import HTTP_REQUESTS, get_metrics
 from prometheus_client.exposition import CONTENT_TYPE_LATEST
+from app.config import Settings
+
+
 
 load_dotenv(".env")
-load_dotenv()
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -51,5 +54,4 @@ async def main():
 
 @app.get("/metrics")
 async def metrics():
-    # Generate and return the Prometheus metrics including system usage
     return Response(get_metrics(), media_type=CONTENT_TYPE_LATEST)

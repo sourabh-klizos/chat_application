@@ -5,12 +5,16 @@ from uuid import uuid4
 
 from pymongo.collection import Collection
 import os
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
+from app.config import Settings
 
 # load_dotenv(".env")
 
-SECRET_KEY = os.getenv("SECRET_KEY")
-ALGORITHM = os.getenv("ALGORITHM")
+# SECRET_KEY = os.getenv("SECRET_KEY")
+# ALGORITHM = os.getenv("ALGORITHM")
+
+SECRET_KEY = Settings.SECRET_KEY
+ALGORITHM = Settings.ALGORITHM
 
 
 async def create_access_token(user_id: str, minutes: int = None) -> dict:
