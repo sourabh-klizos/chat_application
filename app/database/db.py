@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 DATABASE_URL = os.getenv("DATABASE_URL")
 DB_NAME = os.getenv("DB_NAME")
 
+print("db =======================", DATABASE_URL, DB_NAME)
 
 async def get_db():
 

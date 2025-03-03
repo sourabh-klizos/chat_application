@@ -3,16 +3,20 @@ import redis.asyncio as redis
 from typing import Optional
 import json
 import asyncio
+from dotenv import load_dotenv
 
+
+load_dotenv(".env")
 
 REDIS_HOST = os.getenv("REDIS_HOST")
 REDIS_PORT = os.getenv("REDIS_PORT")
 
 
+print("redis env========================================",REDIS_HOST ,REDIS_PORT )
 
 class RedisManager:
     _redis_pool: Optional[redis.ConnectionPool] = None
-    _redis_client_pubsub: Optional[redis.Redis] = None
+
 
     @staticmethod
     async def get_redis_client():
