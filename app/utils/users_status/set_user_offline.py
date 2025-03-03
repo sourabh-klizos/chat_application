@@ -11,5 +11,5 @@ async def set_user_offline(
 
         if websocket_id in websocket_connections:
             del websocket_connections[websocket_id]
-    except Exception as e: # noqa
+    except Exception as e:  # noqa
         pass

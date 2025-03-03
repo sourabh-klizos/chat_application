@@ -74,6 +74,6 @@ async def remove_user_online_status(user_id: str) -> None:
     if user_id not in online_users_dict:
         return
 
-    removed_user = online_users_dict.pop(user_id) # noqa
+    removed_user = online_users_dict.pop(user_id)  # noqa
 
     await client.set("online_users", json.dumps(online_users_dict))
