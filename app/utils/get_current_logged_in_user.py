@@ -7,25 +7,32 @@ from app.utils.jwt_handler import decode_jwt
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/v1/auth/login")
 
 
+
 async def get_current_user_id(token: str = Security(oauth2_scheme)):
-    if not token:
+    try:
+        if not token:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Not authenticated",
+            )
+
+        user_details = await decode_jwt(token, "access_token")
+
+        if not user_details:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Not a valid token ",
+            )
+
+        if "user_id" not in user_details:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Not a valid token",
+            )
+
+        return user_details["user_id"]
+    except Exception as e:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Not authenticated",
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"An unexpected error occurred: {str(e)}",
         )
-
-    user_details = await decode_jwt(token, "access_token")
-
-    if not user_details:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Not a valid token ",
-        )
-
-    if "user_id" not in user_details:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Not a valid token",
-        )
-
-    return user_details["user_id"]

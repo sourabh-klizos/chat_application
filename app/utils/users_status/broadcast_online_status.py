@@ -1,4 +1,5 @@
-from app.services.redis_client import get_all_online_users
+# from app.services.redis_client import get_all_online_users
+from app.utils.online_user_manager import OnlineUserManager
 
 import asyncio
 import json
@@ -8,7 +9,7 @@ async def update_online_status(websocket_connections: dict) -> None:
 
     try:
 
-        online_users = await get_all_online_users()
+        online_users = await OnlineUserManager.get_all_online_users()
 
         sockets_ids = list()
         for key, _ in online_users.items():

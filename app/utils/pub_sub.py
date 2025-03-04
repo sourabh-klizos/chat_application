@@ -37,7 +37,11 @@ class RedisWebSocketManager:
 
     @staticmethod
     async def publish_message(group: str, message: str):
-        redis_client = await RedisManager.get_pubsub_client()
-        await redis_client.publish(group, message)
-        print(f"Published: {message} to {group}")
-        await redis_client.close()
+        try:
+
+            redis_client = await RedisManager.get_pubsub_client()
+            await redis_client.publish(group, message)
+            print(f"Published: {message} to {group}")
+            await redis_client.close()
+        except Exception as e:
+            print(f"failed to public messafe {str(e)}")

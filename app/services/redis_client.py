@@ -32,48 +32,48 @@ class RedisManager:
         return redis.Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)
 
 
-async def set_online_users(user_id: str, websocket_id, user_data: dict):
+# async def set_online_users(user_id: str, websocket_id, user_data: dict):
 
-    client = await RedisManager.get_redis_client()
+#     client = await RedisManager.get_redis_client()
 
-    online_users = await client.get("online_users")
+#     online_users = await client.get("online_users")
 
-    if online_users is None:
-        online_users_dict = dict()
-    else:
-        online_users_dict = json.loads(online_users)
+#     if online_users is None:
+#         online_users_dict = dict()
+#     else:
+#         online_users_dict = json.loads(online_users)
 
-    user_data = {"websocket_id": websocket_id, "data": user_data}
-    online_users_dict[user_id] = user_data
+#     user_data = {"websocket_id": websocket_id, "data": user_data}
+#     online_users_dict[user_id] = user_data
 
-    await client.set("online_users", json.dumps(online_users_dict))
-
-
-async def get_all_online_users():
-
-    client = await RedisManager.get_redis_client()
-
-    online_users = await client.get("online_users")
-    if online_users is None:
-        return
-    online_users_list = json.loads(online_users)
-    return online_users_list
+#     await client.set("online_users", json.dumps(online_users_dict))
 
 
-async def remove_user_online_status(user_id: str) -> None:
+# async def get_all_online_users():
 
-    client = await RedisManager.get_redis_client()
+#     client = await RedisManager.get_redis_client()
 
-    online_users = await client.get("online_users")
+#     online_users = await client.get("online_users")
+#     if online_users is None:
+#         return
+#     online_users_list = json.loads(online_users)
+#     return online_users_list
 
-    if online_users is None:
-        return
 
-    online_users_dict = json.loads(online_users)
+# async def remove_user_online_status(user_id: str) -> None:
 
-    if user_id not in online_users_dict:
-        return
+#     client = await RedisManager.get_redis_client()
 
-    removed_user = online_users_dict.pop(user_id)  # noqa
+#     online_users = await client.get("online_users")
 
-    await client.set("online_users", json.dumps(online_users_dict))
+#     if online_users is None:
+#         return
+
+#     online_users_dict = json.loads(online_users)
+
+#     if user_id not in online_users_dict:
+#         return
+
+#     removed_user = online_users_dict.pop(user_id)  # noqa
+
+#     await client.set("online_users", json.dumps(online_users_dict))

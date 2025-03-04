@@ -10,8 +10,12 @@ import asyncio
 import json
 import traceback
 
-from app.utils.users_status.set_user_offline import set_user_offline
+
 from app.utils.users_status.set_users_online import set_users_status_online
+from app.utils.users_status.set_user_offline import set_user_offline 
+
+from app.utils.online_user_manager import OnlineUserManager
+
 from app.utils.users_status.broadcast_online_status import update_online_status
 from app.utils.create_unique_group import ChatGroup
 from app.utils.chat_conversations import Conversation
@@ -74,6 +78,8 @@ async def user_status(websocket: WebSocket, token: str = Query(...)):
                     websocket_id=websocket_id, user_id=user_id
                 )
 
+
+
             await update_online_status(websocket_connections=websocket_connections)
 
     except WebSocketDisconnect:
@@ -89,7 +95,7 @@ async def user_status(websocket: WebSocket, token: str = Query(...)):
 
 
 @ws_routes.websocket("/{other}/")
-async def websocket_endpoint(websocket: WebSocket, other: str, token: str = Query(...)):
+async def websocket_chat(websocket: WebSocket, other: str, token: str = Query(...)):
     current_user = await get_current_user_id(token)
 
     group = await ChatGroup.create_unique_group(current_user, other)

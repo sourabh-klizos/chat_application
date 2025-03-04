@@ -1,4 +1,5 @@
-from app.services.redis_client import remove_user_online_status
+# from app.services.redis_client import remove_user_online_status
+from app.utils.online_user_manager import OnlineUserManager
 
 
 async def set_user_offline(
@@ -7,7 +8,7 @@ async def set_user_offline(
 
     try:
 
-        await remove_user_online_status(user_id)
+        await OnlineUserManager.remove_user_online_status(user_id)
 
         if websocket_id in websocket_connections:
             del websocket_connections[websocket_id]
