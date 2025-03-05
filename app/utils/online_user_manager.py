@@ -58,4 +58,6 @@ class OnlineUserManager:
 
             await client.set("online_users", json.dumps(online_users_dict))
         except Exception as e:
-            raise Exception(f"Error occurred while removing user online status: {str(e)}")
+            raise Exception(
+                f"Error occurred while removing user online status: {str(e)}"
+            )

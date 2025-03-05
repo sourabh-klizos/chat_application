@@ -11,6 +11,7 @@ from app.config import Settings
 SECRET_KEY = Settings.SECRET_KEY
 ALGORITHM = Settings.ALGORITHM
 
+
 async def create_access_token(user_id: str, minutes: int = None) -> dict:
     try:
         if not minutes:
@@ -29,8 +30,6 @@ async def create_access_token(user_id: str, minutes: int = None) -> dict:
         return access_token
     except Exception as e:
         raise Exception(f"Error occurred while creating the access token: {str(e)}")
-    
-
 
 
 async def create_refresh_token(user_id: str, db, hours: int = None) -> dict:
@@ -38,7 +37,7 @@ async def create_refresh_token(user_id: str, db, hours: int = None) -> dict:
         refresh_token_collection: Collection = db["refresh_tokens"]
 
         if not hours:
-            hours = 24 * 7 
+            hours = 24 * 7
 
         payload_to_encode = {
             "user_id": user_id,
@@ -50,7 +49,6 @@ async def create_refresh_token(user_id: str, db, hours: int = None) -> dict:
 
         refresh_token = jwt.encode(payload_to_encode, SECRET_KEY, ALGORITHM)
 
-  
         condition = {"user_id": user_id}
         update = {
             "$set": {
@@ -59,12 +57,13 @@ async def create_refresh_token(user_id: str, db, hours: int = None) -> dict:
             }
         }
 
-        await refresh_token_collection.find_one_and_update(condition, update, upsert=True)
+        await refresh_token_collection.find_one_and_update(
+            condition, update, upsert=True
+        )
 
         return refresh_token
     except Exception as e:
         raise Exception(f"Error occurred while creating the refresh token: {str(e)}")
-
 
 
 async def decode_jwt(access_token: str, token_type: str) -> dict:

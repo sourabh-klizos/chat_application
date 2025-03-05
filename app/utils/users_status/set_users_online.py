@@ -1,7 +1,7 @@
 # from app.services.redis_client import set_online_users
 from app.utils.online_user_manager import OnlineUserManager
 from app.database.db import get_db
-from pymongo.collection import Collection
+# from pymongo.collection import Collection
 from bson import ObjectId
 from app.utils.serializers import Serializers
 
@@ -27,7 +27,6 @@ async def set_users_status_online(user_id, websocket_id):
             await OnlineUserManager.set_online_users(
                 user_id, websocket_id, user_details_dict
             )
-            
 
     except errors.PyMongoError as e:
         print(f"Database error occurred: {e}")

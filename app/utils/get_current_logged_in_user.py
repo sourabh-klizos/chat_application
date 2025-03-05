@@ -7,7 +7,6 @@ from app.utils.jwt_handler import decode_jwt
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/v1/auth/login")
 
 
-
 async def get_current_user_id(token: str = Security(oauth2_scheme)):
     try:
         if not token:

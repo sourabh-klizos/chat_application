@@ -1,5 +1,6 @@
 import bcrypt
 
+
 class PasswordUtils:
     @staticmethod
     async def get_hashed_password(password: str) -> bytes:

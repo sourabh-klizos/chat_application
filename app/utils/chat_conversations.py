@@ -4,6 +4,7 @@ from datetime import datetime
 from app.database.db import get_db
 import json
 
+
 class Conversation:
     @staticmethod
     async def get_chat_history(user_1, user_2):
@@ -24,7 +25,7 @@ class Conversation:
                     ]
                 }
                 cursor = chat_collection.find(query).sort("created_at", 1)
-                chats_list = await cursor.to_list(length = None)
+                chats_list = await cursor.to_list(length=None)
                 chats_history = await Serializers.convert_ids_to_strings(chats_list)
                 return chats_history
         except Exception as e:

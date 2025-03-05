@@ -13,4 +13,3 @@ class ChatGroup:
             # Handle any exceptions that may occur during group creation
             print(f"Error occurred while creating the unique group: {e}")
             return None
-

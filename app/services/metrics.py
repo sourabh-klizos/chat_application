@@ -26,12 +26,16 @@
 
 
 # WS_CONNECTIONS_ACTIVE = Gauge(
-#     "ws_connections_active", "Number of active WebSocket connections", registry=REGISTRY
+#     "ws_connections_active",
+#  "Number of active WebSocket connections",
+#        registry=REGISTRY
 # )
 
 
 # WS_CONNECTIONS_TOTAL = Counter(
-#     "ws_connections_total", "Total WebSocket Connections", registry=REGISTRY
+#     "ws_connections_total",
+#  "Total WebSocket Connections",
+#  registry=REGISTRY
 # )
 
 
@@ -86,10 +90,13 @@
 #     registry=REGISTRY,
 # )
 # WS_CONNECTIONS_ACTIVE = Gauge(
-#     "ws_connections_active", "Number of active WebSocket connections", registry=REGISTRY
+#     "ws_connections_active",
+#  "Number of active WebSocket connections",
+#  registry=REGISTRY
 # )
 # WS_CONNECTIONS_TOTAL = Counter(
-#     "ws_connections_total", "Total WebSocket Connections", registry=REGISTRY
+#     "ws_connections_total",
+#  "Total WebSocket Connections", registry=REGISTRY
 # )
 # WS_MESSAGE_LATENCY = Histogram(
 #     "ws_message_latency_seconds",
@@ -110,21 +117,35 @@
 # CPU_LOAD_15M = Gauge("cpu_load_15m", "CPU load average (15 min)", registry=REGISTRY)
 
 # ## Memory Metrics
-# MEMORY_USAGE = Gauge("memory_usage_percent", "Memory usage percentage", registry=REGISTRY)
-# MEMORY_AVAILABLE = Gauge("memory_available_bytes", "Available memory in bytes", registry=REGISTRY)
+# MEMORY_USAGE = Gauge(
+#     "memory_usage_percent", "Memory usage percentage", registry=REGISTRY
+# )
+# MEMORY_AVAILABLE = Gauge(
+#     "memory_available_bytes", "Available memory in bytes", registry=REGISTRY
+# )
 # SWAP_USAGE = Gauge("swap_usage_percent", "Swap usage percentage", registry=REGISTRY)
 
 # ## Disk Metrics
 # DISK_USAGE = Gauge("disk_usage_percent", "Disk usage percentage", registry=REGISTRY)
-# DISK_READ_BYTES = Gauge("disk_read_bytes", "Total bytes read from disk", registry=REGISTRY)
-# DISK_WRITE_BYTES = Gauge("disk_write_bytes", "Total bytes written to disk", registry=REGISTRY)
+# DISK_READ_BYTES = Gauge(
+#     "disk_read_bytes", "Total bytes read from disk", registry=REGISTRY
+# )
+# DISK_WRITE_BYTES = Gauge(
+#     "disk_write_bytes", "Total bytes written to disk", registry=REGISTRY
+# )
 
 # ## Network Metrics
-# NETWORK_SENT = Gauge("network_sent_bytes", "Total bytes sent over network", registry=REGISTRY)
-# NETWORK_RECEIVED = Gauge("network_received_bytes", "Total bytes received over network", registry=REGISTRY)
+# NETWORK_SENT = Gauge(
+#     "network_sent_bytes", "Total bytes sent over network", registry=REGISTRY
+# )
+# NETWORK_RECEIVED = Gauge(
+#     "network_received_bytes", "Total bytes received over network", registry=REGISTRY
+# )
 
 # ## Process Metrics
-# RUNNING_PROCESSES = Gauge("running_processes", "Number of running processes", registry=REGISTRY)
+# RUNNING_PROCESSES = Gauge(
+#     "running_processes", "Number of running processes", registry=REGISTRY
+# )
 
 
 # def get_metrics():
