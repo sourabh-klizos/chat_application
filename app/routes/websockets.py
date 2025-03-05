@@ -15,7 +15,7 @@ from app.utils.users_status.set_users_online import set_users_status_online
 from app.utils.users_status.set_user_offline import set_user_offline
 
 # from app.utils.online_user_manager import OnlineUserManager
-
+# from app.services.redis_client import RedisManager
 from app.utils.users_status.broadcast_online_status import update_online_status
 from app.utils.create_unique_group import ChatGroup
 from app.utils.chat_conversations import Conversation
@@ -113,6 +113,7 @@ async def websocket_chat(websocket: WebSocket, other: str, token: str = Query(..
     try:
         while True:
             data = await websocket.receive_text()
+
             WS_MESSAGES.inc()
 
             await Conversation.insert_chat(data)
