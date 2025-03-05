@@ -25,6 +25,7 @@ from app.services.metrics import (
     WS_CONNECTIONS_ACTIVE,
     WS_CONNECTIONS_TOTAL,
     WS_MESSAGES,
+
 )
 
 
@@ -41,7 +42,7 @@ async def handle_incoming_message(group: str, message: str):
         )
 
 
-websocket_connections = {}
+websocket_connections: Dict[str, WebSocket] = dict()
 
 
 @ws_routes.websocket("/status/")
@@ -102,6 +103,7 @@ async def websocket_chat(websocket: WebSocket, other: str, token: str = Query(..
     WS_CONNECTIONS_ACTIVE.inc()
     WS_CONNECTIONS_TOTAL.inc()
 
+
     if group not in active_connections:
         active_connections[group] = []
         listener_task = asyncio.create_task(
@@ -121,7 +123,7 @@ async def websocket_chat(websocket: WebSocket, other: str, token: str = Query(..
             await RedisWebSocketManager.publish_message(group, data)
 
     except WebSocketDisconnect:
-        WS_CONNECTIONS_ACTIVE.dec()
+        # WS_CONNECTIONS_ACTIVE.dec()
 
         if websocket in active_connections[group]:
             active_connections[group].remove(websocket)
@@ -136,6 +138,7 @@ async def websocket_chat(websocket: WebSocket, other: str, token: str = Query(..
         traceback.format_exc()
 
     finally:
+        WS_CONNECTIONS_ACTIVE.dec()
 
         if websocket in active_connections[group]:
             active_connections[group].remove(websocket)

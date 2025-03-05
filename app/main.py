@@ -43,9 +43,7 @@ async def add_metrics(request: Request, call_next):
         endpoint = request.url.path
         response = await call_next(request)
         status_code = response.status_code
-        HTTP_REQUESTS.labels(
-            method=method, endpoint=endpoint, status_code=str(status_code)
-        ).inc()
+        HTTP_REQUESTS.inc()
         return response
     except Exception as e:
         print(f"Error in middleware: {e}")

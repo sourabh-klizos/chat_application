@@ -1,9 +1,9 @@
 import asyncio
 from app.services.redis_client import RedisManager
-
-
+from typing import Dict, Any
+from app.services.metrics import REDIS_CHANNELS_ACTIVE, REDIS_CHANNELS_TOTAL
 class RedisWebSocketManager:
-    active_listeners = {}
+    active_listeners:Dict[str,Any] = dict()
 
     @staticmethod
     async def subscribe_and_listen(group: str, connected_websockets: list):
@@ -11,6 +11,8 @@ class RedisWebSocketManager:
             print(f"Listener already running for group {group}")
             return
 
+        REDIS_CHANNELS_ACTIVE.inc()
+        REDIS_CHANNELS_TOTAL.inc()
         redis_client = await RedisManager.get_pubsub_client()
         pubsub = redis_client.pubsub()
         await pubsub.subscribe(group)
@@ -32,6 +34,7 @@ class RedisWebSocketManager:
         except asyncio.CancelledError:
             print(f"Listener for {group} stopped.")
         finally:
+            REDIS_CHANNELS_ACTIVE.dec()
             await pubsub.unsubscribe(group)
             RedisWebSocketManager.active_listeners.pop(group, None)
 

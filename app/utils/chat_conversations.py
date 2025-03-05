@@ -9,7 +9,7 @@ class Conversation:
     @staticmethod
     async def get_chat_history(user_1, user_2):
         """
-        Retrieve chat history between two users sorted by creation time.
+        Retrieve chat history between two users sorted by created_at time.
         :param db_generator: Async generator for the database connection
         :param user_1: First user ID
         :param user_2: Second user ID
