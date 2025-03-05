@@ -53,13 +53,13 @@ All components (FastAPI, Redis, MongoDB, Prometheus, Grafana) will run in **Dock
 
 ## Setup
 
-### 1. Clone the Repository
+### 1. Clone the Repository Backend
 
 Start by cloning the repository:
 
 ```bash
-git clone https://github.com/yourusername/chatapp.git
-cd chatapp
+git clone https://github.com/sourabh-klizos/chat_application.git
+cd chat_application
 
 ```
 ```bash
@@ -75,8 +75,27 @@ docker-compose up --build
 This should help you quickly get up and running with the application!
 
 
+### 2. Clone the Repository Frontend React
+```bash
+git clone https://github.com/sourabh-klizos/chat_application_frontend.git
+cd chat_application_frontend
 
-### 2. Architecture Overview
+```
+When building the Docker image, you pass the --build-arg parameters to define the backend URL for both HTTP and WebSocket.
+```
+
+docker build --build-arg VITE_API_BASE_URL=http://localhost:8000 \
+             --build-arg VITE_API_BASE_URL_WS=ws://localhost:8000/ws \
+             -t my-vite-app .
+```
+
+This will run your react app on port 8080
+```
+docker run -p 8080:80 my-vite-app
+```
+
+
+### 3. Architecture Overview
 
 The architecture of the chat application is designed to be scalable and efficient. It leverages several technologies to ensure real-time messaging, high availability, and seamless monitoring. Below are the key components and how they work together:
 
@@ -167,7 +186,7 @@ With this design, the chat application can handle a large number of users while 
 
 The chat application is designed with scalability in mind. By leveraging Docker and Docker Compose, you can easily scale different components of the system, ensuring that the application can handle increasing traffic and load.
 
-### 3. Scale FastAPI
+### 4. Scale FastAPI
 
 
 
@@ -183,5 +202,5 @@ services:
   fastapi:
     deploy:
       replicas: 3  # Increase or decrease the number of replicas here
-```
+
 
