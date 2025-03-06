@@ -113,7 +113,7 @@ async def main():
     user_behavior = UserBehavior()
     await user_behavior.on_start()
 
-    await asyncio.gather(*[user_behavior.chat_with_random_user() for _ in range(300)])
+    await asyncio.gather(*[user_behavior.chat_with_random_user() for _ in range(250)])
 
     while True:
         await asyncio.sleep(5)

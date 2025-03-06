@@ -15,13 +15,14 @@ class OnlineUserManager:
             online_users = await client.get("online_users")
 
             if online_users is None:
-                online_users_dict = dict()
+                # online_users_dict = dict()
+                online_users = dict()
             else:
                 online_users_dict = json.loads(online_users)
 
             user_data = {"websocket_id": websocket_id, "data": user_data}
             online_users_dict[user_id] = user_data
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
             await client.set("online_users", json.dumps(online_users_dict))
         except Exception as e:
             raise Exception(f"Error occurred while setting online users: {str(e)}")
