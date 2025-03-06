@@ -19,6 +19,7 @@ from app.utils.users_status.set_user_offline import set_user_offline
 from app.utils.users_status.broadcast_online_status import update_online_status
 from app.utils.create_unique_group import ChatGroup
 from app.utils.chat_conversations import Conversation
+
 # from app.utils.get_current_logged_in_user import get_current_user_id
 from app.utils.pub_sub import RedisWebSocketManager
 from app.services.metrics import (
@@ -94,9 +95,7 @@ async def user_status(websocket: WebSocket, user_id: str):  # token: str = Query
 
 
 @ws_routes.websocket("/{current_user}/{other}/")
-async def websocket_chat(
-    websocket: WebSocket, other: str, current_user: str
-):
+async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
     #  token: str = Query(...)
     # current_user = await get_current_user_id(token)
     current_user = current_user
