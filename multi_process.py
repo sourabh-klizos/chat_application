@@ -12,8 +12,10 @@ client = MongoClient("mongodb://localhost:27017/")
 db = client["chat_app"]
 users_collection = db["users"]
 
+
 def generate_random_string(length=10):
     return "".join(random.choices(string.ascii_lowercase + string.digits, k=length))
+
 
 class UserBehavior:
     def __init__(self):
@@ -31,7 +33,9 @@ class UserBehavior:
 
     async def get_all_users_from_mongodb(self):
         """Query all users from MongoDB and store user_ids."""
-        self.all_users = [{"user_id": user["_id"]} for user in users_collection.find({})]
+        self.all_users = [
+            {"user_id": user["_id"]} for user in users_collection.find({})
+        ]
         print(f"Total users fetched from MongoDB: {len(self.all_users)}")
 
     async def chat_with_random_user_async(self):
@@ -47,9 +51,13 @@ class UserBehavior:
 
         websocket_url = f"ws://localhost:8000/ws/{current_id}/{selected_user_id}/"
         print(f"Connecting WebSocket URL: {websocket_url}")
-        await self.send_message_via_websocket(websocket_url, current_id, selected_user_id)
+        await self.send_message_via_websocket(
+            websocket_url, current_id, selected_user_id
+        )
 
-    async def send_message_via_websocket(self, websocket_url, current_id, selected_user_id):
+    async def send_message_via_websocket(
+        self, websocket_url, current_id, selected_user_id
+    ):
         """Handles WebSocket connection, sending & receiving messages."""
         try:
             async with websockets.connect(websocket_url) as ws:
@@ -76,11 +84,14 @@ class UserBehavior:
             print(f"WebSocket error: {e}")
         finally:
             self.active_connections -= 1
-            print(f"Active WebSocket connections after closure: {self.active_connections}")
+            print(
+                f"Active WebSocket connections after closure: {self.active_connections}"
+            )
 
     async def on_start(self):
         """This method is called when a simulated user starts."""
         await asyncio.sleep(random.uniform(1, 3))
+
 
 async def run_clients(start, end):
     """Runs a batch of WebSocket clients asynchronously in a single process."""
@@ -90,15 +101,17 @@ async def run_clients(start, end):
     tasks = [user_behavior.chat_with_random_user() for _ in range(start, end)]
     await asyncio.gather(*tasks)
 
+
 def start_process(start, end):
     """Starts a separate event loop for each process."""
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     loop.run_until_complete(run_clients(start, end))
 
+
 if __name__ == "__main__":
     num_clients = 500  # Total number of WebSocket clients
-    num_processes = 5   # Number of parallel processes
+    num_processes = 5  # Number of parallel processes
     clients_per_process = num_clients // num_processes
 
     processes = []
