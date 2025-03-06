@@ -39,10 +39,8 @@ app.include_router(chat_routes)
 @app.middleware("http")
 async def add_metrics(request: Request, call_next):
     try:
-        method = request.method
-        endpoint = request.url.path
+
         response = await call_next(request)
-        status_code = response.status_code
         HTTP_REQUESTS.inc()
         return response
     except Exception as e:

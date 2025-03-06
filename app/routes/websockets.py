@@ -1,6 +1,6 @@
 from fastapi import (
     APIRouter,
-    Query,
+    # Query,
     WebSocket,
     WebSocketDisconnect,
 )
@@ -19,15 +19,14 @@ from app.utils.users_status.set_user_offline import set_user_offline
 from app.utils.users_status.broadcast_online_status import update_online_status
 from app.utils.create_unique_group import ChatGroup
 from app.utils.chat_conversations import Conversation
-from app.utils.get_current_logged_in_user import get_current_user_id
+# from app.utils.get_current_logged_in_user import get_current_user_id
 from app.utils.pub_sub import RedisWebSocketManager
 from app.services.metrics import (
     WS_CONNECTIONS_ACTIVE,
     WS_CONNECTIONS_TOTAL,
     WS_MESSAGES,
-
 )
-
+from app.utils.store_message_redis import RedisChatHandler
 
 ws_routes = APIRouter(prefix="/ws")
 
@@ -45,10 +44,11 @@ async def handle_incoming_message(group: str, message: str):
 websocket_connections: Dict[str, WebSocket] = dict()
 
 
-@ws_routes.websocket("/status/")
-async def user_status(websocket: WebSocket, token: str = Query(...)):
+@ws_routes.websocket("/status/{user_id}/")
+async def user_status(websocket: WebSocket, user_id: str):  # token: str = Query(...)
 
-    user_id = await get_current_user_id(token)
+    # user_id = user_id
+    # user_id = await get_current_user_id(token)
     await websocket.accept()
 
     WS_CONNECTIONS_ACTIVE.inc()
@@ -93,16 +93,19 @@ async def user_status(websocket: WebSocket, token: str = Query(...)):
         await update_online_status(websocket_connections=websocket_connections)
 
 
-@ws_routes.websocket("/{other}/")
-async def websocket_chat(websocket: WebSocket, other: str, token: str = Query(...)):
-    current_user = await get_current_user_id(token)
+@ws_routes.websocket("/{current_user}/{other}/")
+async def websocket_chat(
+    websocket: WebSocket, other: str, current_user: str
+):
+    #  token: str = Query(...)
+    # current_user = await get_current_user_id(token)
+    current_user = current_user
 
     group = await ChatGroup.create_unique_group(current_user, other)
     await websocket.accept()
 
     WS_CONNECTIONS_ACTIVE.inc()
     WS_CONNECTIONS_TOTAL.inc()
-
 
     if group not in active_connections:
         active_connections[group] = []
@@ -118,12 +121,22 @@ async def websocket_chat(websocket: WebSocket, other: str, token: str = Query(..
 
             WS_MESSAGES.inc()
 
-            await Conversation.insert_chat(data)
+            await RedisChatHandler.store_message_in_redis(group, data)
+
+            if len(active_connections[group]) == 1:
+                asyncio.create_task(Conversation.insert_chat(data))
+
+            # await Conversation.insert_chat(data)
+
+            # asyncio.create_task(
+            #     Conversation.insert_chat(data)
+            # )
 
             await RedisWebSocketManager.publish_message(group, data)
 
     except WebSocketDisconnect:
         # WS_CONNECTIONS_ACTIVE.dec()
+        # await RedisChatHandler.move_chat_to_mongo(group)
 
         if websocket in active_connections[group]:
             active_connections[group].remove(websocket)
@@ -139,6 +152,10 @@ async def websocket_chat(websocket: WebSocket, other: str, token: str = Query(..
 
     finally:
         WS_CONNECTIONS_ACTIVE.dec()
+        # await move_chat_to_mongo(group)
+
+        asyncio.create_task(RedisChatHandler.move_chat_to_mongo(group))
+        # await RedisChatHandler.move_chat_to_mongo(group)
 
         if websocket in active_connections[group]:
             active_connections[group].remove(websocket)

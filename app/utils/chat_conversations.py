@@ -3,6 +3,7 @@ from app.utils.serializers import Serializers
 from datetime import datetime
 from app.database.db import get_db
 import json
+from app.services.metrics import MONGO_DB_CONNECTIONS
 
 
 class Conversation:
@@ -35,6 +36,7 @@ class Conversation:
     @staticmethod
     async def insert_chat(data: str):
         """Insert a new chat message into MongoDB."""
+
         try:
             json_data = json.loads(data)
 
@@ -47,7 +49,23 @@ class Conversation:
                     "text": json_data["text"],
                     "created_at": datetime.now(),
                 }
+
+                MONGO_DB_CONNECTIONS.inc()
                 await chat_collection.insert_one(chat_message)
+        except Exception as e:
+            # Handle any exceptions that occur during the insert operation
+            print(f"Error occurred while inserting chat message: {e}")
+
+    @staticmethod
+    async def bulk_insert_chat(data: list[dict]):
+        """Insert bulk new  chat message into MongoDB."""
+
+        try:
+            async for db in get_db():
+                chat_collection: Collection = db["chats"]
+
+                MONGO_DB_CONNECTIONS.inc()
+                await chat_collection.insert_many(data)
         except Exception as e:
             # Handle any exceptions that occur during the insert operation
             print(f"Error occurred while inserting chat message: {e}")

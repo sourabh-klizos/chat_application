@@ -1,4 +1,3 @@
-
 import psutil
 from prometheus_client import (
     Counter,
@@ -8,9 +7,7 @@ from prometheus_client import (
 )
 
 # HTTP Metrics
-HTTP_REQUESTS = Counter(
-    "http_requests_total", "Total HTTP Requests"
-)
+HTTP_REQUESTS = Counter("http_requests_total", "Total HTTP Requests")
 HTTP_REQUEST_DURATION = Summary(
     "http_request_duration_seconds", "Duration of HTTP requests in seconds"
 )
@@ -26,11 +23,16 @@ WS_MESSAGES = Counter("ws_messages_total", "Total WebSocket Messages")
 CPU_USAGE = Gauge("cpu_usage_percent", "CPU usage percentage")
 MEMORY_USAGE = Gauge("memory_usage_percent", "Memory usage percentage")
 
+
+# redis
 REDIS_CHANNELS_ACTIVE = Gauge(
     "redis_channels_active", "Number of active Redis channels"
 )
-REDIS_CHANNELS_TOTAL = Counter(
-    "redis_channels_total", "Total Redis channels created"
+REDIS_CHANNELS_TOTAL = Counter("redis_channels_total", "Total Redis channels created")
+
+# mongodb
+MONGO_DB_CONNECTIONS = Counter(
+    "mongodb_connections_total", "Total MongoDb Connection created"
 )
 
 

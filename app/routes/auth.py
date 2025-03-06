@@ -4,7 +4,7 @@ from pymongo.collection import Collection
 
 from app.utils.hashing import PasswordUtils
 from datetime import datetime
-from app.utils.jwt_handler import create_access_token, create_refresh_token
+from app.utils.jwt_handler import create_access_token
 from app.database.db import get_db
 from typing import List
 
@@ -102,11 +102,11 @@ async def user_login(user_credential: UserLoginModel, db=Depends(get_db)):
         user_id = str(user_instance.get("_id"))
 
         access_token = await create_access_token(user_id)
-        refresh_token = await create_refresh_token(user_id=user_id, db=db)
+        # refresh_token = await create_refresh_token(user_id=user_id, db=db)
 
         response = {
             "access_token": access_token,
-            "refresh_token": refresh_token,
+            # "refresh_token": refresh_token,
             "user_id": user_id,
         }
 
