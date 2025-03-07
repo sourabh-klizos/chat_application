@@ -25,7 +25,7 @@ async def set_users_status_online(user_id, websocket_id):
 
             user_details_dict = await Serializers.convert_id_to_string(user_details)
 
-            await OnlineUserManager.set_online_users(
+            await OnlineUserManager.set_online_user(
                 user_id, websocket_id, user_details_dict
             )
 
