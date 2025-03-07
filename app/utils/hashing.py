@@ -9,7 +9,6 @@ class PasswordUtils:
             hashed_password = bcrypt.hashpw(password.encode("utf-8"), salt)
             return hashed_password
         except Exception as e:
-            # Handle any exceptions that occur during hashing
             raise Exception(f"Error occurred while hashing the password: {str(e)}")
 
     @staticmethod
@@ -17,5 +16,4 @@ class PasswordUtils:
         try:
             return bcrypt.checkpw(password.encode("utf-8"), hashed_password)
         except Exception as e:
-            # Handle any exceptions that occur during verification
             raise Exception(f"Error occurred while verifying the password: {str(e)}")

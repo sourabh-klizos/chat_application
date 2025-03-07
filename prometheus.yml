@@ -5,4 +5,4 @@ scrape_configs:
   - job_name: 'fastapi'
     metrics_path: '/metrics'
     static_configs:
-      - targets: ['fastapi_app:8000']  # This is the FastAPI container name and port
+      - targets: ['fastapi_app:8000']

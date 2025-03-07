@@ -1,10 +1,5 @@
 import psutil
-from prometheus_client import (
-    Counter,
-    Summary,
-    generate_latest,
-    Gauge,
-)
+from prometheus_client import Counter, Summary, generate_latest, Gauge, Histogram
 
 # HTTP Metrics
 HTTP_REQUESTS = Counter("http_requests_total", "Total HTTP Requests")
@@ -18,6 +13,13 @@ WS_CONNECTIONS_ACTIVE = Gauge(
 )
 WS_CONNECTIONS_TOTAL = Counter("ws_connections_total", "Total WebSocket Connections")
 WS_MESSAGES = Counter("ws_messages_total", "Total WebSocket Messages")
+
+MESSAGE_PROCESSING_TIME = Histogram(
+    "ws_message_processing_duration_seconds",
+    "Time taken to process WebSocket messages ",
+    buckets=[0.001, 0.005, 0.01, 0.05, 0.1, 0.2, 0.5, 1, 2],
+)
+
 
 # System Metrics
 CPU_USAGE = Gauge("cpu_usage_percent", "CPU usage percentage")

@@ -9,7 +9,7 @@ import asyncio
 
 import json
 import traceback
-
+import time
 
 from app.utils.users_status.set_users_online import set_users_status_online
 from app.utils.users_status.set_user_offline import set_user_offline
@@ -26,6 +26,7 @@ from app.services.metrics import (
     WS_CONNECTIONS_ACTIVE,
     WS_CONNECTIONS_TOTAL,
     WS_MESSAGES,
+    MESSAGE_PROCESSING_TIME,
 )
 from app.utils.store_message_redis import RedisChatHandler
 
@@ -116,6 +117,7 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
 
     try:
         while True:
+            start_time = time.time()
             data = await websocket.receive_text()
 
             WS_MESSAGES.inc()
@@ -132,6 +134,9 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
             # )
 
             await RedisWebSocketManager.publish_message(group, data)
+            latency = time.time() - start_time
+
+            MESSAGE_PROCESSING_TIME.observe(latency)
 
     except WebSocketDisconnect:
         # WS_CONNECTIONS_ACTIVE.dec()

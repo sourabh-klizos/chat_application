@@ -53,7 +53,7 @@ class Conversation:
                 MONGO_DB_CONNECTIONS.inc()
                 await chat_collection.insert_one(chat_message)
         except Exception as e:
-            # Handle any exceptions that occur during the insert operation
+
             print(f"Error occurred while inserting chat message: {e}")
 
     @staticmethod
@@ -67,5 +67,4 @@ class Conversation:
                 MONGO_DB_CONNECTIONS.inc()
                 await chat_collection.insert_many(data)
         except Exception as e:
-            # Handle any exceptions that occur during the insert operation
             print(f"Error occurred while inserting chat message: {e}")

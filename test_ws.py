@@ -5,7 +5,7 @@ import websockets
 from pymongo import MongoClient
 import json
 from datetime import datetime
-
+import httpx
 
 client = MongoClient("mongodb://localhost:27017/")
 db = client["chat_app"]
@@ -20,6 +20,39 @@ class UserBehavior:
     def __init__(self):
         self.all_users = []
         self.active_connections = 0
+
+    async def signup_and_login(self):
+        username = generate_random_string(8)
+        email = f"{username}@test.com"
+        password = generate_random_string(12)
+
+        signup_payload = {"username": username, "email": email, "password": password}
+
+        response = await self.make_http_request(
+            "POST", "http://localhost:8000/api/v1/auth/signup", json=signup_payload
+        )
+        if response.status_code == 201:
+            print(f"User {email} signed up successfully.")
+        else:
+            print(f"Failed to sign up user {email}. Response: {response.text}")
+
+        login_payload = {"email": email, "password": password}
+
+        response = await self.make_http_request(
+            "POST", "http://localhost:8000/api/v1/auth/login", json=login_payload
+        )
+        if response.status_code == 200:
+
+            token = response.json().get("access_token")
+            user_id = response.json().get("user_id")
+            print(
+                f"User {email} logged in successfully with user_id: {user_id} and token."
+            )
+
+            self.all_users.append({"user_id": user_id, "token": token})
+            print(f"Current users: {self.all_users}")
+        else:
+            print(f"Failed to log in user {email}. Response: {response.text}")
 
     async def chat_with_random_user(self):
 
@@ -104,6 +137,11 @@ class UserBehavior:
                      {self.active_connections}"""
                 )
 
+    async def make_http_request(self, method, url, **kwargs):
+        async with httpx.AsyncClient() as client:
+            response = await client.request(method, url, **kwargs)
+            return response
+
     async def on_start(self):
         """This method is called when a simulated user starts."""
         await asyncio.sleep(random.uniform(1, 3))
@@ -112,12 +150,11 @@ class UserBehavior:
 async def main():
     user_behavior = UserBehavior()
     await user_behavior.on_start()
-
-    await asyncio.gather(*[user_behavior.chat_with_random_user() for _ in range(250)])
+    await asyncio.gather(*[user_behavior.signup_and_login() for _ in range(10)])
+    await asyncio.gather(*[user_behavior.chat_with_random_user() for _ in range(100)])
 
     while True:
         await asyncio.sleep(5)
 
 
-# Run the main function
 asyncio.run(main())
