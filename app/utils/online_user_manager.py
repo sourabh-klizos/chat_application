@@ -1,7 +1,7 @@
 import json
 from typing import Optional, Dict
 from app.services.redis_client import RedisManager
-from typing import Optional
+
 
 # class OnlineUserManager:
 
@@ -42,7 +42,9 @@ from typing import Optional
 
 #             return json.loads(online_users)
 #         except Exception as e:
-#             raise Exception(f"Error occurred while fetching all online users: {str(e)}")
+#             raise Exception(
+#               f"""Error occurred while fetching all online users: {str(e)}"""
+#            )
 
 #     @staticmethod
 #     async def remove_user_online_status(user_id: str) -> None:

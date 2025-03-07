@@ -24,21 +24,13 @@ class RedisChatHandler:
         try:
             r = await RedisManager.get_redis_client()
 
-            # Retrieve all messages from Redis (assuming user left the channel)
-            messages = await r.lrange(
-                channel_id, 0, -1
-            )  # Get all messages in reverse order (most recent first)
+            messages = await r.lrange(channel_id, 0, -1)
 
-            # Decode the messages from JSON strings to dictionaries
             decoded_messages = [json.loads(message) for message in messages]
 
-            # Insert the decoded messages into MongoDB (using bulk insert)
             await Conversation.bulk_insert_chat(decoded_messages)
 
-            # Optionally, delete the Redis data after transferring to MongoDB
             await r.delete(channel_id)
-
-            # print(f"Chat successfully moved to MongoDB for channel: {channel_id}")
 
         except Exception as e:
             print(f"An error occurred: while saving chat in mongodb {e}")
