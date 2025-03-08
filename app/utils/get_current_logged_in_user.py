@@ -8,6 +8,12 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/v1/auth/login")
 
 
 async def get_current_user_id(token: str = Security(oauth2_scheme)):
+    """
+    Returns the user ID from a valid JWT access token.
+
+    :param token: OAuth2 access token.
+    :raises HTTPException: If token is missing, invalid, or an error occurs.
+    """
     try:
         if not token:
             raise HTTPException(

@@ -2,8 +2,13 @@ import bcrypt
 
 
 class PasswordUtils:
+    """
+    Utility class for password hashing and verification.
+    """
+
     @staticmethod
     async def get_hashed_password(password: str) -> bytes:
+        """Returns a hashed version of the given password."""
         try:
             salt = bcrypt.gensalt()
             hashed_password = bcrypt.hashpw(password.encode("utf-8"), salt)
@@ -13,6 +18,7 @@ class PasswordUtils:
 
     @staticmethod
     async def verify_password(password: str, hashed_password: bytes) -> bool:
+        """Verifies if the provided password matches the hashed password."""
         try:
             return bcrypt.checkpw(password.encode("utf-8"), hashed_password)
         except Exception as e:

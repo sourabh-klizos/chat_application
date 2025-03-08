@@ -46,7 +46,9 @@ class UserBehavior:
             token = response.json().get("access_token")
             user_id = response.json().get("user_id")
             print(
-                f"User {email} logged in successfully with user_id: {user_id} and token."
+                f"""
+                User {email} logged in successfully with user_id: {user_id} and token.
+                """
             )
 
             self.all_users.append({"user_id": user_id, "token": token})

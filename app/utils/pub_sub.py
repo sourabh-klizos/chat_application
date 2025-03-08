@@ -5,10 +5,15 @@ from app.services.metrics import REDIS_CHANNELS_ACTIVE, REDIS_CHANNELS_TOTAL
 
 
 class RedisWebSocketManager:
+    """Manages WebSocket connections with Redis Pub/Sub for real-time messaging."""
+
     active_listeners: Dict[str, Any] = dict()
 
     @staticmethod
     async def subscribe_and_listen(group: str, connected_websockets: list):
+        """Subscribes to a Redis channel and listens for messages,
+        broadcasting to connected WebSockets."""
+
         if group in RedisWebSocketManager.active_listeners:
             print(f"Listener already running for group {group}")
             return
@@ -42,6 +47,7 @@ class RedisWebSocketManager:
 
     @staticmethod
     async def publish_message(group: str, message: str):
+        """Publishes a message to a Redis channel."""
         try:
 
             redis_client = await RedisManager.get_pubsub_client()

@@ -44,7 +44,11 @@ def update_metrics():
     MEMORY_USAGE.set(psutil.virtual_memory().percent)
 
 
-# Function to expose metrics
 def get_metrics():
-    update_metrics()  # Update metrics only when Prometheus requests
+    """
+    Returns the latest Prometheus metrics after updating them.
+
+    Updates metrics before responding to a Prometheus scrape request.
+    """
+    update_metrics()
     return generate_latest()

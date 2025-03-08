@@ -5,6 +5,11 @@ from app.utils.online_user_manager import OnlineUserManager
 async def set_user_offline(
     websocket_connections: dict, websocket_id: str, user_id: str
 ) -> None:
+    """
+    Marks a user as offline by removing their online status.
+
+    Removes the user from the online users list in the database.
+    """
 
     try:
 

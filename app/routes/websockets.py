@@ -37,18 +37,15 @@ ws_routes = APIRouter(prefix="/ws")
 active_connections: Dict[str, List] = dict()
 
 
-async def handle_incoming_message(group: str, message: str):
-    if group in active_connections:
-        await asyncio.gather(
-            *[conn.send_text(message) for conn in active_connections[group]]
-        )
-
-
 websocket_connections: Dict[str, WebSocket] = dict()
 
 
 @ws_routes.websocket("/status/{user_id}/")
 async def user_status(websocket: WebSocket, user_id: str):
+    """
+    WebSocket endpoint to track and update user online status in real time,
+    handling connections, status changes, and disconnections.
+    """
 
     await websocket.accept()
 
@@ -98,8 +95,10 @@ async def user_status(websocket: WebSocket, user_id: str):
 
 @ws_routes.websocket("/{current_user}/{other}/")
 async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
-    #  token: str = Query(...)
-    # current_user = await get_current_user_id(token)
+    """
+    WebSocket endpoint for real-time chat messages and publishing.
+    """
+
     current_user = current_user
 
     group = await ChatGroup.create_unique_group(current_user, other)
@@ -123,18 +122,10 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
 
             WS_MESSAGES.inc()
 
-            # await RedisChatHandler.store_message_in_redis(group, data)
-
             if len(active_connections[group]) == 1:
                 asyncio.create_task(Conversation.insert_chat(data))
             else:
                 await RedisChatHandler.store_message_in_redis(group, data)
-
-            # await Conversation.insert_chat(data)
-
-            # asyncio.create_task(
-            #     Conversation.insert_chat(data)
-            # )
 
             await RedisWebSocketManager.publish_message(group, data)
             latency = time.time() - start_time
@@ -142,18 +133,7 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
             MESSAGE_PROCESSING_TIME.observe(latency)
 
     except WebSocketDisconnect:
-        print("ws -===============================================exp")
-        # await websocket.close(code=1000)
-        # WS_CONNECTIONS_ACTIVE.dec()
-        # await RedisChatHandler.move_chat_to_mongo(group)
 
-        # if websocket in active_connections[group]:
-        #     active_connections[group].remove(websocket)
-
-        # if websocket in active_connections[group]:
-        #     if len(active_connections[group]) == 0:
-        #         listener_task.cancel()
-        #         del active_connections[group]
         pass
 
     except Exception as e:
@@ -161,12 +141,10 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
         traceback.format_exc()
 
     finally:
-        print("ws -===============================================exp print finally")
+
         WS_CONNECTIONS_ACTIVE.dec()
-        # await move_chat_to_mongo(group)
 
         asyncio.create_task(RedisChatHandler.move_chat_to_mongo(group))
-        # await RedisChatHandler.move_chat_to_mongo(group)
 
         if websocket in active_connections[group]:
             active_connections[group].remove(websocket)

@@ -5,6 +5,7 @@ from app.utils.online_user_manager import OnlineUserManager
 async def set_user_offline(
     websocket_connections: dict, websocket_id: str, user_id: str
 ) -> None:
+    """Removes a user's WebSocket connection and updates their status."""
 
     try:
 

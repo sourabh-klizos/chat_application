@@ -38,7 +38,13 @@ import json
 
 
 async def update_online_status(websocket_connections: dict) -> None:
+    """
+    Broadcasts the updated list of online users to all active WebSocket connections.
+
+    Fetches online users, formats the data, and sends it to connected clients.
+    """
     try:
+
         online_users = await OnlineUserManager.get_all_online_users()
         print("update_online_status", online_users)
 

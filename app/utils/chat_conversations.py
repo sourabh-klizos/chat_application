@@ -1,20 +1,23 @@
 from pymongo.collection import Collection
 from app.utils.serializers import Serializers
-from datetime import datetime
 from app.database.db import get_db
 import json
 from app.services.metrics import MONGO_DB_CONNECTIONS
 
 
 class Conversation:
+    """
+    Handles chat history retrieval and message insertion in MongoDB.
+    """
+
     @staticmethod
     async def get_chat_history(user_1, user_2):
         """
-        Retrieve chat history between two users sorted by created_at time.
-        :param db_generator: Async generator for the database connection
-        :param user_1: First user ID
-        :param user_2: Second user ID
-        :return: List of chat messages
+        Retrieve chat history between two users sorted by creation time.
+
+        :param user_1: First user's ID.
+        :param user_2: Second user's ID.
+        :return: List of chat messages with converted IDs, or an empty list on failure.
         """
         try:
             async for db in get_db():
@@ -35,7 +38,11 @@ class Conversation:
 
     @staticmethod
     async def insert_chat(data: str):
-        """Insert a new chat message into MongoDB."""
+        """
+        Insert a single chat message into MongoDB.
+
+        :param data: JSON string containing chat message details.
+        """
 
         try:
             json_data = json.loads(data)

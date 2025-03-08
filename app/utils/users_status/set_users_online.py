@@ -10,6 +10,11 @@ from pymongo import errors
 
 
 async def set_users_status_online(user_id, websocket_id):
+    """
+    Marks a user as online.
+
+    Retrieves user details and updates their online status.
+    """
     try:
 
         async for db in get_db():

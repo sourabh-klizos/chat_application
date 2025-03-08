@@ -13,6 +13,7 @@ ALGORITHM = Settings.ALGORITHM
 
 
 async def create_access_token(user_id: str, minutes: int = None) -> dict:
+    """Generates a JWT access token for a user with an expiration time."""
     try:
         if not minutes:
             minutes = 30
@@ -33,6 +34,7 @@ async def create_access_token(user_id: str, minutes: int = None) -> dict:
 
 
 async def create_refresh_token(user_id: str, db, hours: int = None) -> dict:
+    """Generates and stores a refresh token for a user (default: 7 days)."""
     try:
         refresh_token_collection: Collection = db["refresh_tokens"]
 
@@ -67,6 +69,7 @@ async def create_refresh_token(user_id: str, db, hours: int = None) -> dict:
 
 
 async def decode_jwt(access_token: str, token_type: str) -> dict:
+    """Decodes JWT and verifies its type."""
     try:
 
         decoded_token = jwt.decode(access_token, SECRET_KEY, algorithms=[ALGORITHM])
