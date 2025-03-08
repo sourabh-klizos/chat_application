@@ -1,104 +1,70 @@
-from locust import HttpUser, task, between
-
-import random
-import string
-import asyncio
-import websockets
 import json
-from pymongo import MongoClient
-
+import random
+import logging
 from datetime import datetime
+from pymongo import MongoClient
+from locust import User, task, events
+from websocket import create_connection, WebSocket
 
 
 client = MongoClient("mongodb://localhost:27017/")
 db = client["chat_app"]
 users_collection = db["users"]
 
+user_ids = [str(user["_id"]) for user in users_collection.find({}, {"_id": 1})]
 
-def get_random_user_from_mongodb():
-    """Query a random user from MongoDB."""
-    random_user = users_collection.aggregate([{"$sample": {"size": 1}}]).next()
-    return str(random_user["_id"])
+if len(user_ids) < 2:
+    raise ValueError("Not enough users in the database to test WebSocket connections.")
 
 
-class FastAPIUser(HttpUser):
-    wait_time = between(1, 3)
+class WebSocketLocust(User):
+    """Locust WebSocket User"""
+
+    # host = "ws://localhost:8000"
 
     def on_start(self):
-        self.user_data = self.signup()
-        if self.user_data:
-            self.login()
+        """Establish WebSocket connection when the test starts"""
+        self.current_id = random.choice(user_ids)
+        self.selected_user_id = random.choice(
+            [uid for uid in user_ids if uid != self.current_id]
+        )
 
-    def random_string(self, length=8):
-        return "".join(random.choices(string.ascii_letters + string.digits, k=length))
+        self.ws_url = (
+            f"ws://localhost:8000/ws/{self.current_id}/{self.selected_user_id}/"
+        )
 
-    def signup(self):
-        random_username = self.random_string()
-        user_payload = {
-            "username": random_username,
-            "email": f"{random_username}@example.com",
-            "password": "testpassword123",
+        try:
+            self.ws = create_connection(self.ws_url)
+            logging.info(f"Connected to WebSocket: {self.ws_url}")
+        except Exception as e:
+            logging.error(f"WebSocket connection failed: {e}")
+            self.ws = None
+
+    def on_stop(self):
+        """Close WebSocket connection"""
+        if self.ws:
+            self.ws.close()
+            logging.info("WebSocket connection closed")
+
+    @task
+    def send_message(self):
+        """Send a WebSocket message and receive a response"""
+        if not self.ws:
+            logging.error("WebSocket connection is not established.")
+            return
+
+        message = {
+            "text": "Hello! This is a message from WebSocket load test.",
+            "sender_id": self.current_id,
+            "receiver_id": self.selected_user_id,
+            "created_at": datetime.now().isoformat(),
         }
 
-        response = self.client.post("/api/v1/auth/signup", json=user_payload)
-
-        if response.status_code == 201:
-            return {
-                "email": user_payload["email"],
-                "password": user_payload["password"],
-            }
-        else:
-
-            return None
-
-    @task
-    def login(self):
-        if self.user_data:
-            login_payload = {
-                "email": self.user_data["email"],
-                "password": self.user_data["password"],
-            }
-
-        response = self.client.post("/api/v1/auth/login", json=login_payload)
-
-        if response.status_code == 200:
-            data = response.json()
-            self.user_id = data["user_id"]
-            self.access_token = data["access_token"]
-            self.selected_user_id = get_random_user_from_mongodb()
-            self.ws_url = (
-                f"ws://127.0.0.1:8000/ws/{self.user_id}/{self.selected_user_id}/"
-            )
-            # websocket_url = f"ws://localhost:8000/ws/{current_id}/{selected_user_id}/"
-
-            print(f"Login successful! WebSocket URL: {self.ws_url}")
-        else:
-            print(f"Login failed: {response.text}")
-
-    @task
-    def websocket_chat(self):
-        if hasattr(self, "ws_url"):
-            asyncio.run(self.ws_connect(self.ws_url))
-
-    async def ws_connect(self, ws_url):
         try:
-            async with websockets.connect(ws_url) as websocket:
-                print(f"WebSocket connected: {ws_url}")
+            self.ws.send(json.dumps(message))
+            logging.info(f"Sent: {message}")
 
-                message = {
-                    "text": "Hello! This is a message from WebSocket load test.",
-                    "sender_id": self.user_id,
-                    "receiver_id": self.selected_user_id,
-                    "created_at": str(datetime.now()),
-                }
-
-                message_str = json.dumps(message)
-
-                await websocket.send(message_str)
-                print(f"Sent: {message}")
-
-                response = await websocket.recv()
-                print(f"Received: {response}")
-
+            response = self.ws.recv()
+            logging.info(f"Received: {response}")
         except Exception as e:
-            print(f"WebSocket error: {e}")
+            logging.error(f"Error sending/receiving WebSocket message: {e}")

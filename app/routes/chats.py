@@ -15,7 +15,7 @@ chat_routes = APIRouter(prefix="/api/v1/chat", tags=["chat"])
 async def get_chat_history(
     other_user_id: str, current_user=Depends(get_current_user_id)
 ):
-
+    """Retrieves chat history between the current user and another user."""
     try:
 
         chat_history = await Conversation.get_chat_history(current_user, other_user_id)

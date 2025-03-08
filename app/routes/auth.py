@@ -20,7 +20,7 @@ auth_routes = APIRouter(prefix="/api/v1/auth", tags=["user"])
 async def create_user(
     request: Request, user_credential: UserRequestModel, db=Depends(get_db)
 ):
-
+    """Creates a new user after validation and password hashing."""
     try:
 
         user_collection: Collection = db["users"]
@@ -74,7 +74,7 @@ async def create_user(
     status_code=status.HTTP_200_OK,
 )
 async def user_login(user_credential: UserLoginModel, db=Depends(get_db)):
-
+    """Authenticates a user and returns an access token."""
     try:
         print(user_credential)
         user_collection: Collection = db["users"]
@@ -130,8 +130,8 @@ async def user_login(user_credential: UserLoginModel, db=Depends(get_db)):
     response_model=List[UserResponseModel],
     status_code=status.HTTP_200_OK,
 )
-async def retrive_active_users(db=Depends(get_db)):
-
+async def retrive_users(db=Depends(get_db)):
+    """Fetches a list of users excluding passwords."""
     try:
         user_collection: Collection = db["users"]
         users_cursor = user_collection.find({}, {"password": 0})

@@ -2,3 +2,4 @@ locust==2.16.1
 websockets==10.3
 pymongo==4.1.1
 httpx==0.24.0
+websocket==0.2.1
