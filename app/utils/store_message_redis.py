@@ -2,7 +2,7 @@ import redis.asyncio as redis
 import json
 from app.services.redis_client import RedisManager
 from app.utils.chat_conversations import Conversation
-
+from app.utils.logger_config import LOGGER
 
 class RedisChatHandler:
     @staticmethod
@@ -14,9 +14,10 @@ class RedisChatHandler:
             await redis_client.rpush(channel_id, str(message))
             # print(f"Message successfully stored in Redis for channel: {channel_id}")
         except redis.exceptions.RedisError as e:
-            print(f"Redis error occurred while storing message: {e}")
+            LOGGER.error("Redis error occurred while storing message in channel %s: %s", channel_id, str(e), exc_info=True)
         except Exception as e:
-            print(f"An error occurred: {e}")
+            LOGGER.error("An unexpected error occurred while storing message in Redis: %s", str(e), exc_info=True)
+
 
     @staticmethod
     async def move_chat_to_mongo(channel_id):
@@ -28,13 +29,14 @@ class RedisChatHandler:
             messages = await redis_client.lrange(channel_id, 0, -1)
             if not messages:
                 return
-            print("mes =====================", messages)
+            # print("mes =====================", messages)
             decoded_messages = [json.loads(message) for message in messages]
 
-            print("medecoded_messagess =====================", decoded_messages)
+            # print("medecoded_messagess =====================", decoded_messages)
             await Conversation.bulk_insert_chat(decoded_messages)
 
             await redis_client.delete(channel_id)
 
         except Exception as e:
-            print(f"An error occurred: while saving chat in mongodb {e}")
+            LOGGER.error("An error occurred while saving chat in MongoDB for channel %s: %s", channel_id, str(e), exc_info=True)
+

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status, Depends
 
 from app.utils.get_current_logged_in_user import get_current_user_id
-
+from app.utils.logger_config import LOGGER
 from app.utils.chat_conversations import Conversation
 
 
@@ -28,7 +28,7 @@ async def get_chat_history(
         )
 
     except Exception as e:
-        print(str(e))
+        LOGGER.critical("Unexpected error during fetching chats: %s", str(e))
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="An error occurred while retrieving chat history.",

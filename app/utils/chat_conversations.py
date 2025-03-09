@@ -3,7 +3,7 @@ from app.utils.serializers import Serializers
 from app.database.db import get_db
 import json
 from app.services.metrics import MONGO_DB_CONNECTIONS
-
+from app.utils.logger_config import LOGGER
 
 class Conversation:
     """
@@ -30,11 +30,16 @@ class Conversation:
                 }
                 cursor = chat_collection.find(query).sort("created_at", 1)
                 chats_list = await cursor.to_list(length=None)
+
+                if not chats_list:
+                    return list()
+
                 chats_history = await Serializers.convert_ids_to_strings(chats_list)
                 return chats_history
+                
         except Exception as e:
-            print(f"Error occurred while retrieving chat history: {e}")
-            return []
+            LOGGER.error("Error occurred while retrieving chat history: %s", str(e), exc_info=True)
+            return list()
 
     @staticmethod
     async def insert_chat(data: str):
@@ -60,8 +65,8 @@ class Conversation:
                 MONGO_DB_CONNECTIONS.inc()
                 await chat_collection.insert_one(json_data)
         except Exception as e:
+            LOGGER.error("Error occurred while inserting chat message: %s", str(e), exc_info=True)
 
-            print(f"Error occurred while inserting chat message: {e}")
 
     @staticmethod
     async def bulk_insert_chat(data: list[dict]):
@@ -74,4 +79,5 @@ class Conversation:
                 MONGO_DB_CONNECTIONS.inc()
                 await chat_collection.insert_many(data)
         except Exception as e:
-            print(f"Error occurred while inserting chat message: {e}")
+            LOGGER.error("Error occurred while inserting bulk chat message: %s", str(e), exc_info=True)
+

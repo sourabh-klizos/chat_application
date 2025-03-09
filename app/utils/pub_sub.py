@@ -2,7 +2,7 @@ import asyncio
 from app.services.redis_client import RedisManager
 from typing import Dict, Any
 from app.services.metrics import REDIS_CHANNELS_ACTIVE, REDIS_CHANNELS_TOTAL
-
+from app.utils.logger_config import LOGGER
 
 class RedisWebSocketManager:
     """Manages WebSocket connections with Redis Pub/Sub for real-time messaging."""
@@ -39,11 +39,15 @@ class RedisWebSocketManager:
                 if not connected_websockets:
                     break
         except asyncio.CancelledError:
-            print(f"Listener for {group} stopped.")
+            LOGGER.info("Listener for group %s stopped.", group)
+
+        except Exception as e:
+            LOGGER.error("Error in listener for group %s: %s", group, str(e), exc_info=True)
         finally:
             REDIS_CHANNELS_ACTIVE.dec()
             await pubsub.unsubscribe(group)
             RedisWebSocketManager.active_listeners.pop(group, None)
+            LOGGER.info("Unsubscribed from group %s", group)
 
     @staticmethod
     async def publish_message(group: str, message: str):
@@ -55,4 +59,5 @@ class RedisWebSocketManager:
             print(f"Published: {message} to {group}")
             await redis_client.close()
         except Exception as e:
-            print(f"failed to public messafe {str(e)}")
+            LOGGER.error("Failed to publish message to group %s: %s", group, str(e), exc_info=True)
+            # print(f"failed to public messafe {str(e)}")

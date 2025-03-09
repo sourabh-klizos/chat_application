@@ -1,7 +1,7 @@
 import json
 from typing import Optional, Dict
 from app.services.redis_client import RedisManager
-
+from app.utils.logger_config import LOGGER
 
 class OnlineUserManager:
 
@@ -18,9 +18,9 @@ class OnlineUserManager:
 
             await client.hset(user_key, user_id, json.dumps(user_data))
 
-            print(f"User {user_id} set online =========")
+            # print(f"User {user_id} set online =========")
         except Exception as e:
-            print(f"Error occurred while setting online user: {str(e)}")
+            LOGGER.error("Error occurred while setting online user %s: %s", user_id, str(e), exc_info=True)
             raise
 
     @staticmethod
@@ -42,10 +42,10 @@ class OnlineUserManager:
                 for user_id, user_data in online_users.items()
             }
 
-            print("Online users ==============", online_users_dict)
+            # print("Online users ==============", online_users_dict)
             return online_users_dict
         except Exception as e:
-            print(f"Error occurred while fetching all online users: {str(e)}")
+            LOGGER.error("Error occurred while fetching online users: %s", str(e), exc_info=True)
             raise
 
     @staticmethod
@@ -61,9 +61,9 @@ class OnlineUserManager:
             # Remove the user from the hash
             await client.hdel(user_key, user_id)
 
-            print(f"User {user_id} removed from online users =========")
+            # print(f"User {user_id} removed from online users =========")
         except Exception as e:
-            print(f"Error occurred while removing user online status: {str(e)}")
+            LOGGER.error("Error occurred while removing user %s from online status: %s", user_id, str(e), exc_info=True)
             raise
 
 

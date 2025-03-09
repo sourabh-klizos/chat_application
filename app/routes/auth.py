@@ -7,7 +7,7 @@ from datetime import datetime
 from app.utils.jwt_handler import create_access_token
 from app.database.db import get_db
 from typing import List
-
+from app.utils.logger_config import LOGGER
 from app.utils.serializers import Serializers
 
 auth_routes = APIRouter(prefix="/api/v1/auth", tags=["user"])
@@ -57,12 +57,14 @@ async def create_user(
         await user_collection.insert_one(user_dict)
         return {"message": "User account created successfully."}
     except HTTPException as http_error:
+        LOGGER.error("Signup failed: %s", http_error.detail)
         raise HTTPException(
             status_code=http_error.status_code,
             detail=http_error.detail,
         )
 
     except Exception as e:
+        LOGGER.critical("Unexpected error during signup: %s", str(e))
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"An unexpected error occurred: {str(e)}",
@@ -76,7 +78,6 @@ async def create_user(
 async def user_login(user_credential: UserLoginModel, db=Depends(get_db)):
     """Authenticates a user and returns an access token."""
     try:
-        print(user_credential)
         user_collection: Collection = db["users"]
 
         user_dict = user_credential.model_dump()
@@ -119,6 +120,7 @@ async def user_login(user_credential: UserLoginModel, db=Depends(get_db)):
         )
 
     except Exception as e:
+        LOGGER.critical("Unexpected error during login: %s", str(e))
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"An unexpected error occurred: {str(e)}",
@@ -147,7 +149,7 @@ async def retrive_users(db=Depends(get_db)):
         )
 
     except Exception as e:
-        print(e)
+        LOGGER.critical("Unexpected error during fetching users: %s", str(e))
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"An unexpected error occurred: {str(e)}",

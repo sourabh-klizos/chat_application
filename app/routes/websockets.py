@@ -9,7 +9,7 @@ import asyncio
 
 import json
 import time
-
+from app.utils.logger_config import LOGGER
 from app.utils.users_status.set_users_online import set_users_status_online
 from app.utils.users_status.set_user_offline import set_user_offline
 
@@ -79,7 +79,8 @@ async def user_status(websocket: WebSocket, user_id: str):
             await update_online_status(websocket_connections=websocket_connections)
 
     except Exception as e:
-        print("Error", str(e))
+        LOGGER.error("WebSocket error: user_id=%s, error=%s", user_id, str(e), exc_info=True)
+
 
     finally:
         WS_CONNECTIONS_ACTIVE.dec()
@@ -90,6 +91,7 @@ async def user_status(websocket: WebSocket, user_id: str):
         )
 
         websocket_connections.pop(websocket_id, None)
+        LOGGER.info("WebSocket connection closed: user_id=%s, websocket_id=%s", user_id, websocket_id)
 
 
 @ws_routes.websocket("/{current_user}/{other}/")
@@ -132,17 +134,19 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
             MESSAGE_PROCESSING_TIME.observe(latency)
 
     except WebSocketDisconnect:
+        LOGGER.warning("WebSocket disconnected: current_user=%s, other=%s, group=%s", current_user, other, group)
 
-        pass
 
     except Exception as e:
-        print(f"Unexpected error: {str(e)}")
+        LOGGER.error("Unexpected error in WebSocket: group=%s, error=%s", group, str(e), exc_info=True)
+
 
     finally:
 
         WS_CONNECTIONS_ACTIVE.dec()
 
         asyncio.create_task(RedisChatHandler.move_chat_to_mongo(group))
+        LOGGER.info("Moving chat from Redis to MongoDB for group=%s", group)
 
         if websocket in active_connections[group]:
             active_connections[group].remove(websocket)
@@ -150,3 +154,4 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
         if len(active_connections[group]) == 0 and "listener_task" in locals():
             listener_task.cancel()
             del active_connections[group]
+            LOGGER.info("Removed WebSocket group and cancelled Redis listener: group=%s", group)

@@ -1,5 +1,5 @@
 import bcrypt
-
+from app.utils.logger_config import LOGGER
 
 class PasswordUtils:
     """
@@ -14,6 +14,7 @@ class PasswordUtils:
             hashed_password = bcrypt.hashpw(password.encode("utf-8"), salt)
             return hashed_password
         except Exception as e:
+            LOGGER.error("Error occurred while hashing the password: %s", str(e), exc_info=True)
             raise Exception(f"Error occurred while hashing the password: {str(e)}")
 
     @staticmethod
@@ -22,4 +23,5 @@ class PasswordUtils:
         try:
             return bcrypt.checkpw(password.encode("utf-8"), hashed_password)
         except Exception as e:
+            LOGGER.error("Error occurred while verifying the password: %s", str(e), exc_info=True)
             raise Exception(f"Error occurred while verifying the password: {str(e)}")

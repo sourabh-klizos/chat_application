@@ -3,6 +3,7 @@ from fastapi import status, HTTPException, Security
 from fastapi.security import OAuth2PasswordBearer
 
 from app.utils.jwt_handler import decode_jwt
+from app.utils.logger_config import LOGGER
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/v1/auth/login")
 
@@ -37,6 +38,7 @@ async def get_current_user_id(token: str = Security(oauth2_scheme)):
 
         return user_details["user_id"]
     except Exception as e:
+        LOGGER.critical("Unexpected error during authentication: %s", str(e), exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"An unexpected error occurred: {str(e)}",

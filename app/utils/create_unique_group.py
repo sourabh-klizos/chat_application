@@ -1,3 +1,4 @@
+from app.utils.logger_config import LOGGER
 class ChatGroup:
 
     @staticmethod
@@ -10,5 +11,5 @@ class ChatGroup:
                 return group
             return None
         except Exception as e:
-            print(f"Error occurred while creating the unique group: {e}")
+            LOGGER.error("Error occurred while creating the unique group: %s", str(e), exc_info=True)
             return None

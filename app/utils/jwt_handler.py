@@ -4,7 +4,7 @@ from datetime import datetime, timedelta, timezone
 from uuid import uuid4
 
 from pymongo.collection import Collection
-
+from app.utils.logger_config import LOGGER
 
 from app.config import Settings
 
@@ -30,6 +30,7 @@ async def create_access_token(user_id: str, minutes: int = None) -> dict:
 
         return access_token
     except Exception as e:
+        LOGGER.error("Error occurred while creating the access token: %s", str(e), exc_info=True)
         raise Exception(f"Error occurred while creating the access token: {str(e)}")
 
 
@@ -65,6 +66,7 @@ async def create_refresh_token(user_id: str, db, hours: int = None) -> dict:
 
         return refresh_token
     except Exception as e:
+        LOGGER.error("Error occurred while creating the refresh token: %s", str(e), exc_info=True)
         raise Exception(f"Error occurred while creating the refresh token: {str(e)}")
 
 
@@ -77,4 +79,5 @@ async def decode_jwt(access_token: str, token_type: str) -> dict:
             return decoded_token
 
     except Exception as e:
+        LOGGER.error("Error occurred while decoding %s token: %s", token_type, str(e), exc_info=True)
         return f"Error decoding token: {e}"
