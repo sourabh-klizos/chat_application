@@ -9,8 +9,9 @@ class RedisChatHandler:
     async def store_message_in_redis(channel_id, message):
         """Store a message in Redis for the given channel."""
         try:
-            r = await RedisManager.get_redis_client()
-            await r.rpush(channel_id, str(message))
+             
+            redis_client = await RedisManager.get_redis_client()
+            await redis_client.rpush(channel_id, str(message))
             # print(f"Message successfully stored in Redis for channel: {channel_id}")
         except redis.exceptions.RedisError as e:
             print(f"Redis error occurred while storing message: {e}")
@@ -22,9 +23,9 @@ class RedisChatHandler:
         """Move all chat messages from Redis to MongoDB
         when either of the user leaves the channel."""
         try:
-            r = await RedisManager.get_redis_client()
+            redis_client = await RedisManager.get_redis_client()
 
-            messages = await r.lrange(channel_id, 0, -1)
+            messages = await redis_client.lrange(channel_id, 0, -1)
             if not messages:
                 return
             print("mes =====================", messages)
@@ -33,7 +34,7 @@ class RedisChatHandler:
             print("medecoded_messagess =====================", decoded_messages)
             await Conversation.bulk_insert_chat(decoded_messages)
 
-            await r.delete(channel_id)
+            await redis_client.delete(channel_id)
 
         except Exception as e:
             print(f"An error occurred: while saving chat in mongodb {e}")
