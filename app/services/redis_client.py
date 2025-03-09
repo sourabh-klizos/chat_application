@@ -38,6 +38,8 @@ REDIS_PORT = Settings.REDIS_PORT
 #         return redis.Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)
 
 
+
+
 class RedisManager:
     _redis_pool: Optional[redis.ConnectionPool] = None
 
