@@ -8,7 +8,6 @@ from typing import List, Dict
 import asyncio
 
 import json
-import traceback
 import time
 
 from app.utils.users_status.set_users_online import set_users_status_online
