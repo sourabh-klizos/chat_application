@@ -6,7 +6,7 @@ from pymongo import MongoClient
 from locust import User, task
 
 
-from websocket import create_connection, WebSocket
+from websocket import create_connection
 
 
 client = MongoClient("mongodb://localhost:27017/")

@@ -139,7 +139,6 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
     except Exception as e:
         print(f"Unexpected error: {str(e)}")
 
-
     finally:
 
         WS_CONNECTIONS_ACTIVE.dec()

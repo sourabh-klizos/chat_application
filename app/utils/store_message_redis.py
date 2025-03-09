@@ -9,7 +9,7 @@ class RedisChatHandler:
     async def store_message_in_redis(channel_id, message):
         """Store a message in Redis for the given channel."""
         try:
-             
+
             redis_client = await RedisManager.get_redis_client()
             await redis_client.rpush(channel_id, str(message))
             # print(f"Message successfully stored in Redis for channel: {channel_id}")
