@@ -131,7 +131,10 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
             if len(active_connections[group]) == 1:
                 asyncio.create_task(Conversation.insert_chat(data))
             else:
-                await RedisChatHandler.store_message_in_redis(group, data)
+                # await RedisChatHandler.store_message_in_redis(group, data)
+                asyncio.create_task(
+                    RedisChatHandler.store_message_in_redis(group, data)
+                )
 
             await RedisWebSocketManager.publish_message(group, data)
             latency = time.time() - start_time

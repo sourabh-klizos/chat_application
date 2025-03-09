@@ -1,0 +1,8 @@
+2025-03-09 15:35:12,838 - INFO - Created new Redis connection pool at localhost:6379
+2025-03-09 15:35:12,838 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:35:43,127 - INFO - Created new Redis connection pool at localhost:6379
+2025-03-09 15:35:43,127 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:35:48,741 - INFO - Created new Redis connection pool at localhost:6379
+2025-03-09 15:35:48,742 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:35:54,359 - INFO - Created new Redis connection pool at localhost:6379
+2025-03-09 15:35:54,359 - INFO - Returning Redis client instance from connection pool
