@@ -1,0 +1,153 @@
+2025-03-09 15:25:12,525 - INFO - Created new Redis connection pool at localhost:6379
+2025-03-09 15:25:12,525 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:28:01,236 - INFO - Database connection successful.
+2025-03-09 15:28:01,237 - INFO - Database connection closed.
+2025-03-09 15:28:01,292 - INFO - Database connection successful.
+2025-03-09 15:28:01,294 - INFO - Database connection closed.
+2025-03-09 15:28:01,301 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:28:01,304 - INFO - Database connection successful.
+2025-03-09 15:28:01,305 - INFO - Database connection closed.
+2025-03-09 15:28:01,305 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:28:06,334 - INFO - Database connection successful.
+2025-03-09 15:28:06,335 - INFO - Database connection closed.
+2025-03-09 15:28:06,390 - INFO - Database connection successful.
+2025-03-09 15:28:06,391 - INFO - Database connection closed.
+2025-03-09 15:28:06,393 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:28:06,394 - INFO - Database connection successful.
+2025-03-09 15:28:06,396 - INFO - Database connection closed.
+2025-03-09 15:28:06,397 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:28:07,881 - INFO - Creating new Redis pub/sub client at localhost:6379
+2025-03-09 15:28:07,898 - INFO - Database connection closed.
+2025-03-09 15:28:11,560 - INFO - Creating new Redis pub/sub client at localhost:6379
+2025-03-09 15:28:11,569 - INFO - Database connection successful.
+2025-03-09 15:28:11,570 - INFO - Database connection closed.
+2025-03-09 15:28:13,551 - INFO - Database connection closed.
+2025-03-09 15:28:17,714 - INFO - Creating new Redis pub/sub client at localhost:6379
+2025-03-09 15:28:17,715 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:28:19,694 - INFO - Creating new Redis pub/sub client at localhost:6379
+2025-03-09 15:28:19,694 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:28:21,621 - INFO - Creating new Redis pub/sub client at localhost:6379
+2025-03-09 15:28:21,622 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:28:23,376 - INFO - Creating new Redis pub/sub client at localhost:6379
+2025-03-09 15:28:23,408 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:28:24,549 - WARNING - WebSocket disconnected: current_user=67c20beebeb874032b0c381c, other=67c20eda90b1b4e0beef6827, group=000000112222334466677778889abbbbbbbccccdeeeeeeef
+2025-03-09 15:28:24,549 - INFO - Moving chat from Redis to MongoDB for group=000000112222334466677778889abbbbbbbccccdeeeeeeef
+2025-03-09 15:28:24,550 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:28:24,561 - INFO - Creating new Redis pub/sub client at localhost:6379
+2025-03-09 15:28:24,567 - INFO - Database connection successful.
+2025-03-09 15:28:24,568 - INFO - Database connection closed.
+2025-03-09 15:28:24,580 - INFO - Database connection closed.
+2025-03-09 15:28:25,758 - WARNING - WebSocket disconnected: current_user=67c20beebeb874032b0c381c, other=67c27b205ae9c75d5093cdbe, group=0000012222333455566777778899abbbbbbccccccddeeeee
+2025-03-09 15:28:25,759 - INFO - Moving chat from Redis to MongoDB for group=0000012222333455566777778899abbbbbbccccccddeeeee
+2025-03-09 15:28:25,759 - INFO - Removed WebSocket group and cancelled Redis listener: group=0000012222333455566777778899abbbbbbccccccddeeeee
+2025-03-09 15:28:25,760 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:28:25,761 - INFO - Listener for group 0000012222333455566777778899abbbbbbccccccddeeeee stopped.
+2025-03-09 15:28:25,761 - INFO - Unsubscribed from group 0000012222333455566777778899abbbbbbccccccddeeeee
+2025-03-09 15:28:25,779 - INFO - Database connection closed.
+2025-03-09 15:28:28,444 - WARNING - WebSocket disconnected: current_user=67c20eda90b1b4e0beef6827, other=67c20beebeb874032b0c381c, group=000000112222334466677778889abbbbbbbccccdeeeeeeef
+2025-03-09 15:28:28,444 - INFO - Moving chat from Redis to MongoDB for group=000000112222334466677778889abbbbbbbccccdeeeeeeef
+2025-03-09 15:28:28,444 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:28:28,450 - INFO - Creating new Redis pub/sub client at localhost:6379
+2025-03-09 15:28:28,463 - INFO - Database connection closed.
+2025-03-09 15:28:29,511 - WARNING - WebSocket disconnected: current_user=67c20eda90b1b4e0beef6827, other=67c2e88b53474c286895498b, group=00012222344445566667777888888999abbbbbcccdeeeeef
+2025-03-09 15:28:29,511 - INFO - Moving chat from Redis to MongoDB for group=00012222344445566667777888888999abbbbbcccdeeeeef
+2025-03-09 15:28:29,512 - INFO - Removed WebSocket group and cancelled Redis listener: group=00012222344445566667777888888999abbbbbcccdeeeeef
+2025-03-09 15:28:29,512 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:28:29,513 - INFO - Listener for group 00012222344445566667777888888999abbbbbcccdeeeeef stopped.
+2025-03-09 15:28:29,513 - INFO - Unsubscribed from group 00012222344445566667777888888999abbbbbcccdeeeeef
+2025-03-09 15:28:29,530 - INFO - Database connection closed.
+2025-03-09 15:28:33,169 - WARNING - WebSocket disconnected: current_user=67c20eda90b1b4e0beef6827, other=67c20beebeb874032b0c381c, group=000000112222334466677778889abbbbbbbccccdeeeeeeef
+2025-03-09 15:28:33,169 - INFO - Moving chat from Redis to MongoDB for group=000000112222334466677778889abbbbbbbccccdeeeeeeef
+2025-03-09 15:28:33,169 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:28:33,178 - INFO - Creating new Redis pub/sub client at localhost:6379
+2025-03-09 15:28:33,186 - INFO - Database connection closed.
+2025-03-09 15:28:34,273 - WARNING - WebSocket disconnected: current_user=67c20eda90b1b4e0beef6827, other=67c27b205ae9c75d5093cdbe, group=000001222234555666777778999aabbbbbccccdddeeeeeef
+2025-03-09 15:28:34,273 - INFO - Moving chat from Redis to MongoDB for group=000001222234555666777778999aabbbbbccccdddeeeeeef
+2025-03-09 15:28:34,273 - INFO - Removed WebSocket group and cancelled Redis listener: group=000001222234555666777778999aabbbbbccccdddeeeeeef
+2025-03-09 15:28:34,274 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:28:34,274 - INFO - Listener for group 000001222234555666777778999aabbbbbccccdddeeeeeef stopped.
+2025-03-09 15:28:34,275 - INFO - Unsubscribed from group 000001222234555666777778999aabbbbbccccdddeeeeeef
+2025-03-09 15:28:34,291 - INFO - Database connection closed.
+2025-03-09 15:28:37,867 - INFO - Creating new Redis pub/sub client at localhost:6379
+2025-03-09 15:28:37,868 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:28:40,488 - INFO - Creating new Redis pub/sub client at localhost:6379
+2025-03-09 15:28:40,489 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:28:43,006 - INFO - Creating new Redis pub/sub client at localhost:6379
+2025-03-09 15:28:43,007 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:28:45,376 - INFO - Creating new Redis pub/sub client at localhost:6379
+2025-03-09 15:28:45,377 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:28:48,179 - INFO - Creating new Redis pub/sub client at localhost:6379
+2025-03-09 15:28:48,180 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:28:51,007 - INFO - Creating new Redis pub/sub client at localhost:6379
+2025-03-09 15:28:51,008 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:28:52,132 - WARNING - WebSocket disconnected: current_user=67c20beebeb874032b0c381c, other=67c20eda90b1b4e0beef6827, group=000000112222334466677778889abbbbbbbccccdeeeeeeef
+2025-03-09 15:28:52,132 - INFO - Moving chat from Redis to MongoDB for group=000000112222334466677778889abbbbbbbccccdeeeeeeef
+2025-03-09 15:28:52,133 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:28:52,146 - INFO - Creating new Redis pub/sub client at localhost:6379
+2025-03-09 15:28:52,154 - INFO - Database connection successful.
+2025-03-09 15:28:52,157 - INFO - Database connection closed.
+2025-03-09 15:28:52,159 - INFO - Database connection closed.
+2025-03-09 15:28:53,719 - WARNING - WebSocket disconnected: current_user=67c20beebeb874032b0c381c, other=67c27b205ae9c75d5093cdbe, group=0000012222333455566777778899abbbbbbccccccddeeeee
+2025-03-09 15:28:53,719 - INFO - Moving chat from Redis to MongoDB for group=0000012222333455566777778899abbbbbbccccccddeeeee
+2025-03-09 15:28:53,719 - INFO - Removed WebSocket group and cancelled Redis listener: group=0000012222333455566777778899abbbbbbccccccddeeeee
+2025-03-09 15:28:53,719 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:28:53,720 - INFO - Listener for group 0000012222333455566777778899abbbbbbccccccddeeeee stopped.
+2025-03-09 15:28:53,720 - INFO - Unsubscribed from group 0000012222333455566777778899abbbbbbccccccddeeeee
+2025-03-09 15:28:53,735 - INFO - Database connection closed.
+2025-03-09 15:29:01,488 - ERROR - WebSocket error: user_id=67c20eda90b1b4e0beef6827, error=(1001, '')
+Traceback (most recent call last):
+  File "/home/sourabh/Desktop/chat_application/chat_application/app/routes/websockets.py", line 59, in user_status
+    data = await websocket.receive_text()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sourabh/Desktop/chat_application/chat_application/venv/lib/python3.12/site-packages/starlette/websockets.py", line 119, in receive_text
+    self._raise_on_disconnect(message)
+  File "/home/sourabh/Desktop/chat_application/chat_application/venv/lib/python3.12/site-packages/starlette/websockets.py", line 113, in _raise_on_disconnect
+    raise WebSocketDisconnect(message["code"], message.get("reason"))
+starlette.websockets.WebSocketDisconnect: (1001, '')
+2025-03-09 15:29:01,489 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:29:01,490 - WARNING - WebSocket disconnected: current_user=67c20eda90b1b4e0beef6827, other=67c20beebeb874032b0c381c, group=000000112222334466677778889abbbbbbbccccdeeeeeeef
+2025-03-09 15:29:01,490 - INFO - Moving chat from Redis to MongoDB for group=000000112222334466677778889abbbbbbbccccdeeeeeeef
+2025-03-09 15:29:01,490 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:29:01,491 - INFO - WebSocket connection closed: user_id=67c20eda90b1b4e0beef6827, websocket_id=140183052223648
+2025-03-09 15:29:01,673 - INFO - Database connection successful.
+2025-03-09 15:29:01,675 - INFO - Database connection closed.
+2025-03-09 15:29:01,681 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:29:01,682 - INFO - Database connection successful.
+2025-03-09 15:29:01,684 - INFO - Database connection closed.
+2025-03-09 15:29:01,684 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:29:03,125 - INFO - Database connection closed.
+2025-03-09 15:29:05,609 - WARNING - WebSocket disconnected: current_user=67c20beebeb874032b0c381c, other=67c20eda90b1b4e0beef6827, group=000000112222334466677778889abbbbbbbccccdeeeeeeef
+2025-03-09 15:29:05,609 - INFO - Moving chat from Redis to MongoDB for group=000000112222334466677778889abbbbbbbccccdeeeeeeef
+2025-03-09 15:29:05,610 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:29:05,619 - INFO - Creating new Redis pub/sub client at localhost:6379
+2025-03-09 15:29:05,627 - INFO - Database connection closed.
+2025-03-09 15:29:07,227 - WARNING - WebSocket disconnected: current_user=67c20beebeb874032b0c381c, other=67c2e88b53474c286895498b, group=000122223334444556667777888888899bbbbbbccccceeee
+2025-03-09 15:29:07,227 - INFO - Moving chat from Redis to MongoDB for group=000122223334444556667777888888899bbbbbbccccceeee
+2025-03-09 15:29:07,227 - INFO - Removed WebSocket group and cancelled Redis listener: group=000122223334444556667777888888899bbbbbbccccceeee
+2025-03-09 15:29:07,228 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:29:07,228 - INFO - Listener for group 000122223334444556667777888888899bbbbbbccccceeee stopped.
+2025-03-09 15:29:07,229 - INFO - Unsubscribed from group 000122223334444556667777888888899bbbbbbccccceeee
+2025-03-09 15:29:07,238 - INFO - Creating new Redis pub/sub client at localhost:6379
+2025-03-09 15:29:07,245 - INFO - Database connection closed.
+2025-03-09 15:29:08,163 - WARNING - WebSocket disconnected: current_user=67c20beebeb874032b0c381c, other=67c27b205ae9c75d5093cdbe, group=0000012222333455566777778899abbbbbbccccccddeeeee
+2025-03-09 15:29:08,163 - INFO - Moving chat from Redis to MongoDB for group=0000012222333455566777778899abbbbbbccccccddeeeee
+2025-03-09 15:29:08,163 - INFO - Removed WebSocket group and cancelled Redis listener: group=0000012222333455566777778899abbbbbbccccccddeeeee
+2025-03-09 15:29:08,164 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:29:08,165 - INFO - Listener for group 0000012222333455566777778899abbbbbbccccccddeeeee stopped.
+2025-03-09 15:29:08,165 - INFO - Unsubscribed from group 0000012222333455566777778899abbbbbbccccccddeeeee
+2025-03-09 15:29:08,182 - INFO - Database connection closed.
+2025-03-09 15:29:11,100 - WARNING - WebSocket disconnected: current_user=67c20eda90b1b4e0beef6827, other=67c20beebeb874032b0c381c, group=000000112222334466677778889abbbbbbbccccdeeeeeeef
+2025-03-09 15:29:11,100 - INFO - Moving chat from Redis to MongoDB for group=000000112222334466677778889abbbbbbbccccdeeeeeeef
+2025-03-09 15:29:11,100 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:29:11,111 - INFO - Creating new Redis pub/sub client at localhost:6379
+2025-03-09 15:29:11,119 - INFO - Database connection closed.
+2025-03-09 15:29:14,869 - INFO - Creating new Redis pub/sub client at localhost:6379
+2025-03-09 15:29:14,878 - INFO - Database connection successful.
+2025-03-09 15:29:14,879 - INFO - Database connection closed.
+2025-03-09 15:29:15,970 - WARNING - WebSocket disconnected: current_user=67c20eda90b1b4e0beef6827, other=67c27b205ae9c75d5093cdbe, group=000001222234555666777778999aabbbbbccccdddeeeeeef
+2025-03-09 15:29:15,970 - INFO - Moving chat from Redis to MongoDB for group=000001222234555666777778999aabbbbbccccdddeeeeeef
+2025-03-09 15:29:15,970 - INFO - Removed WebSocket group and cancelled Redis listener: group=000001222234555666777778999aabbbbbccccdddeeeeeef
+2025-03-09 15:29:15,971 - INFO - Returning Redis client instance from connection pool
+2025-03-09 15:29:15,972 - INFO - Listener for group 000001222234555666777778999aabbbbbccccdddeeeeeef stopped.
+2025-03-09 15:29:15,972 - INFO - Unsubscribed from group 000001222234555666777778999aabbbbbccccdddeeeeeef
+2025-03-09 15:29:15,991 - INFO - Database connection closed.
