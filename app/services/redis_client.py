@@ -25,8 +25,10 @@ REDIS_PORT = Settings.REDIS_PORT
 #             RedisManager._redis_pool = redis.ConnectionPool.from_url(
 #                 f"redis://{REDIS_HOST}:{REDIS_PORT}", decode_responses=True
 #             )
-#             LOGGER.info("Created new Redis connection pool at %s:%s", REDIS_HOST, REDIS_PORT)
-            
+#             LOGGER.info(
+#                "Created new Redis connection pool at %s:%s", REDIS_HOST, REDIS_PORT
+#             )
+
 #         LOGGER.info("Returning Redis client instance from connection pool")
 #         return redis.Redis(connection_pool=RedisManager._redis_pool)
 
@@ -34,7 +36,6 @@ REDIS_PORT = Settings.REDIS_PORT
 #     async def get_pubsub_client():
 #         """Get a Redis client for pub/sub."""
 #         return redis.Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)
-
 
 
 class RedisManager:
@@ -48,22 +49,32 @@ class RedisManager:
                 RedisManager._redis_pool = redis.ConnectionPool.from_url(
                     f"redis://{REDIS_HOST}:{REDIS_PORT}", decode_responses=True
                 )
-                LOGGER.info("Created new Redis connection pool at %s:%s", REDIS_HOST, REDIS_PORT)
+                LOGGER.info(
+                    "Created new Redis connection pool at %s:%s", REDIS_HOST, REDIS_PORT
+                )
 
             LOGGER.info("Returning Redis client instance from connection pool")
             return redis.Redis(connection_pool=RedisManager._redis_pool)
-        
+
         except Exception as e:
-            LOGGER.error("Error occurred while getting Redis client: %s", str(e), exc_info=True)
+            LOGGER.error(
+                "Error occurred while getting Redis client: %s", str(e), exc_info=True
+            )
             raise
 
     @staticmethod
     async def get_pubsub_client():
         """Get a Redis client for pub/sub."""
         try:
-            LOGGER.info("Creating new Redis pub/sub client at %s:%s", REDIS_HOST, REDIS_PORT)
+            LOGGER.info(
+                "Creating new Redis pub/sub client at %s:%s", REDIS_HOST, REDIS_PORT
+            )
             return redis.Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)
-        
+
         except Exception as e:
-            LOGGER.error("Error occurred while getting Redis pub/sub client: %s", str(e), exc_info=True)
+            LOGGER.error(
+                "Error occurred while getting Redis pub/sub client: %s",
+                str(e),
+                exc_info=True,
+            )
             raise

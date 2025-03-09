@@ -4,6 +4,7 @@ from typing import Dict, Any
 from app.services.metrics import REDIS_CHANNELS_ACTIVE, REDIS_CHANNELS_TOTAL
 from app.utils.logger_config import LOGGER
 
+
 class RedisWebSocketManager:
     """Manages WebSocket connections with Redis Pub/Sub for real-time messaging."""
 
@@ -42,7 +43,9 @@ class RedisWebSocketManager:
             LOGGER.info("Listener for group %s stopped.", group)
 
         except Exception as e:
-            LOGGER.error("Error in listener for group %s: %s", group, str(e), exc_info=True)
+            LOGGER.error(
+                "Error in listener for group %s: %s", group, str(e), exc_info=True
+            )
         finally:
             REDIS_CHANNELS_ACTIVE.dec()
             await pubsub.unsubscribe(group)
@@ -59,5 +62,10 @@ class RedisWebSocketManager:
             print(f"Published: {message} to {group}")
             await redis_client.close()
         except Exception as e:
-            LOGGER.error("Failed to publish message to group %s: %s", group, str(e), exc_info=True)
+            LOGGER.error(
+                "Failed to publish message to group %s: %s",
+                group,
+                str(e),
+                exc_info=True,
+            )
             # print(f"failed to public messafe {str(e)}")

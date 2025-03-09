@@ -38,7 +38,9 @@ async def get_current_user_id(token: str = Security(oauth2_scheme)):
 
         return user_details["user_id"]
     except Exception as e:
-        LOGGER.critical("Unexpected error during authentication: %s", str(e), exc_info=True)
+        LOGGER.critical(
+            "Unexpected error during authentication: %s", str(e), exc_info=True
+        )
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"An unexpected error occurred: {str(e)}",
