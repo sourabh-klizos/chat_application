@@ -76,3 +76,6 @@ class WebSocketLocust(User):
             logging.info(f"Received: {response}")
         except Exception as e:
             logging.error(f"Message error: {e}")
+
+
+# locust -f locustfile.py  --headless -u 10 -r 2 --host ws://localhost:8000

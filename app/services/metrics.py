@@ -38,10 +38,16 @@ MONGO_DB_CONNECTIONS = Counter(
 )
 
 
+SYSTEM_CPU_COUNT = Gauge("system_cpu_count", "Number of CPU cores")
+SYSTEM_THREAD_COUNT = Gauge("system_thread_count", "Number of active threads")
+
+
 # Function to update system metrics (called only when Prometheus scrapes)
 def update_metrics():
     CPU_USAGE.set(psutil.cpu_percent())
     MEMORY_USAGE.set(psutil.virtual_memory().percent)
+    SYSTEM_CPU_COUNT.set(psutil.cpu_count())
+    SYSTEM_THREAD_COUNT.set(len(psutil.Process().threads()))
 
 
 def get_metrics():
