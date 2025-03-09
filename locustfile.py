@@ -15,7 +15,7 @@ if existing_users_count < 500:
     users_to_create = 500 - existing_users_count
     new_users = [
         {"username": f"user{i}", "email": f"user{i}@example.com", "password": "123"}
-        for i in range(existing_users_count, 200)
+        for i in range(existing_users_count, 500)
     ]
     users_collection.insert_many(new_users)
     logging.info(f"Added {users_to_create} new users.")
