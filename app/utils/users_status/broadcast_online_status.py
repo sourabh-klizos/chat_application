@@ -48,22 +48,23 @@ async def update_online_status(websocket_connections: dict) -> None:
         online_users = await OnlineUserManager.get_all_online_users()
         print("update_online_status", online_users)
 
-        sockets_ids = [
-            user_socket_id["websocket_id"] for user_socket_id in online_users.values()
-        ]
-        active_online_users = [user_data["data"] for user_data in online_users.values()]
+        if  online_users:
+            sockets_ids = [
+                user_socket_id["websocket_id"] for user_socket_id in online_users.values()
+            ]
+            active_online_users = [user_data["data"] for user_data in online_users.values()]
 
-        online_users_data = json.dumps(active_online_users)
+            online_users_data = json.dumps(active_online_users)
 
-        tasks = [
-            websocket_connections[socket_id].send_text(online_users_data)
-            for socket_id in sockets_ids
-            if socket_id in websocket_connections
-        ]
+            tasks = [
+                websocket_connections[socket_id].send_text(online_users_data)
+                for socket_id in sockets_ids
+                if socket_id in websocket_connections
+            ]
 
-        if tasks:
-            await asyncio.gather(*tasks)
-        else:
-            print("No active websocket connections to send data.")
+            if tasks:
+                await asyncio.gather(*tasks)
+      
+        print("No active websocket connections to send data.")
     except Exception as e:
         print(f"Error updating online status: {e}")

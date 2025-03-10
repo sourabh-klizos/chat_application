@@ -13,7 +13,7 @@ WS_CONNECTIONS_ACTIVE = Gauge(
 )
 WS_CONNECTIONS_TOTAL = Counter("ws_connections_total", "Total WebSocket Connections")
 WS_MESSAGES = Counter("ws_messages_total", "Total WebSocket Messages")
-WS_CONNECTIONS_DISC = Counter("disconnected_connections_total", "Total WebSocket Disconnected Connections")
+WS_CONNECTIONS_DISC = Gauge("disconnected_connections_total", "Total WebSocket Disconnected Connections")
 
 MESSAGE_PROCESSING_TIME = Histogram(
     "ws_message_processing_duration_seconds",
