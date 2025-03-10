@@ -1,12 +1,6 @@
 from app.utils.logger_config import LOGGER
 
 
-
-
-
-
-
-
 class ChatGroup:
 
     @staticmethod
@@ -17,14 +11,7 @@ class ChatGroup:
         return None
 
 
-
-
-
-
-
-
 # class ChatGroup:
-
 
 
 #     @staticmethod

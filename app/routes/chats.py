@@ -32,8 +32,6 @@ async def get_latest_chat_from_redis(current_user_id: str, other_id: str):
     return decoded_messages
 
 
-
-
 chat_routes = APIRouter(prefix="/api/v1/chat", tags=["chat"])
 
 
@@ -47,9 +45,8 @@ async def get_chat_history(
     """Retrieves chat history between the current user and another user."""
     try:
 
-        latest_messages = await get_latest_chat_from_redis(current_user,other_user_id )
-        print("----------------------------------latest",latest_messages)
-
+        latest_messages = await get_latest_chat_from_redis(current_user, other_user_id)
+        print("----------------------------------latest", latest_messages)
 
         chat_history = await Conversation.get_chat_history(current_user, other_user_id)
 

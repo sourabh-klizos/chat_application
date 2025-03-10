@@ -35,7 +35,6 @@ async def create_user(
         user_email = user_dict.get("email")
         # email_already_exists = await user_collection.find_one({"email": user_email})
         # username_already_exists = await user_collection.find_one({"username": username})
-        
 
         user_exists = await user_collection.find_one(
             {"$or": [{"email": user_email}, {"username": username}]}

@@ -10,10 +10,10 @@ class RedisChatHandler:
     async def store_message_in_redis(channel_id, message):
         """Store a message in Redis for the given channel."""
         try:
-            chat_id = f"chat:{channel_id}" 
+            chat_id = f"chat:{channel_id}"
             redis_client = await RedisManager.get_redis_client()
             await redis_client.rpush(chat_id, str(message))
-            
+
             # print(f"Message successfully stored in Redis for channel: {channel_id}")
         except redis.exceptions.RedisError as e:
             LOGGER.error(
@@ -35,7 +35,7 @@ class RedisChatHandler:
         when either of the user leaves the channel."""
         try:
             redis_client = await RedisManager.get_redis_client()
-            chat_id = f"chat:{channel_id}" 
+            chat_id = f"chat:{channel_id}"
 
             messages = await redis_client.lrange(chat_id, 0, -1)
             if not messages:

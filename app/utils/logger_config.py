@@ -8,6 +8,4 @@ logging.basicConfig(
 )
 
 
-
-
 LOGGER = logging.getLogger("chat_app")

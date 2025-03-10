@@ -26,7 +26,7 @@ from app.services.metrics import (
     WS_CONNECTIONS_TOTAL,
     WS_MESSAGES,
     MESSAGE_PROCESSING_TIME,
-    WS_CONNECTIONS_DISC
+    WS_CONNECTIONS_DISC,
 )
 from app.utils.store_message_redis import RedisChatHandler
 
@@ -138,9 +138,7 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
             #         RedisChatHandler.store_message_in_redis(group, data)
             #     )
 
-            asyncio.create_task(
-                    RedisChatHandler.store_message_in_redis(group, data)
-            )
+            asyncio.create_task(RedisChatHandler.store_message_in_redis(group, data))
             await RedisWebSocketManager.publish_message(group, data)
             latency = time.time() - start_time
 
@@ -172,7 +170,7 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
     finally:
         LOGGER.info("Entering finally block")
         WS_CONNECTIONS_DISC.dec()
-        
+
         WS_CONNECTIONS_ACTIVE.dec()
 
         try:
@@ -191,8 +189,3 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
             LOGGER.info(
                 "Removed WebSocket group and cancelled Redis listener: group=%s", group
             )
-
-
-
-
-
