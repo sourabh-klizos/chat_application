@@ -30,6 +30,7 @@ class Conversation:
                     ]
                 }
                 cursor = chat_collection.find(query).sort("created_at", 1)
+                MONGO_DB_CONNECTIONS.inc()
                 chats_list = await cursor.to_list(length=None)
 
                 if not chats_list:

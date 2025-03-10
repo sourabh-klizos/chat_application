@@ -26,6 +26,7 @@ from app.services.metrics import (
     WS_CONNECTIONS_TOTAL,
     WS_MESSAGES,
     MESSAGE_PROCESSING_TIME,
+    WS_CONNECTIONS_DISC
 )
 from app.utils.store_message_redis import RedisChatHandler
 
@@ -85,6 +86,7 @@ async def user_status(websocket: WebSocket, user_id: str):
 
     finally:
         WS_CONNECTIONS_ACTIVE.dec()
+
         await set_user_offline(
             websocket_connections=websocket_connections,
             websocket_id=websocket_id,
@@ -158,7 +160,8 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
         )
 
     finally:
-
+        WS_CONNECTIONS_DISC.dec()
+        
         WS_CONNECTIONS_ACTIVE.dec()
 
         asyncio.create_task(RedisChatHandler.move_chat_to_mongo(group))

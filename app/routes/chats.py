@@ -3,6 +3,7 @@ from fastapi import APIRouter, HTTPException, status, Depends
 from app.utils.get_current_logged_in_user import get_current_user_id
 from app.utils.logger_config import LOGGER
 from app.utils.chat_conversations import Conversation
+from app.services.metrics import MONGO_DB_CONNECTIONS
 
 
 chat_routes = APIRouter(prefix="/api/v1/chat", tags=["chat"])
@@ -18,7 +19,9 @@ async def get_chat_history(
     """Retrieves chat history between the current user and another user."""
     try:
 
+
         chat_history = await Conversation.get_chat_history(current_user, other_user_id)
+        MONGO_DB_CONNECTIONS.inc()
         return chat_history
 
     except HTTPException as http_error:

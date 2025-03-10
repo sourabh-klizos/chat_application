@@ -6,7 +6,7 @@ from pymongo import MongoClient
 from locust import User, task
 
 
-from websocket import create_connection
+from websocket import create_connection, WebSocket
 
 
 client = MongoClient("mongodb://localhost:27017/")
@@ -14,11 +14,11 @@ db = client["chat_app"]
 users_collection = db["users"]
 
 existing_users_count = users_collection.count_documents({})
-if existing_users_count < 500:
-    users_to_create = 500 - existing_users_count
+if existing_users_count < 1000:
+    users_to_create = 1000 - existing_users_count
     new_users = [
         {"username": f"user{i}", "email": f"user{i}@example.com", "password": "123"}
-        for i in range(existing_users_count, 500)
+        for i in range(existing_users_count, 1000)
     ]
     users_collection.insert_many(new_users)
     logging.info(f"Added {users_to_create} new users.")
@@ -80,7 +80,7 @@ class WebSocketLocust(User):
 
 # locust -f locustfile.py  --headless -u 10 -r 2 --host ws://localhost:8000
 
-
+# locust -f locustfile.py  --headless -u 2000 -r 20 --host ws://localhost:8000
 
 # 1. locust
 # This is the command to run Locust.

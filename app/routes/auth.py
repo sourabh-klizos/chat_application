@@ -9,6 +9,7 @@ from app.database.db import get_db
 from typing import List
 from app.utils.logger_config import LOGGER
 from app.utils.serializers import Serializers
+from app.services.metrics import MONGO_DB_CONNECTIONS
 
 auth_routes = APIRouter(prefix="/api/v1/auth", tags=["user"])
 
@@ -27,27 +28,35 @@ async def create_user(
 
         user_dict = user_credential.model_dump()
 
-        user_dict["email"] = user_dict["email"].lower()
-        user_dict["username"] = user_dict["username"].lower()
+        user_dict["email"] = user_dict.get("email").lower()
+        user_dict["username"] = user_dict.get("username").lower()
 
         username = user_dict.get("username")
         user_email = user_dict.get("email")
-        email_already_exists = await user_collection.find_one({"email": user_email})
-        username_already_exists = await user_collection.find_one({"username": username})
-        if email_already_exists:
-            raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
-                detail="User already exists with this email",
-            )
+        # email_already_exists = await user_collection.find_one({"email": user_email})
+        # username_already_exists = await user_collection.find_one({"username": username})
+        
 
-        if username_already_exists:
+        user_exists = await user_collection.find_one(
+            {"$or": [{"email": user_email}, {"username": username}]}
+        )
+        MONGO_DB_CONNECTIONS.inc()
 
-            raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
-                detail={
-                    "message": "User already exists with this username",
-                },
-            )
+        if user_exists:
+
+            if user_exists.get("email") == user_email:
+                raise HTTPException(
+                    status_code=status.HTTP_409_CONFLICT,
+                    detail="User already exists with this email",
+                )
+
+            if user_exists.get("username") == username:
+                raise HTTPException(
+                    status_code=status.HTTP_409_CONFLICT,
+                    detail={
+                        "message": "User already exists with this username",
+                    },
+                )
 
         user_dict["created_at"] = datetime.now()
         user_dict["password"] = await PasswordUtils.get_hashed_password(
@@ -55,6 +64,7 @@ async def create_user(
         )
 
         await user_collection.insert_one(user_dict)
+        MONGO_DB_CONNECTIONS.inc()
         return {"message": "User account created successfully."}
     except HTTPException as http_error:
         LOGGER.error("Signup failed: %s", http_error.detail)
@@ -85,6 +95,7 @@ async def user_login(user_credential: UserLoginModel, db=Depends(get_db)):
         password = user_dict.get("password")
 
         user_instance = await user_collection.find_one({"email": email})
+        MONGO_DB_CONNECTIONS.inc()
         if not user_instance:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
@@ -137,6 +148,7 @@ async def retrive_users(db=Depends(get_db)):
     try:
         user_collection: Collection = db["users"]
         users_cursor = user_collection.find({}, {"password": 0})
+        MONGO_DB_CONNECTIONS.inc()
         users_list = await users_cursor.to_list()
         users = await Serializers.convert_ids_to_strings(users_list)
 

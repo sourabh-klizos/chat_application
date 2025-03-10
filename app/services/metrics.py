@@ -13,6 +13,7 @@ WS_CONNECTIONS_ACTIVE = Gauge(
 )
 WS_CONNECTIONS_TOTAL = Counter("ws_connections_total", "Total WebSocket Connections")
 WS_MESSAGES = Counter("ws_messages_total", "Total WebSocket Messages")
+WS_CONNECTIONS_DISC = Counter("disconnected_connections_total", "Total WebSocket Disconnected Connections")
 
 MESSAGE_PROCESSING_TIME = Histogram(
     "ws_message_processing_duration_seconds",
@@ -38,16 +39,16 @@ MONGO_DB_CONNECTIONS = Counter(
 )
 
 
-SYSTEM_CPU_COUNT = Gauge("system_cpu_count", "Number of CPU cores")
-SYSTEM_THREAD_COUNT = Gauge("system_thread_count", "Number of active threads")
+# SYSTEM_CPU_COUNT = Gauge("system_cpu_count", "Number of CPU cores")
+# SYSTEM_THREAD_COUNT = Gauge("system_thread_count", "Number of active threads")
 
 
 # Function to update system metrics (called only when Prometheus scrapes)
 def update_metrics():
     CPU_USAGE.set(psutil.cpu_percent())
     MEMORY_USAGE.set(psutil.virtual_memory().percent)
-    SYSTEM_CPU_COUNT.set(psutil.cpu_count())
-    SYSTEM_THREAD_COUNT.set(len(psutil.Process().threads()))
+    # SYSTEM_CPU_COUNT.set(psutil.cpu_count())
+    # SYSTEM_THREAD_COUNT.set(len(psutil.Process().threads()))
 
 
 def get_metrics():

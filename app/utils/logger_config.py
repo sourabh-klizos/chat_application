@@ -7,4 +7,7 @@ logging.basicConfig(
     level=logging.INFO, format=LOG_FORMAT, filename=LOG_FILE, filemode="a"
 )
 
+
+
+
 LOGGER = logging.getLogger("chat_app")
