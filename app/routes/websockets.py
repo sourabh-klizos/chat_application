@@ -17,7 +17,8 @@ from app.utils.users_status.set_user_offline import set_user_offline
 # from app.services.redis_client import RedisManager
 from app.utils.users_status.broadcast_online_status import update_online_status
 from app.utils.create_unique_group import ChatGroup
-from app.utils.chat_conversations import Conversation
+
+# from app.utils.chat_conversations import Conversation
 
 # from app.utils.get_current_logged_in_user import get_current_user_id
 from app.utils.pub_sub import RedisWebSocketManager

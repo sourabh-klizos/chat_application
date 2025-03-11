@@ -6,7 +6,7 @@ from pymongo import MongoClient
 from locust import User, task
 
 
-from websocket import create_connection, WebSocket
+from websocket import create_connection  # WebSocket
 
 
 client = MongoClient("mongodb://localhost:27017/")
@@ -84,14 +84,22 @@ class WebSocketLocust(User):
 
 # 1. locust
 # This is the command to run Locust.
+
 # 2. -f locustfile.py
-# Specifies the test script file (named locustfile.py) that contains the Locust load test configuration.
+# Specifies the test script file (named locustfile.py)
+#  that contains the Locust load test configuration.
+
 # 3. --headless
 # Runs Locust without the web UI (useful for automation or CLI-based testing).
 # 4. -u 10
+
+
 # Sets the number of concurrent users (simulated clients) to 10.
 # 5. -r 2
-# Specifies the spawn rate, meaning 2 users per second will be added until the total reaches 10 users.
+
+# Specifies the spawn rate, meaning 2 users
+# per second will be added until the total reaches 10 users.
 # 6. --host ws://localhost:8000
 # Defines the WebSocket server host that Locust will connect to.
-# In this case, it is ws://localhost:8000, meaning Locust will test a WebSocket server running on port 8000 on the local machine.
+# In this case, it is ws://localhost:8000, meaning Locust
+#  will test a WebSocket server running on port 8000 on the local machine.
