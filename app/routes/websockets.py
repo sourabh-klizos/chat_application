@@ -131,14 +131,6 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
 
             WS_MESSAGES.inc()
 
-            # if len(active_connections[group]) == 1:
-            #     asyncio.create_task(Conversation.insert_chat(data))
-            # else:
-            #     # await RedisChatHandler.store_message_in_redis(group, data)
-            #     asyncio.create_task(
-            #         RedisChatHandler.store_message_in_redis(group, data)
-            #     )
-
             asyncio.create_task(RedisChatHandler.store_message_in_redis(group, data))
             await RedisWebSocketManager.publish_message(group, data)
             latency = time.time() - start_time
@@ -148,17 +140,7 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
     except WebSocketDisconnect:
         if websocket in active_connections[group]:
             active_connections[group].remove(websocket)
-        LOGGER.warning(
-            "WebSocket disconnected: current_user=%s, other=%s, group=%s",
-            current_user,
-            other,
-            group,
-        )
-        try:
-            # asyncio.create_task(RedisChatHandler.move_chat_to_mongo(group))
-            LOGGER.info("Moving chat from Redis to MongoDB for group=%s", group)
-        except Exception as e:
-            LOGGER.error("Error moving chat to MongoDB: %s", str(e), exc_info=True)
+
 
     except Exception as e:
         LOGGER.error(

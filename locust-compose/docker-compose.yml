@@ -1,0 +1,21 @@
+version: '3.8'
+
+networks:
+  backend_backend_network:
+    external: true  
+
+services:
+  locust:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: locust_tester
+    volumes:
+      - .:/mnt/locust
+    working_dir: /mnt/locust
+    command: >
+      locust -f locustfile.py --headless -u 1000 -r 10 --host ws://fastapi:8000
+    networks:
+      - backend_backend_network
+    # depends_on:
+    #   - fastapi
