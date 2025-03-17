@@ -1,0 +1,16 @@
+2025-03-17 11:27:34,445 - INFO - Listener for group 67d26c90da86c941fb65e20b-67d26c90da86c941fb65e28f stopped.
+2025-03-17 11:27:34,446 - INFO - Unsubscribed from group 67d26c90da86c941fb65e20b-67d26c90da86c941fb65e28f
+2025-03-17 11:27:34,447 - INFO - Listener for group 67d26c90da86c941fb65e20c-67d26c90da86c941fb65e2e2 stopped.
+2025-03-17 11:27:34,447 - INFO - Unsubscribed from group 67d26c90da86c941fb65e20c-67d26c90da86c941fb65e2e2
+2025-03-17 11:27:34,448 - INFO - Listener for group 67d26c90da86c941fb65e09e-67d26c90da86c941fb65e1f6 stopped.
+2025-03-17 11:27:34,448 - INFO - Unsubscribed from group 67d26c90da86c941fb65e09e-67d26c90da86c941fb65e1f6
+2025-03-17 11:27:34,449 - INFO - Listener for group 67d26c90da86c941fb65e286-67d26c90da86c941fb65e38e stopped.
+2025-03-17 11:27:34,449 - INFO - Unsubscribed from group 67d26c90da86c941fb65e286-67d26c90da86c941fb65e38e
+2025-03-17 11:27:34,449 - INFO - Listener for group 67d26c90da86c941fb65e069-67d26c90da86c941fb65e0cf stopped.
+2025-03-17 11:27:34,450 - INFO - Unsubscribed from group 67d26c90da86c941fb65e069-67d26c90da86c941fb65e0cf
+2025-03-17 11:27:34,450 - INFO - Listener for group 67d26c90da86c941fb65e394-67d26c90da86c941fb65e399 stopped.
+2025-03-17 11:27:34,451 - INFO - Unsubscribed from group 67d26c90da86c941fb65e394-67d26c90da86c941fb65e399
+2025-03-17 11:27:34,451 - INFO - Listener for group 67d26c90da86c941fb65e2fa-67d26c90da86c941fb65e333 stopped.
+2025-03-17 11:27:34,451 - INFO - Unsubscribed from group 67d26c90da86c941fb65e2fa-67d26c90da86c941fb65e333
+2025-03-17 11:28:12,417 - INFO - Created new Redis connection pool at redis_service:6379
+2025-03-17 11:28:12,417 - INFO - Returning Redis client instance from connection pool
