@@ -38,9 +38,7 @@ class WebSocketLocust(User):
         self.selected_user_id = random.choice(
             [uid for uid in user_ids if uid != self.current_id]
         )
-        self.ws_url = (
-            f"ws://fastapi:8000/ws/{self.current_id}/{self.selected_user_id}/"
-        )
+        self.ws_url = f"ws://fastapi:8000/ws/{self.current_id}/{self.selected_user_id}/"
 
         try:
             self.ws = create_connection(self.ws_url)

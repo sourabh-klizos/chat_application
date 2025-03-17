@@ -71,8 +71,9 @@ async def user_status(websocket: WebSocket, user_id: str):
                 )
 
             if (
-                json_data["type"] != "user_left"
-                or json_data["type"] == "get_online_users"
+                json_data["type"]
+                != "user_left"
+                # or json_data["type"] == "get_online_users"
             ):
                 await set_users_status_online(
                     websocket_id=websocket_id, user_id=user_id
@@ -105,7 +106,10 @@ async def user_status(websocket: WebSocket, user_id: str):
 @ws_routes.websocket("/{current_user}/{other}/")
 async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
     """
-    WebSocket endpoint for real-time chat messages and publishing.
+    WebSocket endpoint for real-time chat between two users.
+
+    Handles connections, message broadcasting, and disconnections,
+    leveraging Redis for pub/sub.
     """
 
     current_user = current_user
@@ -140,7 +144,6 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
     except WebSocketDisconnect:
         if websocket in active_connections[group]:
             active_connections[group].remove(websocket)
-
 
     except Exception as e:
         LOGGER.error(

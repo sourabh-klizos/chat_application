@@ -10,6 +10,10 @@ import json
 
 
 async def get_latest_chat_from_redis(current_user_id: str, other_id: str):
+    """Retrieves the latest chat messages from Redis.
+
+    Fetches chat messages from Redis for the specified users.
+    """
     group = await ChatGroup.create_unique_group(current_user_id, other_id)
     redis_client = await RedisManager.get_redis_client()
 

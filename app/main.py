@@ -10,6 +10,7 @@ from app.services.metrics import HTTP_REQUESTS, get_metrics
 from prometheus_client.exposition import CONTENT_TYPE_LATEST
 from app.config import Settings
 
+
 settings = Settings()
 load_dotenv(".env")
 
@@ -45,14 +46,22 @@ async def add_metrics(request: Request, call_next):
         return response
     except Exception as e:
         print(f"Error in middleware: {e}")
-        pass
 
 
 @app.get("/")
 async def main():
-    return {"message": "Hello World"}
+    """Root endpoint.
+
+    Returns a simple health check message.
+    """
+
+    return {"message": "I Am Healthy"}
 
 
 @app.get("/metrics")
 async def metrics():
+    """Metrics endpoint.
+
+    Returns application metrics in Prometheus format.
+    """
     return Response(get_metrics(), media_type=CONTENT_TYPE_LATEST)

@@ -7,6 +7,11 @@ DB_NAME = Settings.DB_NAME
 
 
 async def get_db():
+    """Get database client.
+
+    Establishes a connection to the MongoDB database and yields the database client.
+    Handles potential exceptions during connection and ensures client closure.
+    """
 
     client = AsyncIOMotorClient(DATABASE_URL)
     db = client[DB_NAME]
