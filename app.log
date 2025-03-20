@@ -1,0 +1,2 @@
+2025-03-20 14:24:58,070 - INFO - Created new Redis connection pool at redis_service:6379
+2025-03-20 14:24:58,071 - INFO - Returning Redis client instance from connection pool
