@@ -28,7 +28,7 @@ async def get_latest_chat_from_redis(current_user_id: str, other_id: str):
         print(f" Generated group: {group}")
 
        
-        messages = await redis_client.xrange(chat_stream, "-", "+", count=100, decode=True)
+        messages = await redis_client.xrange(chat_stream, "-", "+", count=100)
 
         print(f" Raw messages from Redis: {messages}")
 
