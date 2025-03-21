@@ -7,10 +7,9 @@ from app.services.metrics import MONGO_DB_CONNECTIONS
 from app.utils.create_unique_group import ChatGroup
 from app.services.redis_client import RedisManager
 import json
-
+import redis
 
 chat_routes = APIRouter(prefix="/api/v1/chat", tags=["chat"])
-
 
 
 
@@ -20,28 +19,35 @@ async def get_latest_chat_from_redis(current_user_id: str, other_id: str):
         redis_client = await RedisManager.get_redis_client()
         chat_stream = "chat_stream"
 
-        # Fetch the latest 100 messages from the stream
-        messages = await redis_client.xrange(chat_stream, "-", "+", count=100)
-        group = ChatGroup.create_unique_group(current_user_id, other_id)
+        
+        group = await ChatGroup.create_unique_group(current_user_id, other_id)
+        if not group:
+            print(" Error: Group ID is None")
+            return []
+
+        print(f" Generated group: {group}")
+
+       
+        messages = await redis_client.xrange(chat_stream, "-", "+", count=100, decode=True)
+
+        print(f" Raw messages from Redis: {messages}")
 
         if not messages:
             return []
 
-        # Create the expected channel ID (same format used when storing messages)
-        channel_id = f"{current_user_id}-{other_id}"
-        reverse_channel_id = f"{other_id}-{current_user_id}"
-
-        # Extract and filter messages for the specific chat channel
+      
         filtered_messages = [
-            json.loads(data.get("message"))  # Decode JSON message
+            json.loads(data["message"])  # Decode JSON message
             for _, data in messages
-            if data.get("channel") == group # Match channel ID
+            if data.get("channel") == group  # Match channel ID
         ]
 
+        print(f" Filtered messages: {filtered_messages}")
         return filtered_messages
 
-    except Exception as e:
-        LOGGER.error(f"Error retrieving chat from Redis Stream: {str(e)}", exc_info=True)
+    except redis.exceptions.RedisError as e:
+        print(str(e) , "==============================================================")
+        LOGGER.error("Redis error: %s", str(e), exc_info=True)
         return []
 
 

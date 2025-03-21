@@ -6764,3 +6764,658 @@ starlette.websockets.WebSocketDisconnect: (1012, None)
 2025-03-21 13:43:52,767 - INFO - Created new Redis connection pool at redis_service:6379
 2025-03-21 13:43:52,768 - INFO - Returning Redis client instance from connection pool
 2025-03-21 13:43:52,768 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:45:29,685 - INFO - Database connection successful.
+2025-03-21 13:45:29,686 - INFO - Database connection closed.
+2025-03-21 13:45:29,687 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:45:29,688 - INFO - Database connection successful.
+2025-03-21 13:45:29,689 - INFO - Database connection closed.
+2025-03-21 13:45:29,690 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:45:32,456 - INFO - Database connection successful.
+2025-03-21 13:45:32,457 - INFO - Database connection closed.
+2025-03-21 13:45:32,458 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:45:32,459 - INFO - Database connection successful.
+2025-03-21 13:45:32,460 - INFO - Database connection closed.
+2025-03-21 13:45:32,461 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:45:33,339 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:45:33,361 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:45:33,367 - INFO - Database connection closed.
+2025-03-21 13:45:34,882 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:45:34,897 - INFO - Database connection closed.
+2025-03-21 13:45:40,956 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:45:40,957 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:45:40,966 - INFO - Entering finally block
+2025-03-21 13:45:40,967 - INFO - Moving chat from Redis to MongoDB for group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 13:45:40,971 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:45:40,974 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:45:40,986 - INFO - Database connection closed.
+2025-03-21 13:45:41,436 - INFO - Entering finally block
+2025-03-21 13:45:41,436 - INFO - Moving chat from Redis to MongoDB for group=67dd5e7bbbd229c5dab24bb9-67dd68ddf68f4f406ed094cd
+2025-03-21 13:45:41,437 - INFO - Removed WebSocket group and cancelled Redis listener: group=67dd5e7bbbd229c5dab24bb9-67dd68ddf68f4f406ed094cd
+2025-03-21 13:45:41,438 - INFO - Listener for group 67dd5e7bbbd229c5dab24bb9-67dd68ddf68f4f406ed094cd stopped.
+2025-03-21 13:45:41,439 - INFO - Unsubscribed from group 67dd5e7bbbd229c5dab24bb9-67dd68ddf68f4f406ed094cd
+2025-03-21 13:45:41,440 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:45:41,452 - INFO - Database connection closed.
+2025-03-21 13:45:42,682 - ERROR - Error in move_chat_to_mongo: b'message'
+Traceback (most recent call last):
+  File "/app/app/utils/store_message_redis.py", line 86, in move_chat_to_mongo
+    decoded_messages = [
+                       ^
+  File "/app/app/utils/store_message_redis.py", line 87, in <listcomp>
+    json.loads(msg[1][b"message"]) for msg in messages
+               ~~~~~~^^^^^^^^^^^^
+KeyError: b'message'
+2025-03-21 13:45:47,486 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:45:47,487 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:45:54,891 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:45:54,892 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:45:56,351 - INFO - Entering finally block
+2025-03-21 13:45:56,352 - INFO - Moving chat from Redis to MongoDB for group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 13:45:56,356 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:45:56,358 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:45:56,370 - INFO - Database connection closed.
+2025-03-21 13:45:57,028 - INFO - Entering finally block
+2025-03-21 13:45:57,029 - INFO - Moving chat from Redis to MongoDB for group=67dd5e7bbbd229c5dab24bb9-67dd68eef68f4f406ed094d2
+2025-03-21 13:45:57,029 - INFO - Removed WebSocket group and cancelled Redis listener: group=67dd5e7bbbd229c5dab24bb9-67dd68eef68f4f406ed094d2
+2025-03-21 13:45:57,030 - INFO - Listener for group 67dd5e7bbbd229c5dab24bb9-67dd68eef68f4f406ed094d2 stopped.
+2025-03-21 13:45:57,031 - INFO - Unsubscribed from group 67dd5e7bbbd229c5dab24bb9-67dd68eef68f4f406ed094d2
+2025-03-21 13:45:57,032 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:45:57,045 - INFO - Database connection closed.
+2025-03-21 13:45:57,755 - INFO - Entering finally block
+2025-03-21 13:45:57,755 - INFO - Moving chat from Redis to MongoDB for group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 13:45:57,758 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:45:57,767 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:45:57,772 - INFO - Database connection closed.
+2025-03-21 13:45:58,126 - INFO - Entering finally block
+2025-03-21 13:45:58,127 - INFO - Moving chat from Redis to MongoDB for group=67dd5e7bbbd229c5dab24bb9-67dd68eef68f4f406ed094d2
+2025-03-21 13:45:58,127 - INFO - Removed WebSocket group and cancelled Redis listener: group=67dd5e7bbbd229c5dab24bb9-67dd68eef68f4f406ed094d2
+2025-03-21 13:45:58,128 - INFO - Listener for group 67dd5e7bbbd229c5dab24bb9-67dd68eef68f4f406ed094d2 stopped.
+2025-03-21 13:45:58,128 - INFO - Unsubscribed from group 67dd5e7bbbd229c5dab24bb9-67dd68eef68f4f406ed094d2
+2025-03-21 13:45:58,129 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:45:58,143 - INFO - Database connection closed.
+2025-03-21 13:51:04,486 - INFO - Entering finally block
+2025-03-21 13:51:04,487 - INFO - Moving chat from Redis to MongoDB for group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 13:51:04,488 - ERROR - WebSocket error: user_id=67dd68eef68f4f406ed094d2, error=(1012, None)
+Traceback (most recent call last):
+  File "/app/app/routes/websockets.py", line 61, in user_status
+    data = await websocket.receive_text()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 119, in receive_text
+    self._raise_on_disconnect(message)
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 113, in _raise_on_disconnect
+    raise WebSocketDisconnect(message["code"], message.get("reason"))
+starlette.websockets.WebSocketDisconnect: (1012, None)
+2025-03-21 13:51:04,491 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:51:04,492 - INFO - Entering finally block
+2025-03-21 13:51:04,492 - INFO - Moving chat from Redis to MongoDB for group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 13:51:04,492 - ERROR - WebSocket error: user_id=67dd68ddf68f4f406ed094cd, error=(1012, None)
+Traceback (most recent call last):
+  File "/app/app/routes/websockets.py", line 61, in user_status
+    data = await websocket.receive_text()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 119, in receive_text
+    self._raise_on_disconnect(message)
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 113, in _raise_on_disconnect
+    raise WebSocketDisconnect(message["code"], message.get("reason"))
+starlette.websockets.WebSocketDisconnect: (1012, None)
+2025-03-21 13:51:04,494 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:51:04,495 - INFO - WebSocket connection closed: user_id=67dd68eef68f4f406ed094d2, websocket_id=139864796093008
+2025-03-21 13:51:04,497 - INFO - WebSocket connection closed: user_id=67dd68ddf68f4f406ed094cd, websocket_id=139864762080848
+2025-03-21 13:51:04,586 - INFO - Listener for group 67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2 stopped.
+2025-03-21 13:51:04,587 - INFO - Unsubscribed from group 67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 13:51:19,649 - INFO - Created new Redis connection pool at redis_service:6379
+2025-03-21 13:51:19,649 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:51:19,650 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:51:49,186 - INFO - Database connection successful.
+2025-03-21 13:51:49,188 - INFO - Database connection closed.
+2025-03-21 13:51:49,189 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:51:49,190 - INFO - Database connection successful.
+2025-03-21 13:51:49,191 - INFO - Database connection closed.
+2025-03-21 13:51:49,192 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:51:50,804 - INFO - Database connection successful.
+2025-03-21 13:51:50,805 - INFO - Database connection closed.
+2025-03-21 13:51:50,806 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:51:50,807 - INFO - Database connection successful.
+2025-03-21 13:51:50,809 - INFO - Database connection closed.
+2025-03-21 13:51:50,809 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:51:52,356 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:51:52,358 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:51:52,384 - INFO - Database connection closed.
+2025-03-21 13:51:53,693 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:51:53,704 - INFO - Database connection closed.
+2025-03-21 13:51:56,995 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:51:56,996 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:51:59,648 - ERROR - Error in move_chat_to_mongo: b'message'
+Traceback (most recent call last):
+  File "/app/app/utils/store_message_redis.py", line 116, in move_chat_to_mongo
+    decoded_messages = [
+                       ^
+  File "/app/app/utils/store_message_redis.py", line 117, in <listcomp>
+    json.loads(msg[1][b"message"]) for msg in messages
+               ~~~~~~^^^^^^^^^^^^
+KeyError: b'message'
+2025-03-21 13:52:03,031 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:52:03,031 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:52:03,887 - INFO - Entering finally block
+2025-03-21 13:52:03,887 - INFO - Moving chat from Redis to MongoDB for group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 13:52:03,892 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:52:03,893 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:52:03,907 - INFO - Database connection closed.
+2025-03-21 13:52:04,653 - INFO - Entering finally block
+2025-03-21 13:52:04,654 - INFO - Moving chat from Redis to MongoDB for group=67dd5e7bbbd229c5dab24bb9-67dd68ddf68f4f406ed094cd
+2025-03-21 13:52:04,654 - INFO - Removed WebSocket group and cancelled Redis listener: group=67dd5e7bbbd229c5dab24bb9-67dd68ddf68f4f406ed094cd
+2025-03-21 13:52:04,655 - INFO - Listener for group 67dd5e7bbbd229c5dab24bb9-67dd68ddf68f4f406ed094cd stopped.
+2025-03-21 13:52:04,655 - INFO - Unsubscribed from group 67dd5e7bbbd229c5dab24bb9-67dd68ddf68f4f406ed094cd
+2025-03-21 13:52:04,657 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:52:04,669 - INFO - Database connection closed.
+2025-03-21 13:52:05,476 - INFO - Entering finally block
+2025-03-21 13:52:05,476 - INFO - Moving chat from Redis to MongoDB for group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 13:52:05,479 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:52:05,486 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:52:05,492 - INFO - Database connection closed.
+2025-03-21 13:52:06,504 - INFO - Entering finally block
+2025-03-21 13:52:06,505 - INFO - Moving chat from Redis to MongoDB for group=67dd5e7bbbd229c5dab24bb9-67dd68ddf68f4f406ed094cd
+2025-03-21 13:52:06,505 - INFO - Removed WebSocket group and cancelled Redis listener: group=67dd5e7bbbd229c5dab24bb9-67dd68ddf68f4f406ed094cd
+2025-03-21 13:52:06,506 - INFO - Listener for group 67dd5e7bbbd229c5dab24bb9-67dd68ddf68f4f406ed094cd stopped.
+2025-03-21 13:52:06,507 - INFO - Unsubscribed from group 67dd5e7bbbd229c5dab24bb9-67dd68ddf68f4f406ed094cd
+2025-03-21 13:52:06,509 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:52:06,522 - INFO - Database connection closed.
+2025-03-21 13:52:06,981 - INFO - Entering finally block
+2025-03-21 13:52:06,981 - INFO - Moving chat from Redis to MongoDB for group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 13:52:06,983 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:52:06,991 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:52:06,997 - INFO - Database connection closed.
+2025-03-21 13:52:07,288 - INFO - Entering finally block
+2025-03-21 13:52:07,289 - INFO - Moving chat from Redis to MongoDB for group=67dd5e7bbbd229c5dab24bb9-67dd68ddf68f4f406ed094cd
+2025-03-21 13:52:07,289 - INFO - Removed WebSocket group and cancelled Redis listener: group=67dd5e7bbbd229c5dab24bb9-67dd68ddf68f4f406ed094cd
+2025-03-21 13:52:07,290 - INFO - Listener for group 67dd5e7bbbd229c5dab24bb9-67dd68ddf68f4f406ed094cd stopped.
+2025-03-21 13:52:07,291 - INFO - Unsubscribed from group 67dd5e7bbbd229c5dab24bb9-67dd68ddf68f4f406ed094cd
+2025-03-21 13:52:07,292 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:52:07,306 - INFO - Database connection closed.
+2025-03-21 13:52:09,332 - INFO - Entering finally block
+2025-03-21 13:52:09,332 - INFO - Moving chat from Redis to MongoDB for group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 13:52:09,335 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:52:09,343 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:52:09,348 - INFO - Database connection closed.
+2025-03-21 13:52:09,813 - INFO - Entering finally block
+2025-03-21 13:52:09,814 - INFO - Moving chat from Redis to MongoDB for group=67dd5e7bbbd229c5dab24bb9-67dd68eef68f4f406ed094d2
+2025-03-21 13:52:09,814 - INFO - Removed WebSocket group and cancelled Redis listener: group=67dd5e7bbbd229c5dab24bb9-67dd68eef68f4f406ed094d2
+2025-03-21 13:52:09,815 - INFO - Listener for group 67dd5e7bbbd229c5dab24bb9-67dd68eef68f4f406ed094d2 stopped.
+2025-03-21 13:52:09,816 - INFO - Unsubscribed from group 67dd5e7bbbd229c5dab24bb9-67dd68eef68f4f406ed094d2
+2025-03-21 13:52:09,818 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:52:09,831 - INFO - Database connection closed.
+2025-03-21 13:52:11,807 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:52:11,807 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:52:14,813 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:52:14,814 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:52:16,561 - INFO - Entering finally block
+2025-03-21 13:52:16,561 - INFO - Moving chat from Redis to MongoDB for group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 13:52:16,568 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:52:16,569 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:52:16,581 - INFO - Database connection closed.
+2025-03-21 13:52:16,968 - INFO - Entering finally block
+2025-03-21 13:52:16,969 - INFO - Moving chat from Redis to MongoDB for group=67dd5e7bbbd229c5dab24bba-67dd68ddf68f4f406ed094cd
+2025-03-21 13:52:16,969 - INFO - Removed WebSocket group and cancelled Redis listener: group=67dd5e7bbbd229c5dab24bba-67dd68ddf68f4f406ed094cd
+2025-03-21 13:52:16,970 - INFO - Listener for group 67dd5e7bbbd229c5dab24bba-67dd68ddf68f4f406ed094cd stopped.
+2025-03-21 13:52:16,971 - INFO - Unsubscribed from group 67dd5e7bbbd229c5dab24bba-67dd68ddf68f4f406ed094cd
+2025-03-21 13:52:16,972 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:52:16,986 - INFO - Database connection closed.
+2025-03-21 13:54:16,589 - INFO - Entering finally block
+2025-03-21 13:54:16,590 - INFO - Moving chat from Redis to MongoDB for group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 13:54:16,591 - ERROR - WebSocket error: user_id=67dd68eef68f4f406ed094d2, error=(1012, None)
+Traceback (most recent call last):
+  File "/app/app/routes/websockets.py", line 61, in user_status
+    data = await websocket.receive_text()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 119, in receive_text
+    self._raise_on_disconnect(message)
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 113, in _raise_on_disconnect
+    raise WebSocketDisconnect(message["code"], message.get("reason"))
+starlette.websockets.WebSocketDisconnect: (1012, None)
+2025-03-21 13:54:16,594 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:54:16,595 - ERROR - WebSocket error: user_id=67dd68ddf68f4f406ed094cd, error=(1012, None)
+Traceback (most recent call last):
+  File "/app/app/routes/websockets.py", line 61, in user_status
+    data = await websocket.receive_text()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 119, in receive_text
+    self._raise_on_disconnect(message)
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 113, in _raise_on_disconnect
+    raise WebSocketDisconnect(message["code"], message.get("reason"))
+starlette.websockets.WebSocketDisconnect: (1012, None)
+2025-03-21 13:54:16,596 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:54:16,597 - INFO - Entering finally block
+2025-03-21 13:54:16,597 - INFO - Moving chat from Redis to MongoDB for group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 13:54:16,598 - INFO - WebSocket connection closed: user_id=67dd68eef68f4f406ed094d2, websocket_id=139887742322832
+2025-03-21 13:54:16,599 - INFO - WebSocket connection closed: user_id=67dd68ddf68f4f406ed094cd, websocket_id=139887778072464
+2025-03-21 13:54:16,690 - INFO - Listener for group 67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2 stopped.
+2025-03-21 13:54:16,690 - INFO - Unsubscribed from group 67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 13:54:30,245 - INFO - Created new Redis connection pool at redis_service:6379
+2025-03-21 13:54:30,245 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:54:30,246 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:55:22,661 - INFO - Database connection successful.
+2025-03-21 13:55:22,662 - INFO - Database connection closed.
+2025-03-21 13:55:22,663 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:55:22,664 - INFO - Database connection successful.
+2025-03-21 13:55:22,665 - INFO - Database connection closed.
+2025-03-21 13:55:22,666 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:55:24,712 - INFO - Database connection successful.
+2025-03-21 13:55:24,713 - INFO - Database connection closed.
+2025-03-21 13:55:24,714 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:55:24,715 - INFO - Database connection successful.
+2025-03-21 13:55:24,717 - INFO - Database connection closed.
+2025-03-21 13:55:24,718 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:55:26,216 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:55:26,238 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:55:26,243 - INFO - Database connection closed.
+2025-03-21 13:55:29,031 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:55:29,044 - INFO - Database connection closed.
+2025-03-21 13:55:31,131 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:55:31,132 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:55:35,247 - ERROR - Error in move_chat_to_mongo: b'message'
+Traceback (most recent call last):
+  File "/app/app/utils/store_message_redis.py", line 116, in move_chat_to_mongo
+    decoded_messages = [
+                       ^
+  File "/app/app/utils/store_message_redis.py", line 117, in <listcomp>
+    json.loads(msg[1][b"message"]) for msg in messages
+               ~~~~~~^^^^^^^^^^^^
+KeyError: b'message'
+2025-03-21 13:55:36,323 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:55:36,324 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:55:39,535 - INFO - Entering finally block
+2025-03-21 13:55:39,535 - INFO - Moving chat from Redis to MongoDB for group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 13:55:39,539 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:55:39,542 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:55:39,552 - INFO - Database connection closed.
+2025-03-21 13:55:39,998 - INFO - Entering finally block
+2025-03-21 13:55:39,999 - INFO - Moving chat from Redis to MongoDB for group=67dd5e7bbbd229c5dab24bb9-67dd68eef68f4f406ed094d2
+2025-03-21 13:55:39,999 - INFO - Removed WebSocket group and cancelled Redis listener: group=67dd5e7bbbd229c5dab24bb9-67dd68eef68f4f406ed094d2
+2025-03-21 13:55:40,000 - INFO - Listener for group 67dd5e7bbbd229c5dab24bb9-67dd68eef68f4f406ed094d2 stopped.
+2025-03-21 13:55:40,001 - INFO - Unsubscribed from group 67dd5e7bbbd229c5dab24bb9-67dd68eef68f4f406ed094d2
+2025-03-21 13:55:40,003 - INFO - Returning Redis client instance from connection pool
+2025-03-21 13:55:40,016 - INFO - Database connection closed.
+2025-03-21 14:00:09,383 - INFO - Entering finally block
+2025-03-21 14:00:09,384 - INFO - Moving chat from Redis to MongoDB for group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 14:00:09,385 - ERROR - WebSocket error: user_id=67dd68eef68f4f406ed094d2, error=(1012, None)
+Traceback (most recent call last):
+  File "/app/app/routes/websockets.py", line 61, in user_status
+    data = await websocket.receive_text()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 119, in receive_text
+    self._raise_on_disconnect(message)
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 113, in _raise_on_disconnect
+    raise WebSocketDisconnect(message["code"], message.get("reason"))
+starlette.websockets.WebSocketDisconnect: (1012, None)
+2025-03-21 14:00:09,388 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:00:09,388 - ERROR - WebSocket error: user_id=67dd68ddf68f4f406ed094cd, error=(1012, None)
+Traceback (most recent call last):
+  File "/app/app/routes/websockets.py", line 61, in user_status
+    data = await websocket.receive_text()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 119, in receive_text
+    self._raise_on_disconnect(message)
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 113, in _raise_on_disconnect
+    raise WebSocketDisconnect(message["code"], message.get("reason"))
+starlette.websockets.WebSocketDisconnect: (1012, None)
+2025-03-21 14:00:09,390 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:00:09,391 - INFO - Entering finally block
+2025-03-21 14:00:09,391 - INFO - Moving chat from Redis to MongoDB for group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 14:00:09,392 - INFO - WebSocket connection closed: user_id=67dd68eef68f4f406ed094d2, websocket_id=140185251366224
+2025-03-21 14:00:09,393 - INFO - WebSocket connection closed: user_id=67dd68ddf68f4f406ed094cd, websocket_id=140185277836432
+2025-03-21 14:00:09,483 - INFO - Listener for group 67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2 stopped.
+2025-03-21 14:00:09,484 - INFO - Unsubscribed from group 67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 14:00:21,531 - INFO - Created new Redis connection pool at redis_service:6379
+2025-03-21 14:00:21,531 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:00:21,532 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:00:51,977 - INFO - Created new Redis connection pool at redis_service:6379
+2025-03-21 14:00:51,977 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:00:51,978 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:01:05,217 - INFO - Database connection successful.
+2025-03-21 14:01:05,218 - INFO - Database connection closed.
+2025-03-21 14:01:05,219 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:01:05,220 - INFO - Database connection successful.
+2025-03-21 14:01:05,221 - INFO - Database connection closed.
+2025-03-21 14:01:05,222 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:01:06,980 - INFO - Database connection successful.
+2025-03-21 14:01:06,981 - INFO - Database connection closed.
+2025-03-21 14:01:06,982 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:01:06,983 - INFO - Database connection successful.
+2025-03-21 14:01:06,984 - INFO - Database connection closed.
+2025-03-21 14:01:06,984 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:01:08,073 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:01:08,121 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:01:08,126 - INFO - Database connection closed.
+2025-03-21 14:01:10,502 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:01:10,516 - INFO - Database connection closed.
+2025-03-21 14:01:14,713 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:01:14,714 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:01:16,992 - ERROR - Error in move_chat_to_mongo: b'message'
+Traceback (most recent call last):
+  File "/app/app/utils/store_message_redis.py", line 116, in move_chat_to_mongo
+    decoded_messages = [
+                       ^
+  File "/app/app/utils/store_message_redis.py", line 117, in <listcomp>
+    json.loads(msg[1][b"message"]) for msg in messages
+               ~~~~~~^^^^^^^^^^^^
+KeyError: b'message'
+2025-03-21 14:01:18,249 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:01:18,250 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:01:19,211 - INFO - Entering finally block
+2025-03-21 14:01:19,212 - INFO - Moving chat from Redis to MongoDB for group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 14:01:19,216 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:01:19,218 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:01:19,229 - INFO - Database connection closed.
+2025-03-21 14:01:20,020 - INFO - Entering finally block
+2025-03-21 14:01:20,020 - INFO - Moving chat from Redis to MongoDB for group=67dd5e7bbbd229c5dab24bb9-67dd68eef68f4f406ed094d2
+2025-03-21 14:01:20,021 - INFO - Removed WebSocket group and cancelled Redis listener: group=67dd5e7bbbd229c5dab24bb9-67dd68eef68f4f406ed094d2
+2025-03-21 14:01:20,022 - INFO - Listener for group 67dd5e7bbbd229c5dab24bb9-67dd68eef68f4f406ed094d2 stopped.
+2025-03-21 14:01:20,023 - INFO - Unsubscribed from group 67dd5e7bbbd229c5dab24bb9-67dd68eef68f4f406ed094d2
+2025-03-21 14:01:20,024 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:01:20,036 - INFO - Database connection closed.
+2025-03-21 14:01:20,732 - INFO - Entering finally block
+2025-03-21 14:01:20,733 - INFO - Moving chat from Redis to MongoDB for group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 14:01:20,734 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:01:20,741 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:01:20,746 - INFO - Database connection closed.
+2025-03-21 14:01:21,913 - INFO - Entering finally block
+2025-03-21 14:01:21,914 - INFO - Moving chat from Redis to MongoDB for group=67dd5e7bbbd229c5dab24bb9-67dd68eef68f4f406ed094d2
+2025-03-21 14:01:21,914 - INFO - Removed WebSocket group and cancelled Redis listener: group=67dd5e7bbbd229c5dab24bb9-67dd68eef68f4f406ed094d2
+2025-03-21 14:01:21,915 - INFO - Listener for group 67dd5e7bbbd229c5dab24bb9-67dd68eef68f4f406ed094d2 stopped.
+2025-03-21 14:01:21,916 - INFO - Unsubscribed from group 67dd5e7bbbd229c5dab24bb9-67dd68eef68f4f406ed094d2
+2025-03-21 14:01:21,917 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:01:21,929 - INFO - Database connection closed.
+2025-03-21 14:01:23,749 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:01:23,750 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:01:58,686 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:01:58,687 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:02:37,598 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:02:37,599 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:02:39,219 - INFO - Entering finally block
+2025-03-21 14:02:39,220 - INFO - Moving chat from Redis to MongoDB for group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 14:02:39,226 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:02:39,228 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:02:39,242 - INFO - Database connection closed.
+2025-03-21 14:02:39,601 - INFO - Entering finally block
+2025-03-21 14:02:39,602 - INFO - Moving chat from Redis to MongoDB for group=67dd5e7bbbd229c5dab24bb9-67dd68eef68f4f406ed094d2
+2025-03-21 14:02:39,602 - INFO - Removed WebSocket group and cancelled Redis listener: group=67dd5e7bbbd229c5dab24bb9-67dd68eef68f4f406ed094d2
+2025-03-21 14:02:39,603 - INFO - Listener for group 67dd5e7bbbd229c5dab24bb9-67dd68eef68f4f406ed094d2 stopped.
+2025-03-21 14:02:39,604 - INFO - Unsubscribed from group 67dd5e7bbbd229c5dab24bb9-67dd68eef68f4f406ed094d2
+2025-03-21 14:02:39,606 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:02:39,619 - INFO - Database connection closed.
+2025-03-21 14:02:41,974 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:02:41,975 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:04:34,626 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:04:34,627 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:07:53,010 - INFO - Entering finally block
+2025-03-21 14:07:53,011 - INFO - Moving chat from Redis to MongoDB for group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 14:07:53,012 - INFO - Entering finally block
+2025-03-21 14:07:53,012 - INFO - Moving chat from Redis to MongoDB for group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 14:07:53,012 - ERROR - WebSocket error: user_id=67dd68eef68f4f406ed094d2, error=(1012, None)
+Traceback (most recent call last):
+  File "/app/app/routes/websockets.py", line 61, in user_status
+    data = await websocket.receive_text()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 119, in receive_text
+    self._raise_on_disconnect(message)
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 113, in _raise_on_disconnect
+    raise WebSocketDisconnect(message["code"], message.get("reason"))
+starlette.websockets.WebSocketDisconnect: (1012, None)
+2025-03-21 14:07:53,016 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:07:53,016 - ERROR - WebSocket error: user_id=67dd68ddf68f4f406ed094cd, error=(1012, None)
+Traceback (most recent call last):
+  File "/app/app/routes/websockets.py", line 61, in user_status
+    data = await websocket.receive_text()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 119, in receive_text
+    self._raise_on_disconnect(message)
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 113, in _raise_on_disconnect
+    raise WebSocketDisconnect(message["code"], message.get("reason"))
+starlette.websockets.WebSocketDisconnect: (1012, None)
+2025-03-21 14:07:53,018 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:07:53,020 - INFO - WebSocket connection closed: user_id=67dd68eef68f4f406ed094d2, websocket_id=140258024736464
+2025-03-21 14:07:53,020 - INFO - WebSocket connection closed: user_id=67dd68ddf68f4f406ed094cd, websocket_id=140258093811344
+2025-03-21 14:07:53,110 - INFO - Listener for group 67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2 stopped.
+2025-03-21 14:07:53,111 - INFO - Unsubscribed from group 67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 14:08:49,539 - INFO - Created new Redis connection pool at redis_service:6379
+2025-03-21 14:08:49,539 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:08:49,540 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:09:01,536 - INFO - Database connection successful.
+2025-03-21 14:09:01,538 - INFO - Database connection closed.
+2025-03-21 14:09:01,538 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:09:01,541 - INFO - Database connection successful.
+2025-03-21 14:09:01,543 - INFO - Database connection closed.
+2025-03-21 14:09:01,544 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:09:03,253 - INFO - Database connection successful.
+2025-03-21 14:09:03,255 - INFO - Database connection closed.
+2025-03-21 14:09:03,256 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:09:03,257 - INFO - Database connection successful.
+2025-03-21 14:09:03,258 - INFO - Database connection closed.
+2025-03-21 14:09:03,258 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:09:04,012 - ERROR - Error occurred while decoding access_token token: Signature has expired.
+Traceback (most recent call last):
+  File "/app/app/utils/jwt_handler.py", line 81, in decode_jwt
+    decoded_token = jwt.decode(access_token, SECRET_KEY, algorithms=[ALGORITHM])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/jose/jwt.py", line 169, in decode
+    _validate_claims(
+  File "/usr/local/lib/python3.11/site-packages/jose/jwt.py", line 492, in _validate_claims
+    _validate_exp(claims, leeway=leeway)
+  File "/usr/local/lib/python3.11/site-packages/jose/jwt.py", line 326, in _validate_exp
+    raise ExpiredSignatureError("Signature has expired.")
+jose.exceptions.ExpiredSignatureError: Signature has expired.
+2025-03-21 14:09:04,030 - CRITICAL - Unexpected error during authentication: 400: Not a valid token
+Traceback (most recent call last):
+  File "/app/app/utils/get_current_logged_in_user.py", line 34, in get_current_user_id
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 400: Not a valid token
+2025-03-21 14:09:04,045 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:09:04,054 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:09:04,057 - INFO - Entering finally block
+2025-03-21 14:09:04,058 - INFO - Moving chat from Redis to MongoDB for group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 14:09:04,058 - INFO - Removed WebSocket group and cancelled Redis listener: group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 14:09:04,059 - INFO - Listener for group 67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2 stopped.
+2025-03-21 14:09:04,059 - INFO - Unsubscribed from group 67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 14:09:04,060 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:09:05,235 - ERROR - WebSocket error: user_id=67dd68eef68f4f406ed094d2, error=(<CloseCode.NO_STATUS_RCVD: 1005>, '')
+Traceback (most recent call last):
+  File "/app/app/routes/websockets.py", line 61, in user_status
+    data = await websocket.receive_text()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 119, in receive_text
+    self._raise_on_disconnect(message)
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 113, in _raise_on_disconnect
+    raise WebSocketDisconnect(message["code"], message.get("reason"))
+starlette.websockets.WebSocketDisconnect: (<CloseCode.NO_STATUS_RCVD: 1005>, '')
+2025-03-21 14:09:05,239 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:09:05,240 - INFO - WebSocket connection closed: user_id=67dd68eef68f4f406ed094d2, websocket_id=140198072030096
+2025-03-21 14:09:05,563 - ERROR - Error occurred while decoding access_token token: Signature has expired.
+Traceback (most recent call last):
+  File "/app/app/utils/jwt_handler.py", line 81, in decode_jwt
+    decoded_token = jwt.decode(access_token, SECRET_KEY, algorithms=[ALGORITHM])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/jose/jwt.py", line 169, in decode
+    _validate_claims(
+  File "/usr/local/lib/python3.11/site-packages/jose/jwt.py", line 492, in _validate_claims
+    _validate_exp(claims, leeway=leeway)
+  File "/usr/local/lib/python3.11/site-packages/jose/jwt.py", line 326, in _validate_exp
+    raise ExpiredSignatureError("Signature has expired.")
+jose.exceptions.ExpiredSignatureError: Signature has expired.
+2025-03-21 14:09:05,569 - CRITICAL - Unexpected error during authentication: 400: Not a valid token
+Traceback (most recent call last):
+  File "/app/app/utils/get_current_logged_in_user.py", line 34, in get_current_user_id
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 400: Not a valid token
+2025-03-21 14:09:05,573 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:09:05,583 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:09:05,586 - INFO - Entering finally block
+2025-03-21 14:09:05,586 - INFO - Moving chat from Redis to MongoDB for group=67dd5e7bbbd229c5dab24bb9-67dd68ddf68f4f406ed094cd
+2025-03-21 14:09:05,587 - INFO - Removed WebSocket group and cancelled Redis listener: group=67dd5e7bbbd229c5dab24bb9-67dd68ddf68f4f406ed094cd
+2025-03-21 14:09:05,587 - INFO - Listener for group 67dd5e7bbbd229c5dab24bb9-67dd68ddf68f4f406ed094cd stopped.
+2025-03-21 14:09:05,588 - INFO - Unsubscribed from group 67dd5e7bbbd229c5dab24bb9-67dd68ddf68f4f406ed094cd
+2025-03-21 14:09:05,588 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:09:06,586 - ERROR - WebSocket error: user_id=67dd68ddf68f4f406ed094cd, error=(<CloseCode.NO_STATUS_RCVD: 1005>, '')
+Traceback (most recent call last):
+  File "/app/app/routes/websockets.py", line 61, in user_status
+    data = await websocket.receive_text()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 119, in receive_text
+    self._raise_on_disconnect(message)
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 113, in _raise_on_disconnect
+    raise WebSocketDisconnect(message["code"], message.get("reason"))
+starlette.websockets.WebSocketDisconnect: (<CloseCode.NO_STATUS_RCVD: 1005>, '')
+2025-03-21 14:09:06,589 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:09:06,590 - INFO - WebSocket connection closed: user_id=67dd68ddf68f4f406ed094cd, websocket_id=140198090772752
+2025-03-21 14:09:09,288 - INFO - Database connection successful.
+2025-03-21 14:09:09,289 - INFO - Database connection closed.
+2025-03-21 14:09:09,408 - INFO - Database connection successful.
+2025-03-21 14:09:09,409 - INFO - Database connection closed.
+2025-03-21 14:09:09,410 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:09:09,411 - INFO - Database connection successful.
+2025-03-21 14:09:09,412 - INFO - Database connection closed.
+2025-03-21 14:09:09,412 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:09:13,565 - INFO - Database connection successful.
+2025-03-21 14:09:13,566 - INFO - Database connection closed.
+2025-03-21 14:09:13,684 - INFO - Database connection successful.
+2025-03-21 14:09:13,685 - INFO - Database connection closed.
+2025-03-21 14:09:13,686 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:09:13,687 - INFO - Database connection successful.
+2025-03-21 14:09:13,688 - INFO - Database connection closed.
+2025-03-21 14:09:13,688 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:09:14,527 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:09:14,528 - CRITICAL - Unexpected error during fetching chats: StreamCommands.xrange() got an unexpected keyword argument 'decode'
+2025-03-21 14:09:14,530 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:09:14,535 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:09:14,539 - INFO - Entering finally block
+2025-03-21 14:09:14,539 - INFO - Moving chat from Redis to MongoDB for group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 14:09:14,540 - INFO - Removed WebSocket group and cancelled Redis listener: group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 14:09:14,540 - INFO - Listener for group 67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2 stopped.
+2025-03-21 14:09:14,541 - INFO - Unsubscribed from group 67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 14:09:14,541 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:09:15,541 - ERROR - WebSocket error: user_id=67dd68eef68f4f406ed094d2, error=(<CloseCode.NO_STATUS_RCVD: 1005>, '')
+Traceback (most recent call last):
+  File "/app/app/routes/websockets.py", line 61, in user_status
+    data = await websocket.receive_text()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 119, in receive_text
+    self._raise_on_disconnect(message)
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 113, in _raise_on_disconnect
+    raise WebSocketDisconnect(message["code"], message.get("reason"))
+starlette.websockets.WebSocketDisconnect: (<CloseCode.NO_STATUS_RCVD: 1005>, '')
+2025-03-21 14:09:15,544 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:09:15,544 - INFO - WebSocket connection closed: user_id=67dd68eef68f4f406ed094d2, websocket_id=140198069790416
+2025-03-21 14:10:19,952 - ERROR - WebSocket error: user_id=67dd68ddf68f4f406ed094cd, error=(1001, '')
+Traceback (most recent call last):
+  File "/app/app/routes/websockets.py", line 61, in user_status
+    data = await websocket.receive_text()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 119, in receive_text
+    self._raise_on_disconnect(message)
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 113, in _raise_on_disconnect
+    raise WebSocketDisconnect(message["code"], message.get("reason"))
+starlette.websockets.WebSocketDisconnect: (1001, '')
+2025-03-21 14:10:19,955 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:10:19,955 - INFO - WebSocket connection closed: user_id=67dd68ddf68f4f406ed094cd, websocket_id=140198072542608
+2025-03-21 14:10:20,130 - INFO - Database connection successful.
+2025-03-21 14:10:20,131 - INFO - Database connection closed.
+2025-03-21 14:10:20,132 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:10:20,133 - INFO - Database connection successful.
+2025-03-21 14:10:20,134 - INFO - Database connection closed.
+2025-03-21 14:10:20,135 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:10:34,285 - INFO - Database connection successful.
+2025-03-21 14:10:34,286 - INFO - Database connection closed.
+2025-03-21 14:10:34,406 - INFO - Database connection successful.
+2025-03-21 14:10:34,407 - INFO - Database connection closed.
+2025-03-21 14:10:34,408 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:10:34,409 - INFO - Database connection successful.
+2025-03-21 14:10:34,410 - INFO - Database connection closed.
+2025-03-21 14:10:34,411 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:10:35,978 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:10:35,979 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:10:35,980 - CRITICAL - Unexpected error during fetching chats: StreamCommands.xrange() got an unexpected keyword argument 'decode'
+2025-03-21 14:10:35,988 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:10:35,991 - INFO - Entering finally block
+2025-03-21 14:10:35,991 - INFO - Moving chat from Redis to MongoDB for group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 14:10:35,992 - INFO - Removed WebSocket group and cancelled Redis listener: group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 14:10:35,992 - INFO - Listener for group 67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2 stopped.
+2025-03-21 14:10:35,993 - INFO - Unsubscribed from group 67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 14:10:35,993 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:10:36,991 - ERROR - WebSocket error: user_id=67dd68ddf68f4f406ed094cd, error=(<CloseCode.NO_STATUS_RCVD: 1005>, '')
+Traceback (most recent call last):
+  File "/app/app/routes/websockets.py", line 61, in user_status
+    data = await websocket.receive_text()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 119, in receive_text
+    self._raise_on_disconnect(message)
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 113, in _raise_on_disconnect
+    raise WebSocketDisconnect(message["code"], message.get("reason"))
+starlette.websockets.WebSocketDisconnect: (<CloseCode.NO_STATUS_RCVD: 1005>, '')
+2025-03-21 14:10:36,994 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:10:36,995 - INFO - WebSocket connection closed: user_id=67dd68ddf68f4f406ed094cd, websocket_id=140198072516048
+2025-03-21 14:10:39,075 - INFO - Database connection successful.
+2025-03-21 14:10:39,076 - INFO - Database connection closed.
+2025-03-21 14:10:39,077 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:10:39,079 - INFO - Database connection successful.
+2025-03-21 14:10:39,080 - INFO - Database connection closed.
+2025-03-21 14:10:39,080 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:10:40,428 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:10:40,429 - CRITICAL - Unexpected error during fetching chats: StreamCommands.xrange() got an unexpected keyword argument 'decode'
+2025-03-21 14:10:40,431 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:10:40,436 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:10:40,438 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:10:40,440 - INFO - Entering finally block
+2025-03-21 14:10:40,441 - INFO - Moving chat from Redis to MongoDB for group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 14:10:40,441 - INFO - Removed WebSocket group and cancelled Redis listener: group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 14:10:40,442 - INFO - Listener for group 67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2 stopped.
+2025-03-21 14:10:40,442 - INFO - Unsubscribed from group 67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 14:10:41,446 - ERROR - WebSocket error: user_id=67dd68ddf68f4f406ed094cd, error=(<CloseCode.NO_STATUS_RCVD: 1005>, '')
+Traceback (most recent call last):
+  File "/app/app/routes/websockets.py", line 61, in user_status
+    data = await websocket.receive_text()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 119, in receive_text
+    self._raise_on_disconnect(message)
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 113, in _raise_on_disconnect
+    raise WebSocketDisconnect(message["code"], message.get("reason"))
+starlette.websockets.WebSocketDisconnect: (<CloseCode.NO_STATUS_RCVD: 1005>, '')
+2025-03-21 14:10:41,448 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:10:41,449 - INFO - WebSocket connection closed: user_id=67dd68ddf68f4f406ed094cd, websocket_id=140198072113424
+2025-03-21 14:10:43,066 - INFO - Database connection successful.
+2025-03-21 14:10:43,067 - INFO - Database connection closed.
+2025-03-21 14:10:43,067 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:10:43,068 - INFO - Database connection successful.
+2025-03-21 14:10:43,069 - INFO - Database connection closed.
+2025-03-21 14:10:43,070 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:10:44,431 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:10:44,432 - CRITICAL - Unexpected error during fetching chats: StreamCommands.xrange() got an unexpected keyword argument 'decode'
+2025-03-21 14:10:44,435 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:10:44,439 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:10:44,442 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:10:44,444 - INFO - Entering finally block
+2025-03-21 14:10:44,444 - INFO - Moving chat from Redis to MongoDB for group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 14:10:44,445 - INFO - Removed WebSocket group and cancelled Redis listener: group=67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 14:10:44,445 - INFO - Listener for group 67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2 stopped.
+2025-03-21 14:10:44,445 - INFO - Unsubscribed from group 67dd68ddf68f4f406ed094cd-67dd68eef68f4f406ed094d2
+2025-03-21 14:10:45,440 - ERROR - WebSocket error: user_id=67dd68ddf68f4f406ed094cd, error=(<CloseCode.NO_STATUS_RCVD: 1005>, '')
+Traceback (most recent call last):
+  File "/app/app/routes/websockets.py", line 61, in user_status
+    data = await websocket.receive_text()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 119, in receive_text
+    self._raise_on_disconnect(message)
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 113, in _raise_on_disconnect
+    raise WebSocketDisconnect(message["code"], message.get("reason"))
+starlette.websockets.WebSocketDisconnect: (<CloseCode.NO_STATUS_RCVD: 1005>, '')
+2025-03-21 14:10:45,443 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:10:45,444 - INFO - WebSocket connection closed: user_id=67dd68ddf68f4f406ed094cd, websocket_id=140198090777168
+2025-03-21 14:11:52,495 - ERROR - WebSocket error: user_id=67dd68eef68f4f406ed094d2, error=(1012, None)
+Traceback (most recent call last):
+  File "/app/app/routes/websockets.py", line 61, in user_status
+    data = await websocket.receive_text()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 119, in receive_text
+    self._raise_on_disconnect(message)
+  File "/usr/local/lib/python3.11/site-packages/starlette/websockets.py", line 113, in _raise_on_disconnect
+    raise WebSocketDisconnect(message["code"], message.get("reason"))
+starlette.websockets.WebSocketDisconnect: (1012, None)
+2025-03-21 14:11:52,498 - INFO - Returning Redis client instance from connection pool
+2025-03-21 14:11:52,499 - INFO - WebSocket connection closed: user_id=67dd68eef68f4f406ed094d2, websocket_id=140198072329744

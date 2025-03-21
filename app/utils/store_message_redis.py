@@ -60,17 +60,47 @@ class RedisChatHandler:
 
 
 
+    # @staticmethod
+    # async def store_message_in_redis(channel_id, message):
+    #     """Store a message in a Redis Stream instead of a list."""
+    #     try:
+    #         redis_client = await RedisManager.get_redis_client()
+    #         chat_stream = f"chat_stream"
+
+    #         await redis_client.xadd(chat_stream, {"channel": channel_id, "message": message})
+
+    #     except redis.exceptions.RedisError as e:
+    #         LOGGER.error("Redis error: %s", str(e), exc_info=True)
+
+
     @staticmethod
     async def store_message_in_redis(channel_id, message):
         """Store a message in a Redis Stream instead of a list."""
         try:
             redis_client = await RedisManager.get_redis_client()
-            chat_stream = f"chat_stream"
+            chat_stream = "chat_stream"
 
-            await redis_client.xadd(chat_stream, {"channel": channel_id, "message": message})
+            message_data = {
+                "channel": channel_id,
+                "message": message
+            }
+
+            await redis_client.xadd(chat_stream, message_data)
 
         except redis.exceptions.RedisError as e:
-            LOGGER.error("Redis error: %s", str(e), exc_info=True)
+            LOGGER.error(f"Redis error: {str(e)}", exc_info=True)
+
+
+
+
+
+
+
+
+
+
+
+
 
     @staticmethod
     async def move_chat_to_mongo():
