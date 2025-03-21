@@ -47,7 +47,7 @@ MONGO_DB_CONNECTIONS = Counter(
 
 # Function to update system metrics (called only when Prometheus scrapes)
 def update_metrics():
-    CPU_USAGE.set(psutil.cpu_percent())
+    CPU_USAGE.set(psutil.cpu_percent(interval=0.1))
     MEMORY_USAGE.set(psutil.virtual_memory().percent)
     # SYSTEM_CPU_COUNT.set(psutil.cpu_count())
     # SYSTEM_THREAD_COUNT.set(len(psutil.Process().threads()))

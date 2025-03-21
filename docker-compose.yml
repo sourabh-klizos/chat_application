@@ -45,6 +45,7 @@ services:
   redis_service:
     image: redis:latest
     container_name: redis_server
+    command: redis-server --maxclients 20000
     # restart: always
     ports:
       - "6379:6379"
@@ -59,6 +60,12 @@ services:
       - "9090:9090"
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus # Persistent storage for metrics
+
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus" # Store database in /prometheus
+      - "--storage.tsdb.retention.time=30d" # Keep metrics for 30 days
     networks:
       - backend_network
 
@@ -87,3 +94,7 @@ services:
 volumes:
   mongo_data:
   grafana_data:
+  prometheus_data:
+    driver: local
+
+    

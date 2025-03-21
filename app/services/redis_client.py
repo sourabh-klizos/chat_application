@@ -62,19 +62,30 @@ class RedisManager:
             )
             raise
 
+    # @staticmethod
+    # async def get_pubsub_client():
+    #     """Get a Redis client for pub/sub."""
+    #     try:
+    #         LOGGER.info(
+    #             "Creating new Redis pub/sub client at %s:%s", REDIS_HOST, REDIS_PORT
+    #         )
+    #         return redis.Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)
+
+    #     except Exception as e:
+    #         LOGGER.error(
+    #             "Error occurred while getting Redis pub/sub client: %s",
+    #             str(e),
+    #             exc_info=True,
+    #         )
+    #         raise
+
+
+
     @staticmethod
     async def get_pubsub_client():
-        """Get a Redis client for pub/sub."""
+        """Get an async Redis client for pub/sub using the connection pool."""
         try:
-            LOGGER.info(
-                "Creating new Redis pub/sub client at %s:%s", REDIS_HOST, REDIS_PORT
-            )
-            return redis.Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)
-
+            return await RedisManager.get_redis_client()
         except Exception as e:
-            LOGGER.error(
-                "Error occurred while getting Redis pub/sub client: %s",
-                str(e),
-                exc_info=True,
-            )
+            LOGGER.error("Error occurred while getting Redis pub/sub client: %s", str(e), exc_info=True)
             raise

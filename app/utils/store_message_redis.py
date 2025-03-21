@@ -41,7 +41,8 @@ class RedisChatHandler:
             if not messages:
                 return
             # print("mes =====================", messages)
-            decoded_messages = [json.loads(message) for message in messages]
+            # decoded_messages = [json.loads(message) for message in messages]
+            decoded_messages = tuple(json.loads(message) for message in messages)
 
             # print("medecoded_messagess =====================", decoded_messages)
             await Conversation.bulk_insert_chat(decoded_messages)
@@ -55,3 +56,12 @@ class RedisChatHandler:
                 str(e),
                 exc_info=True,
             )
+
+
+
+
+
+
+
+
+

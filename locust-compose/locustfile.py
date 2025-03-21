@@ -32,7 +32,7 @@ if len(user_ids) < 2:
 class WebSocketLocust(User):
     """Simulates WebSocket user behavior for load testing."""
 
-    wait_time  = between(1,2)
+    wait_time  = between(1,5)
 
 
 

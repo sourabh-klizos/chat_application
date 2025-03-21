@@ -103,6 +103,29 @@ async def user_status(websocket: WebSocket, user_id: str):
         )
 
 
+
+
+# message_queue = asyncio.Queue()
+
+
+# async def message_worker():
+#     """Background worker to process messages from the queue."""
+#     while True:
+#         group, data = await message_queue.get()  # Get the next message
+#         await RedisChatHandler.store_message_in_redis(group, data)  # Store in Redis
+#         message_queue.task_done()  # Mark as done
+
+# Start multiple workers (adjust the number based on load)
+
+
+# asyncio.create_task(message_worker())
+
+# for _ in range(5):  # 5 parallel workers
+#     asyncio.create_task(message_worker())
+
+
+
+
 @ws_routes.websocket("/{current_user}/{other}/")
 async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
     """
@@ -130,20 +153,30 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
 
     try:
         while True:
-            start_time = time.time()
+            # start_time = time.time()
             data = await websocket.receive_text()
 
             WS_MESSAGES.inc()
 
-            asyncio.create_task(RedisChatHandler.store_message_in_redis(group, data))
-            await RedisWebSocketManager.publish_message(group, data)
-            latency = time.time() - start_time
+            # await message_queue.put((group, data))
 
-            MESSAGE_PROCESSING_TIME.observe(latency)
+
+            asyncio.create_task(RedisChatHandler.store_message_in_redis(group, data))
+
+            # await RedisWebSocketManager.publish_message(group, data)
+
+            asyncio.create_task(
+                RedisWebSocketManager.publish_message(group, data)
+            )
+            
+            # latency = time.time() - start_time
+
+            # MESSAGE_PROCESSING_TIME.observe(latency)
 
     except WebSocketDisconnect:
-        if websocket in active_connections[group]:
-            active_connections[group].remove(websocket)
+        # if websocket in active_connections[group]:
+        #     active_connections[group].remove(websocket)
+        pass
 
     except Exception as e:
         LOGGER.error(

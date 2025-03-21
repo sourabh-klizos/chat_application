@@ -33,8 +33,12 @@ class RedisWebSocketManager:
                     data = message["data"]
                     print(f"Received: {message} to {group}")
 
+                    # await asyncio.gather(
+                    #     *[conn.send_text(data) for conn in connected_websockets]
+                    # )
+
                     await asyncio.gather(
-                        *[conn.send_text(data) for conn in connected_websockets]
+                        *(conn.send_text(data) for conn in connected_websockets)
                     )
 
                 if not connected_websockets:
@@ -48,7 +52,9 @@ class RedisWebSocketManager:
             )
         finally:
             REDIS_CHANNELS_ACTIVE.dec()
+            
             await pubsub.unsubscribe(group)
+            await redis_client.close()
             RedisWebSocketManager.active_listeners.pop(group, None)
             LOGGER.info("Unsubscribed from group %s", group)
 
@@ -60,7 +66,7 @@ class RedisWebSocketManager:
             redis_client = await RedisManager.get_pubsub_client()
             await redis_client.publish(group, message)
             print(f"Published: {message} to {group}")
-            await redis_client.close()
+            # await redis_client.close()
         except Exception as e:
             LOGGER.error(
                 "Failed to publish message to group %s: %s",
