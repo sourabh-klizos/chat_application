@@ -9,34 +9,69 @@ from app.services.redis_client import RedisManager
 import json
 
 
+chat_routes = APIRouter(prefix="/api/v1/chat", tags=["chat"])
+
+
+
+
 async def get_latest_chat_from_redis(current_user_id: str, other_id: str):
-    """Retrieves the latest chat messages from Redis.
+    """Fetches only the latest chat messages for a specific user pair from Redis Stream."""
+    try:
+        redis_client = await RedisManager.get_redis_client()
+        chat_stream = "chat_stream"
 
-    Fetches chat messages from Redis for the specified users.
-    """
-    group = await ChatGroup.create_unique_group(current_user_id, other_id)
-    redis_client = await RedisManager.get_redis_client()
+        # Fetch the latest 100 messages from the stream
+        messages = await redis_client.xrange(chat_stream, "-", "+", count=100)
+        group = ChatGroup.create_unique_group(current_user_id, other_id)
 
-    chat_id = f"chat:{group}"
-    print(f"Fetching chat for group: {chat_id}")  # More informative log
+        if not messages:
+            return []
 
-    messages = await redis_client.lrange(chat_id, 0, -1)
+        # Create the expected channel ID (same format used when storing messages)
+        channel_id = f"{current_user_id}-{other_id}"
+        reverse_channel_id = f"{other_id}-{current_user_id}"
 
-    if not messages:
+        # Extract and filter messages for the specific chat channel
+        filtered_messages = [
+            json.loads(data.get("message"))  # Decode JSON message
+            for _, data in messages
+            if data.get("channel") == group # Match channel ID
+        ]
+
+        return filtered_messages
+
+    except Exception as e:
+        LOGGER.error(f"Error retrieving chat from Redis Stream: {str(e)}", exc_info=True)
         return []
 
-    # Decode messages safely, handling potential JSON errors
-    decoded_messages = []
-    for message in messages:
-        try:
-            decoded_messages.append(json.loads(message))
-        except json.JSONDecodeError:
-            print(f"Skipping invalid JSON message: {message}")
 
-    return decoded_messages
+# async def get_latest_chat_from_redis(current_user_id: str, other_id: str):
+#     """Retrieves the latest chat messages from Redis.
+
+#     Fetches chat messages from Redis for the specified users.
+#     """
+#     group = await ChatGroup.create_unique_group(current_user_id, other_id)
+#     redis_client = await RedisManager.get_redis_client()
+
+#     chat_id = f"chat:{group}"
+#     print(f"Fetching chat for group: {chat_id}")  # More informative log
+
+#     messages = await redis_client.lrange(chat_id, 0, -1)
+
+#     if not messages:
+#         return []
+
+#     # Decode messages safely, handling potential JSON errors
+#     decoded_messages = []
+#     for message in messages:
+#         try:
+#             decoded_messages.append(json.loads(message))
+#         except json.JSONDecodeError:
+#             print(f"Skipping invalid JSON message: {message}")
+
+#     return decoded_messages
 
 
-chat_routes = APIRouter(prefix="/api/v1/chat", tags=["chat"])
 
 
 @chat_routes.get(

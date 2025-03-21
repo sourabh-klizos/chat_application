@@ -9,8 +9,8 @@ from app.routes.chats import chat_routes
 from app.services.metrics import HTTP_REQUESTS, get_metrics
 from prometheus_client.exposition import CONTENT_TYPE_LATEST
 from app.config import Settings
-
-
+from app.utils.store_message_redis import RedisChatHandler
+import asyncio
 settings = Settings()
 load_dotenv(".env")
 
@@ -18,6 +18,9 @@ load_dotenv(".env")
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     client = await RedisManager.get_redis_client()
+    asyncio.create_task(
+        RedisChatHandler.move_chat_to_mongo()
+    )
     yield
     await client.close()
 

@@ -193,7 +193,7 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
         WS_CONNECTIONS_ACTIVE.dec()
 
         try:
-            asyncio.create_task(RedisChatHandler.move_chat_to_mongo(group))
+            # asyncio.create_task(RedisChatHandler.move_chat_to_mongo(group))
             LOGGER.info("Moving chat from Redis to MongoDB for group=%s", group)
 
         except Exception as e:

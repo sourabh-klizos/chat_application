@@ -89,3 +89,7 @@ class RedisManager:
         except Exception as e:
             LOGGER.error("Error occurred while getting Redis pub/sub client: %s", str(e), exc_info=True)
             raise
+
+
+
+    
