@@ -79,15 +79,18 @@ class Conversation:
     async def bulk_insert_chat(data: list[dict]):
         """Insert bulk new  chat message into MongoDB."""
 
-        try:
-            async for db in get_db():
-                chat_collection: Collection = db["chats"]
-
-                MONGO_DB_CONNECTIONS.inc()
-                await chat_collection.insert_many(data)
-        except Exception as e:
-            LOGGER.error(
-                "Error occurred while inserting bulk chat message: %s",
-                str(e),
-                exc_info=True,
-            )
+        if data:
+            try:
+                async for db in get_db():
+                    chat_collection: Collection = db["chats"]
+                    MONGO_DB_CONNECTIONS.inc()
+                    await chat_collection.insert_many(data, ordered=False)
+                    print("added in db, +=+++++++++++++++++++++++++++++++++")
+            except Exception as e:
+                print("error in bulk_insert_chat ", e)
+                LOGGER.error(
+                    "Error occurred while inserting bulk chat message: %s",
+                    str(e),
+                    exc_info=True,
+                )
+        return

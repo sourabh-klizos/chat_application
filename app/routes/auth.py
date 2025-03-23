@@ -36,9 +36,24 @@ async def create_user(
         # email_already_exists = await user_collection.find_one(
         # {"email": user_email}
         # )
+
+
+        # if email_already_exists:
+        #         raise HTTPException(
+        #             status_code=status.HTTP_409_CONFLICT,
+        #             detail="User already exists with this email",
+        #         )
         # username_already_exists = await user_collection.find_one(
         # {"username": username}
         # )
+
+        # if username_already_exists:
+        #         raise HTTPException(
+        #             status_code=status.HTTP_409_CONFLICT,
+        #             detail={
+        #                 "message": "User already exists with this username",
+        #             },
+        #         )
 
         user_exists = await user_collection.find_one(
             {"$or": [{"email": user_email}, {"username": username}]}
