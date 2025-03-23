@@ -22,15 +22,15 @@ async def lifespan(app: FastAPI):
     move_chat_to_mongo_task_1 = asyncio.create_task(
         RedisChatHandler.move_chat_to_mongo()
     )
-    move_chat_to_mongo_task_2 = asyncio.create_task(
-        RedisChatHandler.move_chat_to_mongo()
-    )
+    # move_chat_to_mongo_task_2 = asyncio.create_task(
+    #     RedisChatHandler.move_chat_to_mongo()
+    # )
     # move_chat_to_mongo_task_3 = asyncio.create_task(
     #     RedisChatHandler.move_chat_to_mongo()
     # )
     yield
     move_chat_to_mongo_task_1.cancel()
-    move_chat_to_mongo_task_2.cancel()
+    # move_chat_to_mongo_task_2.cancel()
     # move_chat_to_mongo_task_3.cancel()
     await client.close()
 
