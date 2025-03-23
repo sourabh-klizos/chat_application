@@ -20,7 +20,7 @@ load_dotenv(".env")
 async def lifespan(app: FastAPI):
     client = await RedisManager.get_redis_client()
     move_chat_to_mongo_task_1 = asyncio.create_task(
-        RedisChatHandler.move_chat_to_mongo()
+        RedisChatHandler.move_chat_to_mongo("worker_1")
     )
     # move_chat_to_mongo_task_2 = asyncio.create_task(
     #     RedisChatHandler.move_chat_to_mongo()
