@@ -33,27 +33,7 @@ async def create_user(
 
         username = user_dict.get("username")
         user_email = user_dict.get("email")
-        # email_already_exists = await user_collection.find_one(
-        # {"email": user_email}
-        # )
-
-
-        # if email_already_exists:
-        #         raise HTTPException(
-        #             status_code=status.HTTP_409_CONFLICT,
-        #             detail="User already exists with this email",
-        #         )
-        # username_already_exists = await user_collection.find_one(
-        # {"username": username}
-        # )
-
-        # if username_already_exists:
-        #         raise HTTPException(
-        #             status_code=status.HTTP_409_CONFLICT,
-        #             detail={
-        #                 "message": "User already exists with this username",
-        #             },
-        #         )
+    
 
         user_exists = await user_collection.find_one(
             {"$or": [{"email": user_email}, {"username": username}]}
@@ -132,11 +112,10 @@ async def user_login(user_credential: UserLoginModel, db=Depends(get_db)):
         user_id = str(user_instance.get("_id"))
 
         access_token = await create_access_token(user_id)
-        # refresh_token = await create_refresh_token(user_id=user_id, db=db)
+
 
         response = {
             "access_token": access_token,
-            # "refresh_token": refresh_token,
             "user_id": user_id,
         }
 

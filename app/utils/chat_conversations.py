@@ -61,13 +61,6 @@ class Conversation:
             async for db in get_db():
                 chat_collection: Collection = db["chats"]
 
-                # chat_message = {
-                #     "sender_id": json_data["sender_id"],
-                #     "receiver_id": json_data["receiver_id"],
-                #     "text": json_data["text"],
-                #     "created_at": datetime.now().isoformat(),
-                # }
-
                 MONGO_DB_CONNECTIONS.inc()
                 await chat_collection.insert_one(json_data)
         except Exception as e:
@@ -85,7 +78,6 @@ class Conversation:
                     chat_collection: Collection = db["chats"]
                     MONGO_DB_CONNECTIONS.inc()
                     await chat_collection.insert_many(data, ordered=False)
-                    print("added in db, +=+++++++++++++++++++++++++++++++++")
             except Exception as e:
                 print("error in bulk_insert_chat ", e)
                 LOGGER.error(

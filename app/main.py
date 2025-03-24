@@ -20,24 +20,14 @@ load_dotenv(".env")
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     client = await RedisManager.get_redis_client()
-
-
-    # move_chat_to_mongo_task_1 = asyncio.create_task(
-    #     RedisChatHandler.move_chat_to_mongo("worker_1")
-    # )
-    # move_chat_to_mongo_task_1 = asyncio.create_task(
-    #     RedisChatHandler.move_chat_to_mongo()
-    # )
-    # move_chat_to_mongo_task_2 = asyncio.create_task(
-    #     RedisChatHandler.move_chat_to_mongo()
-    # )
-    # move_chat_to_mongo_task_3 = asyncio.create_task(
-    #     RedisChatHandler.move_chat_to_mongo()
-    # )
+   
+    move_chat_to_mongo_task_1 = asyncio.create_task(
+        RedisChatHandler.move_chat_to_mongo()
+    )
+ 
     yield
-    # move_chat_to_mongo_task_1.cancel()
-    # move_chat_to_mongo_task_2.cancel()
-    # move_chat_to_mongo_task_3.cancel()
+    move_chat_to_mongo_task_1.cancel()
+
     await client.close()
 
 
@@ -56,15 +46,7 @@ app.include_router(auth_routes)
 app.include_router(chat_routes)
 
 
-# @app.middleware("http")
-# async def add_metrics(request: Request, call_next):
-#     try:
 
-#         response = await call_next(request)
-#         HTTP_REQUESTS.inc()
-#         return response
-#     except Exception as e:
-#         print(f"Error in middleware: {e}")
 
 
 
@@ -92,13 +74,7 @@ async def main():
     return {"message": "I Am Healthy"}
 
 
-# @app.get("/metrics")
-# async def metrics():
-#     """Metrics endpoint.
 
-#     Returns application metrics in Prometheus format.
-#     """
-#     return Response( await get_metrics(), media_type=CONTENT_TYPE_LATEST)
 
 
 @app.get("/metrics")

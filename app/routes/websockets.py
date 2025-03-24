@@ -1,6 +1,5 @@
 from fastapi import (
     APIRouter,
-    # Query,
     WebSocket,
     WebSocketDisconnect,
 )
@@ -13,14 +12,10 @@ from app.utils.logger_config import LOGGER
 from app.utils.users_status.set_users_online import set_users_status_online
 from app.utils.users_status.set_user_offline import set_user_offline
 
-# from app.utils.online_user_manager import OnlineUserManager
-# from app.services.redis_client import RedisManager
 from app.utils.users_status.broadcast_online_status import update_online_status
 from app.utils.create_unique_group import ChatGroup
 
-# from app.utils.chat_conversations import Conversation
 
-# from app.utils.get_current_logged_in_user import get_current_user_id
 from app.utils.pub_sub import RedisWebSocketManager
 from app.services.metrics import (
     WS_CONNECTIONS_ACTIVE,
@@ -105,23 +100,7 @@ async def user_status(websocket: WebSocket, user_id: str):
 
 
 
-# message_queue = asyncio.Queue()
 
-
-# async def message_worker():
-#     """Background worker to process messages from the queue."""
-#     while True:
-#         group, data = await message_queue.get()  # Get the next message
-#         await RedisChatHandler.store_message_in_redis(group, data)  # Store in Redis
-#         message_queue.task_done()  # Mark as done
-
-# Start multiple workers (adjust the number based on load)
-
-
-# asyncio.create_task(message_worker())
-
-# for _ in range(5):  # 5 parallel workers
-#     asyncio.create_task(message_worker())
 
 
 
@@ -135,7 +114,7 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
     leveraging Redis for pub/sub.
     """
 
-    # current_user = current_user
+
 
     group = await ChatGroup.create_unique_group(current_user, other)
     await websocket.accept()
@@ -156,7 +135,7 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
 
             try:
 
-            # start_time = time.time()
+
                 data = await websocket.receive_text()
             except Exception as e:
                 LOGGER.error(f"Error receiving message from {current_user}: {str(e)}")
@@ -164,24 +143,17 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
 
             WS_MESSAGES.inc()
 
-            # await message_queue.put((group, data))
 
 
             asyncio.create_task(RedisChatHandler.store_message_in_redis(group, data))
 
-            # await RedisWebSocketManager.publish_message(group, data)
 
             asyncio.create_task(
                 RedisWebSocketManager.publish_message(group, data)
             )
-            
-            # latency = time.time() - start_time
-
-            # MESSAGE_PROCESSING_TIME.observe(latency)
 
     except WebSocketDisconnect:
-        # if websocket in active_connections[group]:
-        #     active_connections[group].remove(websocket)
+
         if websocket in active_connections[group]:
             active_connections[group].remove(websocket)
             LOGGER.info(f"WebSocket disconnected: {current_user} in group {group}")
