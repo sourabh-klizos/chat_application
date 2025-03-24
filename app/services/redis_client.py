@@ -22,7 +22,7 @@ class RedisManager:
             if RedisManager._redis_pool is None:
                 RedisManager._redis_pool = redis.ConnectionPool.from_url(
                     f"redis://{REDIS_HOST}:{REDIS_PORT}", decode_responses=True,
-                    max_connections=5000
+                    max_connections=20000
                 )
                 LOGGER.info(
                     "Created new Redis connection pool at %s:%s", REDIS_HOST, REDIS_PORT
