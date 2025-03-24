@@ -13,6 +13,7 @@ from app.config import Settings
 from app.utils.store_message_redis import RedisChatHandler
 import asyncio
 
+
 settings = Settings()
 load_dotenv(".env")
 
@@ -20,11 +21,13 @@ load_dotenv(".env")
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     client = await RedisManager.get_redis_client()
+ 
 
 
-    move_chat_to_mongo_task_1 = asyncio.create_task(
-        RedisChatHandler.move_chat_to_mongo("worker_1")
-    )
+
+    # move_chat_to_mongo_task_1 = asyncio.create_task(
+    #     RedisChatHandler.move_chat_to_mongo("worker_1")
+    # )
     # move_chat_to_mongo_task_1 = asyncio.create_task(
     #     RedisChatHandler.move_chat_to_mongo()
     # )
@@ -35,7 +38,7 @@ async def lifespan(app: FastAPI):
     #     RedisChatHandler.move_chat_to_mongo()
     # )
     yield
-    move_chat_to_mongo_task_1.cancel()
+    # move_chat_to_mongo_task_1.cancel()
     # move_chat_to_mongo_task_2.cancel()
     # move_chat_to_mongo_task_3.cancel()
     await client.close()
