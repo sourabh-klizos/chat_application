@@ -135,7 +135,7 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
     leveraging Redis for pub/sub.
     """
 
-    current_user = current_user
+    # current_user = current_user
 
     group = await ChatGroup.create_unique_group(current_user, other)
     await websocket.accept()
@@ -153,8 +153,14 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
 
     try:
         while True:
+
+            try:
+
             # start_time = time.time()
-            data = await websocket.receive_text()
+                data = await websocket.receive_text()
+            except Exception as e:
+                LOGGER.error(f"Error receiving message from {current_user}: {str(e)}")
+                return
 
             WS_MESSAGES.inc()
 
@@ -176,7 +182,14 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
     except WebSocketDisconnect:
         # if websocket in active_connections[group]:
         #     active_connections[group].remove(websocket)
-        pass
+        if websocket in active_connections[group]:
+            active_connections[group].remove(websocket)
+            LOGGER.info(f"WebSocket disconnected: {current_user} in group {group}")
+
+        if not active_connections[group]:  # No active WebSockets left
+            listener_task.cancel()
+            del active_connections[group]
+            LOGGER.info(f"Removed WebSocket group and stopped Redis listener: {group}")
 
     except Exception as e:
         LOGGER.error(
@@ -193,7 +206,7 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
         WS_CONNECTIONS_ACTIVE.dec()
 
         try:
-            # asyncio.create_task(RedisChatHandler.move_chat_to_mongo(group))
+            asyncio.create_task(RedisChatHandler.move_chat_to_mongo(group))
             LOGGER.info("Moving chat from Redis to MongoDB for group=%s", group)
 
         except Exception as e:

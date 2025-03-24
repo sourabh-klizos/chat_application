@@ -54,7 +54,7 @@ class RedisWebSocketManager:
             REDIS_CHANNELS_ACTIVE.dec()
             
             await pubsub.unsubscribe(group)
-            await redis_client.close()
+            # await redis_client.close()
             RedisWebSocketManager.active_listeners.pop(group, None)
             LOGGER.info("Unsubscribed from group %s", group)
 

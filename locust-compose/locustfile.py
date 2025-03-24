@@ -76,6 +76,7 @@ class WebSocketLocust(User):
             logging.info(f"Sent: {message}")
             response = self.ws.recv()
             logging.info(f"Received: {response}")
+            time.sleep(random.uniform(0.5, 2))
         except Exception as e:
             logging.error(f"Message error: {e}")
 
