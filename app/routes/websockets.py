@@ -126,16 +126,117 @@ async def user_status(websocket: WebSocket, user_id: str):
 
 
 
+# @ws_routes.websocket("/{current_user}/{other}/")
+# async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
+#     """
+#     WebSocket endpoint for real-time chat between two users.
+
+#     Handles connections, message broadcasting, and disconnections,
+#     leveraging Redis for pub/sub.
+#     """
+
+#     # current_user = current_user
+
+#     group = await ChatGroup.create_unique_group(current_user, other)
+#     await websocket.accept()
+
+#     WS_CONNECTIONS_ACTIVE.inc()
+#     WS_CONNECTIONS_TOTAL.inc()
+
+#     if group not in active_connections:
+#         active_connections[group] = []
+#         listener_task = asyncio.create_task(
+#             RedisWebSocketManager.subscribe_and_listen(group, active_connections[group])
+#         )
+
+#     active_connections[group].append(websocket)
+
+#     try:
+#         while True:
+
+#             try:
+
+#             # start_time = time.time()
+#                 data = await websocket.receive_text()
+#             except Exception as e:
+#                 LOGGER.error(f"Error receiving message from {current_user}: {str(e)}")
+#                 return
+
+#             WS_MESSAGES.inc()
+
+#             # await message_queue.put((group, data))
+
+
+#             asyncio.create_task(RedisChatHandler.store_message_in_redis(group, data))
+
+#             # await RedisWebSocketManager.publish_message(group, data)
+
+#             asyncio.create_task(
+#                 RedisWebSocketManager.publish_message(group, data)
+#             )
+            
+#             # latency = time.time() - start_time
+
+#             # MESSAGE_PROCESSING_TIME.observe(latency)
+
+#     except WebSocketDisconnect:
+#         # if websocket in active_connections[group]:
+#         #     active_connections[group].remove(websocket)
+#         if websocket in active_connections[group]:
+#             active_connections[group].remove(websocket)
+#             LOGGER.info(f"WebSocket disconnected: {current_user} in group {group}")
+
+#         if not active_connections[group]:  # No active WebSockets left
+#             listener_task.cancel()
+#             del active_connections[group]
+#             LOGGER.info(f"Removed WebSocket group and stopped Redis listener: {group}")
+
+#     except Exception as e:
+#         LOGGER.error(
+#             "Unexpected error in WebSocket: group=%s, error=%s",
+#             group,
+#             str(e),
+#             exc_info=True,
+#         )
+
+#     finally:
+#         LOGGER.info("Entering finally block")
+#         WS_CONNECTIONS_DISC.dec()
+
+#         WS_CONNECTIONS_ACTIVE.dec()
+
+#         try:
+#             asyncio.create_task(RedisChatHandler.move_chat_to_mongo(group))
+#             LOGGER.info("Moving chat from Redis to MongoDB for group=%s", group)
+
+#         except Exception as e:
+#             LOGGER.error("Error moving chat to MongoDB: %s", str(e), exc_info=True)
+
+#         if websocket in active_connections[group]:
+#             active_connections[group].remove(websocket)
+
+#         if len(active_connections[group]) == 0 and "listener_task" in locals():
+#             listener_task.cancel()
+#             del active_connections[group]
+#             LOGGER.info(
+#                 "Removed WebSocket group and cancelled Redis listener: group=%s", group
+#             )
+
+
+
+
+
+
+
+
+
+
+
 @ws_routes.websocket("/{current_user}/{other}/")
 async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
     """
     WebSocket endpoint for real-time chat between two users.
-
-    Handles connections, message broadcasting, and disconnections,
-    leveraging Redis for pub/sub.
     """
-
-    # current_user = current_user
 
     group = await ChatGroup.create_unique_group(current_user, other)
     await websocket.accept()
@@ -143,6 +244,7 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
     WS_CONNECTIONS_ACTIVE.inc()
     WS_CONNECTIONS_TOTAL.inc()
 
+    # Use a lock to prevent race conditions
     if group not in active_connections:
         active_connections[group] = []
         listener_task = asyncio.create_task(
@@ -153,10 +255,7 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
 
     try:
         while True:
-
             try:
-
-            # start_time = time.time()
                 data = await websocket.receive_text()
             except Exception as e:
                 LOGGER.error(f"Error receiving message from {current_user}: {str(e)}")
@@ -164,60 +263,44 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
 
             WS_MESSAGES.inc()
 
-            # await message_queue.put((group, data))
-
-
             asyncio.create_task(RedisChatHandler.store_message_in_redis(group, data))
-
-            # await RedisWebSocketManager.publish_message(group, data)
-
-            asyncio.create_task(
-                RedisWebSocketManager.publish_message(group, data)
-            )
-            
-            # latency = time.time() - start_time
-
-            # MESSAGE_PROCESSING_TIME.observe(latency)
+            asyncio.create_task(RedisWebSocketManager.publish_message(group, data))
 
     except WebSocketDisconnect:
-        # if websocket in active_connections[group]:
-        #     active_connections[group].remove(websocket)
-        if websocket in active_connections[group]:
-            active_connections[group].remove(websocket)
-            LOGGER.info(f"WebSocket disconnected: {current_user} in group {group}")
+        # async with asyncio.Lock():  # Prevent race conditions
+        #     if websocket in active_connections[group]:
+        #         active_connections[group].remove(websocket)
+        #         LOGGER.info(f"WebSocket disconnected: {current_user} in group {group}")
 
-        if not active_connections[group]:  # No active WebSockets left
-            listener_task.cancel()
-            del active_connections[group]
-            LOGGER.info(f"Removed WebSocket group and stopped Redis listener: {group}")
+        #     if not active_connections[group]:
+        #         if "listener_task" in locals() and listener_task:
+        #             listener_task.cancel()
+        #         del active_connections[group]
+        #         LOGGER.info(f"Removed WebSocket group and stopped Redis listener: {group}")
+
+                # Move messages to MongoDB (only once per group)
+                # asyncio.create_task(RedisChatHandler.move_chat_to_mongo(group))
+
+        pass
 
     except Exception as e:
-        LOGGER.error(
-            "Unexpected error in WebSocket: group=%s, error=%s",
-            group,
-            str(e),
-            exc_info=True,
-        )
+        LOGGER.error(f"Unexpected error in WebSocket: group={group}, error={str(e)}", exc_info=True)
 
     finally:
         LOGGER.info("Entering finally block")
         WS_CONNECTIONS_DISC.dec()
-
         WS_CONNECTIONS_ACTIVE.dec()
 
-        try:
-            asyncio.create_task(RedisChatHandler.move_chat_to_mongo(group))
-            LOGGER.info("Moving chat from Redis to MongoDB for group=%s", group)
 
-        except Exception as e:
-            LOGGER.error("Error moving chat to MongoDB: %s", str(e), exc_info=True)
+        async with asyncio.Lock():  # Prevent race conditions
+            if websocket in active_connections[group]:
+                active_connections[group].remove(websocket)
+                LOGGER.info(f"WebSocket disconnected: {current_user} in group {group}")
 
-        if websocket in active_connections[group]:
-            active_connections[group].remove(websocket)
 
-        if len(active_connections[group]) == 0 and "listener_task" in locals():
-            listener_task.cancel()
-            del active_connections[group]
-            LOGGER.info(
-                "Removed WebSocket group and cancelled Redis listener: group=%s", group
-            )
+        if not active_connections[group]:
+                if "listener_task" in locals() and listener_task:
+                    listener_task.cancel()
+                del active_connections[group]
+                LOGGER.info(f"Removed WebSocket group and stopped Redis listener: {group}")
+

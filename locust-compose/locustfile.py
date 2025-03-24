@@ -83,7 +83,7 @@ class WebSocketLocust(User):
 
 # locust -f locustfile.py  --headless -u 10 -r 2 --host ws://localhost:8000
 
-# locust -f locustfile.py  --headless -u 2000 -r 20 --host ws://localhost:8000
+# locust -f locustfile.py  --headless -u 1000 -r 10 --host ws://localhost:8000
 
 # 1. locust
 # This is the command to run Locust.

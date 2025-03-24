@@ -13,69 +13,69 @@ chat_routes = APIRouter(prefix="/api/v1/chat", tags=["chat"])
 
 
 
-# async def get_latest_chat_from_redis(current_user_id: str, other_id: str):
-#     """Fetches only the latest chat messages for a specific user pair from Redis Stream."""
-#     try:
-#         redis_client = await RedisManager.get_redis_client()
-#         chat_stream = "chat_stream"
+async def get_latest_chat_from_redis(current_user_id: str, other_id: str):
+    """Fetches only the latest chat messages for a specific user pair from Redis Stream."""
+    try:
+        redis_client = await RedisManager.get_redis_client()
+        chat_stream = "chat_stream"
 
         
-#         group = await ChatGroup.create_unique_group(current_user_id, other_id)
-#         if not group:
-#             print(" Error: Group ID is None")
-#             return []
+        group = await ChatGroup.create_unique_group(current_user_id, other_id)
+        if not group:
+            print(" Error: Group ID is None")
+            return []
 
-#         print(f" Generated group: {group}")
+        print(f" Generated group: {group}")
 
        
-#         messages = await redis_client.xrange(chat_stream, "-", "+", count=100)
+        messages = await redis_client.xrange(chat_stream, "-", "+", count=100)
 
-#         print(f" Raw messages from Redis: {messages}")
+        print(f" Raw messages from Redis: {messages}")
 
-#         if not messages:
-#             return []
+        if not messages:
+            return []
 
       
-#         filtered_messages = [
-#             json.loads(data["message"])  # Decode JSON message
-#             for _, data in messages
-#             if data.get("channel") == group  # Match channel ID
-#         ]
+        filtered_messages = [
+            json.loads(data["message"])  # Decode JSON message
+            for _, data in messages
+            if data.get("channel") == group  # Match channel ID
+        ]
 
-#         print(f" Filtered messages: {filtered_messages}")
-#         return filtered_messages
+        print(f" Filtered messages: {filtered_messages}")
+        return filtered_messages
 
-#     except redis.exceptions.RedisError as e:
-#         print(str(e) , "==============================================================")
-#         LOGGER.error("Redis error: %s", str(e), exc_info=True)
-#         return []
-
-
-async def get_latest_chat_from_redis(current_user_id: str, other_id: str):
-    """Retrieves the latest chat messages from Redis.
-
-    Fetches chat messages from Redis for the specified users.
-    """
-    group = await ChatGroup.create_unique_group(current_user_id, other_id)
-    redis_client = await RedisManager.get_redis_client()
-
-    chat_id = f"chat:{group}"
-    print(f"Fetching chat for group: {chat_id}")  # More informative log
-
-    messages = await redis_client.lrange(chat_id, 0, -1)
-
-    if not messages:
+    except redis.exceptions.RedisError as e:
+        print(str(e) , "==============================================================")
+        LOGGER.error("Redis error: %s", str(e), exc_info=True)
         return []
 
-    # Decode messages safely, handling potential JSON errors
-    decoded_messages = []
-    for message in messages:
-        try:
-            decoded_messages.append(json.loads(message))
-        except json.JSONDecodeError:
-            print(f"Skipping invalid JSON message: {message}")
 
-    return decoded_messages
+# async def get_latest_chat_from_redis(current_user_id: str, other_id: str):
+#     """Retrieves the latest chat messages from Redis.
+
+#     Fetches chat messages from Redis for the specified users.
+#     """
+#     group = await ChatGroup.create_unique_group(current_user_id, other_id)
+#     redis_client = await RedisManager.get_redis_client()
+
+#     chat_id = f"chat:{group}"
+#     print(f"Fetching chat for group: {chat_id}")  # More informative log
+
+#     messages = await redis_client.lrange(chat_id, 0, -1)
+
+#     if not messages:
+#         return []
+
+#     # Decode messages safely, handling potential JSON errors
+#     decoded_messages = []
+#     for message in messages:
+#         try:
+#             decoded_messages.append(json.loads(message))
+#         except json.JSONDecodeError:
+#             print(f"Skipping invalid JSON message: {message}")
+
+#     return decoded_messages
 
 
 
