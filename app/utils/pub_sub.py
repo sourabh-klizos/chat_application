@@ -101,6 +101,7 @@ class RedisWebSocketManager:
     async def subscribe_and_listen(group: str, connected_websockets: set):
         """Subscribes to a Redis channel and listens for messages,
         broadcasting to connected WebSockets."""
+        # await asyncio.sleep(0.01)
 
         if group in RedisWebSocketManager.active_listeners:
             print(f"Listener already running for group {group}")
@@ -121,13 +122,19 @@ class RedisWebSocketManager:
                     print(f"Received: {message} to {group}")
 
                     await asyncio.gather(*(conn.send_text(data) for conn in connected_websockets))
+                    # for conn in connected_websockets:
+                    #     asyncio.create_task(
+                    #         conn.send_text(data)
+                    #     )
 
                 if not connected_websockets:
                     break  # Stop listening when all clients disconnect
 
         except asyncio.CancelledError:
             LOGGER.info("Listener for group %s stopped.", group)
-
+            # await asyncio.sleep(1)
+            # continue 
+    
         except Exception as e:
             LOGGER.error(
                 "Error in listener for group %s: %s", group, str(e), exc_info=True
@@ -138,7 +145,7 @@ class RedisWebSocketManager:
             await pubsub.unsubscribe(group)
             try:
                 await pubsub.close()  # Explicitly close the pubsub client
-                await redis_client.aclose()  # Ensure Redis connection is closed
+                # await redis_client.aclose()  # Ensure Redis connection is closed
             except Exception as e:
                 LOGGER.error("Error closing Redis Pub/Sub: %s", str(e), exc_info=True)
 
@@ -152,6 +159,7 @@ class RedisWebSocketManager:
             redis_client = await RedisManager.get_pubsub_client()
             await redis_client.publish(group, message)
             print(f"Published: {message} to {group}")
+            return
         except Exception as e:
             LOGGER.error(
                 "Failed to publish message to group %s: %s",
@@ -160,18 +168,3 @@ class RedisWebSocketManager:
                 exc_info=True,
             )
 
-    @staticmethod
-    async def remove_websocket(group: str, websocket):
-        """Removes a WebSocket from the group and stops listening if none are left."""
-        if group in RedisWebSocketManager.active_listeners:
-            connected_websockets = RedisWebSocketManager.active_listeners[group]
-
-            if websocket in connected_websockets:
-                connected_websockets.remove(websocket)
-
-            # If no more connections, cancel the listener
-            if not connected_websockets:
-                task = RedisWebSocketManager.active_listeners.pop(group, None)
-                if task:
-                    task.cancel()
-                    await task  # Ensure proper cancellation

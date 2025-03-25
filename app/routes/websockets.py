@@ -244,7 +244,6 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
     WS_CONNECTIONS_ACTIVE.inc()
     WS_CONNECTIONS_TOTAL.inc()
 
-    # Use a lock to prevent race conditions
     if group not in active_connections:
         active_connections[group] = []
         listener_task = asyncio.create_task(
@@ -292,10 +291,10 @@ async def websocket_chat(websocket: WebSocket, other: str, current_user: str):
         WS_CONNECTIONS_ACTIVE.dec()
 
 
-        async with asyncio.Lock():  # Prevent race conditions
-            if websocket in active_connections[group]:
-                active_connections[group].remove(websocket)
-                LOGGER.info(f"WebSocket disconnected: {current_user} in group {group}")
+        
+        if websocket in active_connections[group]:
+            active_connections[group].remove(websocket)
+            LOGGER.info(f"WebSocket disconnected: {current_user} in group {group}")
 
 
         if not active_connections[group]:

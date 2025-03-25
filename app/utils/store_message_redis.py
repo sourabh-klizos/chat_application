@@ -9,7 +9,7 @@ import asyncio
 class RedisChatHandler:
 
     queue = asyncio.Queue()
-    batch_size = 500
+    batch_size = 200
 
 
 
@@ -80,7 +80,7 @@ class RedisChatHandler:
                 groupname=consumer_group,
                 consumername=worker_name,
                 streams={chat_stream: ">"},
-                count=500,
+                count=200,
                 block=1000  # Wait up to 1 second for new messages
             )
 
