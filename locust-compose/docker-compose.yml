@@ -1,7 +1,7 @@
 version: '3.8'
 
 networks:
-  backend_backend_network:
+  chat_application_backend_network:
     external: true  
 
 services:
@@ -18,8 +18,8 @@ services:
         hard: 65535
     working_dir: /mnt/locust
     command: >
-      locust -f locustfile.py --headless -u 5000 -r 20 --host ws://fastapi:8000
+      locust -f locustfile.py --headless -u 2000 -r 20 --host ws://fastapi:8000
     networks:
-      - backend_backend_network
+      - chat_application_backend_network
     # depends_on:
     #   - fastapi

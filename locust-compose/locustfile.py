@@ -14,11 +14,11 @@ db = client["chat_app"]
 users_collection = db["users"]
 
 existing_users_count = users_collection.count_documents({})
-if existing_users_count < 1000:
-    users_to_create = 1000 - existing_users_count
+if existing_users_count < 100:
+    users_to_create = 100 - existing_users_count
     new_users = [
         {"username": f"user{i}", "email": f"user{i}@example.com", "password": "123"}
-        for i in range(existing_users_count, 1000)
+        for i in range(existing_users_count, 100)
     ]
     users_collection.insert_many(new_users)
     logging.info(f"Added {users_to_create} new users.")
@@ -76,6 +76,7 @@ class WebSocketLocust(User):
             logging.info(f"Sent: {message}")
             response = self.ws.recv()
             logging.info(f"Received: {response}")
+            time.sleep(random.uniform(0.5,2))
         except Exception as e:
             logging.error(f"Message error: {e}")
 
