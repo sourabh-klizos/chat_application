@@ -98,7 +98,7 @@ class RedisWebSocketManager:
     active_listeners: Dict[str, Any] = dict()
 
     @staticmethod
-    async def subscribe_and_listen(group: str, connected_websockets: set):
+    async def subscribe_and_listen(group: str, connected_websockets: list):
         """Subscribes to a Redis channel and listens for messages,
         broadcasting to connected WebSockets."""
         # await asyncio.sleep(0.01)
@@ -121,14 +121,16 @@ class RedisWebSocketManager:
                     data = message["data"]
                     print(f"Received: {message} to {group}")
 
+                    if not connected_websockets:
+                        break
+
                     await asyncio.gather(*(conn.send_text(data) for conn in connected_websockets))
                     # for conn in connected_websockets:
                     #     asyncio.create_task(
                     #         conn.send_text(data)
                     #     )
 
-                if not connected_websockets:
-                    break  # Stop listening when all clients disconnect
+                  # Stop listening when all clients disconnect
 
         except asyncio.CancelledError:
             LOGGER.info("Listener for group %s stopped.", group)

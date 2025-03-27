@@ -45,9 +45,11 @@ class RedisChatHandler:
                 await pipe.execute()
 
             
-            await RedisChatHandler.move_chat_to_mongo("worker_a")
+            # await RedisChatHandler.move_chat_to_mongo("worker_a")
 
             print(f"Stored {cls.batch_size} messages in Redis")
+
+            return
 
         except Exception as e:
             print("Error in process_messages:", str(e))
